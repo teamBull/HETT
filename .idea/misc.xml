@@ -45,19 +45,6 @@
   </component>
   <component name="masterDetails">
     <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-<<<<<<< HEAD
       <state key="ScopeChooserConfigurable.UI">
         <settings>
           <splitter-proportions>
@@ -69,8 +56,6 @@
           </splitter-proportions>
         </settings>
       </state>
-=======
->>>>>>> 13e268adedb7ffde046e876635deaf4268fb059d
     </states>
   </component>
 </project>
