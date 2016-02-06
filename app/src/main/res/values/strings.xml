@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HETT</string>
+    <string name="addanewtask">Add a new task</string>
 </resources>
