@@ -1,4 +1,29 @@
 <resources>
     <string name="app_name">HETT</string>
-    <string name="addanewtask">Add a new task</string>
+    <string name="addanewtask">Add a new task</string> <!--Joonsang-->
+    <!--Giho-->
+    <string name="drawer_open">Open Navigation Drawer</string>
+    <string name="drawer_close">Close Navigation Drawer</string>
+
+    <string-array name="planets">
+        <item >Mercury</item>
+        <item >Venus</item>
+        <item >Earth</item>
+        <item >Mars</item>
+        <item >Jupiter</item>
+        <item >Saturn</item>
+        <item >Uranus</item>
+        <item >Neptune</item>
+        <item >Pluto</item>
+
+    </string-array>
+    <string-array name="stars">
+        <item >Sun</item>
+        <item >Sirius A</item>
+        <item >Sirius B</item>
+        <item >Alphs Centauri</item>
+        <item >Proxies Centaurl</item>
+
+
+    </string-array>
 </resources>
