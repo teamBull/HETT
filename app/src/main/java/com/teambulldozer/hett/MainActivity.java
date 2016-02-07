@@ -1,11 +1,13 @@
 package com.teambulldozer.hett;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -42,17 +44,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 boolean isInserted = myDb.insertData(memoInput.getText().toString());
                 if (isInserted) {
-                    Cursor res = myDb.getAllData();
-                    if (res.getCount() == 0) { // there is no data available for us.
-                        Toast.makeText(MainActivity.this, "No data available", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    StringBuffer buffer = new StringBuffer();
-                    while (res.moveToNext()) {
-                        buffer.append(res.getString(1) + "\n");
-                    }
-
-                    //showMessage(buffer.toString());
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    memoInput.setText("");
+                    /*
+                    * These lines are added for users to easily use EditText Widget.
+                      After user input data, the software keyboard disappeared and, text in EditText
+                      are set to "".
+                    * */
                     populateListView();
 
                 } else
