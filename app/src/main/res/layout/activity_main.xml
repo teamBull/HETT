@@ -60,7 +60,7 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lv1"
+        android:id="@+id/list_view1"
         android:layout_below="@id/rl1"
         android:layout_above="@id/rl2"
         android:layout_width="match_parent"

@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "HETT";
 
     private DatabaseHelper myDb;
-    private ListView lv1;
+    private ListView list_view1;
     private EditText memoInput;
     private Button addButton;
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         myDb = new DatabaseHelper(getApplicationContext()); // going to call the constructor
-        lv1 = (ListView) findViewById(R.id.lv1);
+        list_view1 = (ListView) findViewById(R.id.list_view1);
 
         memoInput = (EditText) findViewById(R.id.memoInput);
         addButton = (Button) findViewById(R.id.addButton);
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         populateListView();
-        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list_view1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) parent.getAdapter().getItem(position);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Data Not Deleted", Toast.LENGTH_LONG).show();
             }
         });
-        ((BaseAdapter) lv1.getAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) list_view1.getAdapter()).notifyDataSetChanged();
 
     }
 
@@ -89,16 +89,11 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = myDb.getAllData();
         String[] fromFieldNames = new String[] { myDb.COL_1, myDb.COL_2 };
         int[] toViewIDS = new int[] {R.id.memoIndex, R.id.memoContent};
+        /*SimpleCursorAdapter 사용법
+        * http://hyojjeong.tistory.com/entry/ListViewCursorAdapter-%EC%82%AC%EC%9A%A9%EB%B2%95*/
         SimpleCursorAdapter myCursorAdapter;
-        /* SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to)
-         1) context : ListView의 context
-         2) layout : list의 Layout
-         3) c : DB에서 가져온 Data를 가리키는 Cursor.
-         4) from : DB 필드 이름
-         5) to : DB 필드에 대응되는 component의 id
-         */
         myCursorAdapter = new SimpleCursorAdapter(getBaseContext(), R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, 0);
-        lv1.setAdapter(myCursorAdapter);
+        list_view1.setAdapter(myCursorAdapter);
     }
 
     /*
