@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -18,10 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "HETT";
 
-    private DatabaseHelper myDb;
-    private ListView list_view1;
-    private EditText memoInput;
-    private Button addButton;
+    DatabaseHelper myDb;
+    ListView lv1;
+    EditText memoInput;
+    Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,35 +30,39 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
 
-        myDb = new DatabaseHelper(getApplicationContext()); // going to call the constructor
-        list_view1 = (ListView) findViewById(R.id.list_view1);
+        myDb = new DatabaseHelper(this); // going to call the constructor
+        lv1 = (ListView) findViewById(R.id.list_view1);
 
         memoInput = (EditText) findViewById(R.id.memoInput);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
-            //등록버튼 클릭 시.
             @Override
             public void onClick(View v) {
-                boolean isInserted = myDb.insertData(memoInput.getText().toString()); // meno내용을 전달.
-                if (isInserted) { // insertData의 return값이 ture이면.
-                    Cursor res = myDb.getAllData(); // DB의 ALL data를 받아와서.
+                boolean isInserted = myDb.insertData(memoInput.getText().toString());
+                if (isInserted) {
+                    Cursor res = myDb.getAllData();
                     if (res.getCount() == 0) { // there is no data available for us.
                         Toast.makeText(MainActivity.this, "No data available", Toast.LENGTH_LONG).show();
                         return;
                     }
                     StringBuffer buffer = new StringBuffer();
-                    while (res.moveToNext()) { //모든 data를 input.
+                    while (res.moveToNext()) {
                         buffer.append(res.getString(1) + "\n");
                     }
+
                     //showMessage(buffer.toString());
                     populateListView();
+
                 } else
                     Toast.makeText(MainActivity.this, "Data Not Inserted", Toast.LENGTH_LONG).show();
+
             }
         });
 
         populateListView();
-        list_view1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) parent.getAdapter().getItem(position);
@@ -68,9 +73,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Data Deleted", Toast.LENGTH_LONG).show();
                 else
                     Toast.makeText(MainActivity.this, "Data Not Deleted", Toast.LENGTH_LONG).show();
+
+
             }
         });
-        ((BaseAdapter) list_view1.getAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) lv1.getAdapter()).notifyDataSetChanged();
 
     }
 
@@ -89,11 +96,9 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = myDb.getAllData();
         String[] fromFieldNames = new String[] { myDb.COL_1, myDb.COL_2 };
         int[] toViewIDS = new int[] {R.id.memoIndex, R.id.memoContent};
-        /*SimpleCursorAdapter 사용법
-        * http://hyojjeong.tistory.com/entry/ListViewCursorAdapter-%EC%82%AC%EC%9A%A9%EB%B2%95*/
         SimpleCursorAdapter myCursorAdapter;
         myCursorAdapter = new SimpleCursorAdapter(getBaseContext(), R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, 0);
-        list_view1.setAdapter(myCursorAdapter);
+        lv1.setAdapter(myCursorAdapter);
     }
 
     /*
