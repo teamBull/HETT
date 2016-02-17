@@ -102,8 +102,10 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
                 }
             }
         });
+
         ifClickedDeleteData(holder1, position_sync);
-        initializeAllButtons(holder1);
+        initializeAllButtons(holder1); // 처음에 모든 버튼을 모두 보이게 해놨다가, 조건에 의해 필요없는 것은 끄는 방식.
+
         if(isOnEditMenu){ // 일반적인 상태
             setEditCondition(holder1);  // More general Condition;
             ifImportant_fillStar(position_sync, holder1.starButton);

@@ -10,6 +10,9 @@ import java.util.List;
 
 /**
  * Created by flecho on 2016. 2. 17..
+ *
+ * 이 클래스는 Soft Keyboard의 상태에 맞게 레이아웃을 끌어올리고, 끌어내리기 위해 정의하였다.
+ *
  */
 public class SoftKeyboardLsnedRelativeLayout extends RelativeLayout {
 

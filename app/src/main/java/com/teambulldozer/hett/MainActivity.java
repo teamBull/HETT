@@ -26,9 +26,18 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+/*
+* (2016.2.17)
+* 삭제 기능까지 구현한 상태.
+* 최적화를 아직 끝내지 않은 버전.
+* Adapter 관련해서 refactoring을 곧 할 예정.
+* */
+
 public class MainActivity extends AppCompatActivity {
 
-    private static boolean devMode = false; // 이게 트루로 설정이 되어 있어서 튕기는 것일 수도 있음.
+    private static boolean devMode = false;
+    /* 디버그를 위한 개발자 모드 설정. true로 설정되어 있을 시, 오류 발생시 강제로 앱을 종료한다. */
+
     private static final String TAG = "HETT";
 
     DatabaseHelper myDb;
@@ -45,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout dateLayout;
     SoftKeyboardLsnedRelativeLayout myLayout;
 
-    //편집 버튼을 눌렀을 때 VISIBLE하게 되는 위젯들
+    //편집 버튼을 눌렀을 때 보이는 위젯들
     TextView finishMenu;
     ImageView deleteButton;
     ImageView orderButton;
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* Call the database constructor */
-        myDb = new DatabaseHelper(this); // going to call the constructor
+        myDb = new DatabaseHelper(this); //
 
         /* Connecting XML widgets and JAVA code. */
         dateBar = (TextView) findViewById(R.id.dateBar);
@@ -96,29 +105,28 @@ public class MainActivity extends AppCompatActivity {
         orderButton = (ImageView) findViewById(R.id.orderButton);
         deleteAllButton = (TextView) findViewById(R.id.deleteAllButton);
 
-
-
-        /* Font Initialization */
+        /* Font Initialization
+         * 폰트는 한 번만 생성한 뒤에, 레퍼런스를 가져다가 쓴다.
+          * */
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
 
         /* These are the main functions of the main page. */
         setFont(); // 폰트 설정
-        showDate(); // 날짜 보여주기
-        respondToUserInput(); // 유저가 타이핑을 시작하면, addButton이 뜨게 한다!
+        showDate(); // 날짜 보여주기, 동기화하는 식으로 나중에 업데이트해야할 수 있다.
+        respondToUserInput(); // 유저가 타이핑을 시작하면, 입력버튼(addButton)이 뜨게 한다!
         screenDownOnNormalState();
-        screenUpOnUserType(); // 유저가 edittext widget을 클릭하면, 메뉴 바가 사라진다.
+        screenUpOnUserType(); // 유저가 타이핑을 할 때, 툴바가 보이지 않게 가리고, 레이아웃을 위로 끌어올린다.
 
         ifEditMenuClicked();
         ifFinishMenuClicked();
-//        deleteIfItemClicked(); // 유저가 삭제 버튼을 누르면 삭제하기.
 
         addOnUserInput(); // 유저가 입력하면 받기
         completeIfItemClicked(); // 아이템 클릭되면 View 바꿔주기
-        //deleteIfItemClicked(); // 아이템 클릭되면 지우기
         ifClickedDeleteAllRows(); // 모두 지우기 버튼이 눌렀을 때, 일정 모두 지우기.
         populateListView(); // 리스트뷰에 아이템 올리기
+                            // 그 외에 클릭하면 삭제하는 기능은 MySimpleCursorAdapter에 구현.
 
         /* Additional details */
 
@@ -141,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 //populateListView(); // 대체
                 rl2.setVisibility(View.INVISIBLE);
                 deleteAllButton.setVisibility(View.VISIBLE);
-
-                // 어댑터에 옵션 걸어줘서 다시 populateListView 해야함..
 
 
             }
@@ -329,7 +335,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //((BaseAdapter)mySimpleCursorAdapter).notifyDataSetChanged();
-                // 이 라인은 교체하면 에러가 뜬다...
                 populateListView();
             }
         });
@@ -388,8 +393,6 @@ public class MainActivity extends AppCompatActivity {
                     /* If a user does not type any word, then, memo is not to be added to the list. */
                 }
 
-                //myDb.getReadableDatabase().
-
                 if (myDb.numOfEntries() == 0) { // 이 조건이 있는 이유는, DB가 비어있을 때, isThereCompleteData()를 호출하면 에러가 뜨기 때문.
                     myDb.insertData(memo, false);
                 } else {
@@ -402,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                     /*
-                    * These lines makes a software keyboard disappear when user finishes typing.
+                    * These lines makes a soft keyboard disappear when user finishes typing.
                     * */
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
