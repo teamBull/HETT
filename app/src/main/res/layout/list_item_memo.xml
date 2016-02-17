@@ -1,41 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:id="@+id/list_item"
+    android:layout_width="336dp"
+    android:layout_height="48dp"
+    android:background="@color/hatt_white"
     android:descendantFocusability="blocksDescendants"
     android:clickable="false"
     android:focusable="false"
     >
 
-    <TextView
-        android:id="@+id/deleteButton"
+
+    <ImageView
+        android:id="@+id/nextButton"
         android:layout_alignParentRight="true"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:textColor="@color/darkblue"
-        android:text="DEL"
+        android:layout_centerVertical="true"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/next"
         />
 
-    <TextView
-        android:id="@+id/memoIndex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@id/deleteButton"
-        android:paddingLeft="5dp"
-        android:text="memo Idx"
+    <ImageView
+        android:id="@+id/deleteButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/delete"
+        android:visibility="invisible"
         />
+
+    <ImageView
+        android:id="@+id/starButton"
+        android:layout_centerVertical="true"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/star_off"
+        />
+
+    <ImageView
+        android:id="@+id/orderButton"
+        android:layout_centerVertical="true"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/order"
+        android:visibility="invisible"
+        />
+
+    <ImageView
+        android:id="@+id/finishLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:visibility="invisible"
+        android:src="@drawable/finish_line_2"/>
 
     <TextView
         android:id="@+id/memoContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/memoIndex"
-        android:layout_toLeftOf="@id/deleteButton"
+        android:layout_toLeftOf="@id/nextButton"
         android:paddingLeft="5dp"
-        android:text=":"
-
+        android:textSize="14dp"
+        android:layout_toRightOf="@id/starButton"
+        android:layout_centerVertical="true"
+        android:textColor="@color/hatt_memocolor"
         />
+
+    <View
+        android:id="@+id/borderline"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        >
+    </View>
 
 
 </RelativeLayout>
+
