@@ -26,11 +26,14 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 /*
-* (2016.2.18. 새벽 1시 )
+* (2016.2.18. 01:00 )
 * 삭제 기능까지 구현한 상태.
 * 최적화 문제.
 * Adapter 관련 refactoring 진행함 --> 불필요하게 setAdapter() 메소드를 여러 번 호출하는 걸 줄이고,
 * Cursor를 새롭게 로드하여, Adapter에 전달해서 속도를 개선함.
+*
+* (2016.2.18. 02:40 )
+* 일반 일정, 완료 일정 사이 투명한 경계선 추가
 *
 * */
 

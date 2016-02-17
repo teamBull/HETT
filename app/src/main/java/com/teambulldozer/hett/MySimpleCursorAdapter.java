@@ -62,6 +62,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
             holder1.deleteButton = (ImageView) convertView.findViewById(R.id.deleteButton);
             holder1.orderButton = (ImageView) convertView.findViewById(R.id.orderButton);
             holder1.finishLine = (ImageView) convertView.findViewById(R.id.finishLine);
+            holder1.borderline = (ImageView) convertView.findViewById(R.id.borderline);
             holder1.list_item = (RelativeLayout) convertView.findViewById(R.id.list_item);
             holder1.text = (TextView) convertView.findViewById(R.id.memoContent);
             holder1.text.setTypeface(NanumBarunGothic_R);
@@ -105,6 +106,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
         ifClickedDeleteData(holder1, position_sync);
         initializeAllButtons(holder1); // 처음에 모든 버튼을 모두 보이게 해놨다가, 조건에 의해 필요없는 것은 끄는 방식.
+        ifIsOnBorder(holder1, position_sync);
 
         if(isOnEditMenu){ // 일반적인 상태
             setEditCondition(holder1);  // More general Condition;
@@ -132,6 +134,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         public TextView text;
         public ImageView finishLine;
         public RelativeLayout list_item;
+        public ImageView borderline;
     }
 
     public void ifClickedDeleteData(final ViewHolder viewHolder, final int position_sync){
@@ -145,6 +148,26 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
     }
 
+    public void ifIsOnBorder(ViewHolder viewHolder, int position_sync){
+
+        if(position_sync < 2)
+            return;
+
+        int position_before = position_sync-1;
+        int position_after = position_sync;
+
+        if((!myDb.isCompleted(position_before)) && myDb.isCompleted(position_after)){
+            ViewGroup.LayoutParams layoutParams = viewHolder.borderline.getLayoutParams();
+            layoutParams.height = ((MainActivity) mContext).pixelToDP(8);
+            viewHolder.borderline.setLayoutParams(layoutParams);
+        } else{
+            ViewGroup.LayoutParams layoutParams = viewHolder.borderline.getLayoutParams();
+            layoutParams.height = ((MainActivity) mContext).pixelToDP(0);
+            viewHolder.borderline.setLayoutParams(layoutParams);
+        }
+
+
+    }
 
     public void setEditCondition(ViewHolder viewHolder){
 
