@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,10 +26,12 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 /*
-* (2016.2.17)
+* (2016.2.18. 새벽 1시 )
 * 삭제 기능까지 구현한 상태.
-* 최적화를 아직 끝내지 않은 버전.
-* Adapter 관련해서 refactoring을 곧 할 예정.
+* 최적화 문제.
+* Adapter 관련 refactoring 진행함 --> 불필요하게 setAdapter() 메소드를 여러 번 호출하는 걸 줄이고,
+* Cursor를 새롭게 로드하여, Adapter에 전달해서 속도를 개선함.
+*
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
         addOnUserInput(); // 유저가 입력하면 받기
         completeIfItemClicked(); // 아이템 클릭되면 View 바꿔주기
         ifClickedDeleteAllRows(); // 모두 지우기 버튼이 눌렀을 때, 일정 모두 지우기.
-        populateListView(); // 리스트뷰에 아이템 올리기
+        populateListView(); // 한 번만 호출되면 된다.
+                            // 리스트뷰에 아이템 올리기
                             // 그 외에 클릭하면 삭제하는 기능은 MySimpleCursorAdapter에 구현.
 
         /* Additional details */
@@ -145,11 +147,10 @@ public class MainActivity extends AppCompatActivity {
                 finishMenu.setVisibility(View.VISIBLE);
 
                 MySimpleCursorAdapter.isOnEditMenu = false;
-                ((BaseAdapter)mySimpleCursorAdapter).notifyDataSetChanged();
-                //populateListView(); // 대체
+                requery();
+
                 rl2.setVisibility(View.INVISIBLE);
                 deleteAllButton.setVisibility(View.VISIBLE);
-
 
             }
         });
@@ -165,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
                 editMenu.setVisibility(View.VISIBLE);
 
                 MySimpleCursorAdapter.isOnEditMenu = true;
-                ((BaseAdapter)mySimpleCursorAdapter).notifyDataSetChanged();
-                //populateListView();
+                requery();
+
                 rl2.setVisibility(View.VISIBLE);
                 deleteAllButton.setVisibility(View.INVISIBLE);
                 // 어댑터에 옵션 걸어줘서 다시 populateListView 해야함..
@@ -261,8 +262,7 @@ public class MainActivity extends AppCompatActivity {
                 LV.topMargin = pixelToDP(122); //96
 
                 MySimpleCursorAdapter.isUserOnTyping = true;
-                ((BaseAdapter)mySimpleCursorAdapter).notifyDataSetChanged();
-                //populateListView();
+                requery();
 
             }
         });
@@ -334,8 +334,8 @@ public class MainActivity extends AppCompatActivity {
                     deleteAndInsert(rowId);
                 }
 
-                //((BaseAdapter)mySimpleCursorAdapter).notifyDataSetChanged();
-                populateListView();
+                requery();
+
             }
         });
     }
@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
                 myDb.deleteAllData();
                 myDb.rearrangeData(Integer.toString((int) myDb.numOfEntries()));
                 // 삭제와 관련된 부분은 adapter를 새로 설정해줘야함;
-                populateListView();
+                requery();
             }
         });
 
@@ -357,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
         Integer deletedRows = myDb.deleteData(rowId);
         myDb.rearrangeData(rowId);
-        populateListView();
+        requery();
         return deletedRows != 0;
     }
 
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 memoInput.setText("");
 
-                populateListView();
+                requery();
             }
         });
     }
@@ -423,7 +423,15 @@ public class MainActivity extends AppCompatActivity {
         mySimpleCursorAdapter =
                 new MySimpleCursorAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, 0, myDb);
         lv1.setAdapter(mySimpleCursorAdapter);
-        // getBaseContext --> to this because of cast problem.
+
+        /* 어댑터를 세팅해주는 것은 한 번만 있으면 될 것 같다.
+        즉 populateListView() 메소드는 onCreate에서 한 번만 호출되면 됨.
+
+         */
+        /*
+         getBaseContext --> this : Since there was a cast problem when using getBaseContext, it was
+         replaced with this.
+         */
     }
 
     /*
@@ -443,6 +451,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){
+        Cursor cursor = myDb.getAllData();
+        mySimpleCursorAdapter.changeCursor(cursor);
         super.onResume();
         Log.d(TAG, "onResume(Bundle) called");
     }
@@ -458,6 +468,11 @@ public class MainActivity extends AppCompatActivity {
         ((SimpleCursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
         myDb.close();
         Log.d(TAG, "onDestroy() called");
+    }
+
+    private void requery(){
+        Cursor values = myDb.getAllData();
+        mySimpleCursorAdapter.changeCursor(values);
     }
 
 }
