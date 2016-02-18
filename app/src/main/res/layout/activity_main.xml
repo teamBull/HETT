@@ -27,12 +27,11 @@
 
         <TextView
             android:id="@+id/editMenu"
-            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textSize="15dp"
-            android:padding="10dp"
+            android:padding="12dp"
             android:textColor="@color/hatt_edit"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
@@ -41,12 +40,11 @@
 
         <TextView
             android:id="@+id/finishMenu"
-            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textSize="15dp"
-            android:padding="10dp"
+            android:padding="12dp"
             android:textColor="@color/hatt_edit"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
@@ -71,6 +69,7 @@
             android:textColor="@color/hatt_date"
             android:textSize="22dp"
             android:text="날짜정보"
+            android:layout_marginBottom="8dp"
             />
 
         <TextView
@@ -181,8 +180,3 @@
 
 </com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout>
 
-<!--
-        android:fastScrollEnabled="true"
-        android:persistentDrawingCache="scrolling"
-        android:scrollingCache="false"
-        -->
