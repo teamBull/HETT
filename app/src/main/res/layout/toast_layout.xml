@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toast_layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="@color/hatt_toastbg"
+    >
+
+    <ImageView
+        android:id="@+id/hatt_icon"
+        android:layout_width="40dp"
+        android:layout_height="55dp"
+        android:src="@drawable/hatt"/>
+
+    <TextView
+        android:id="@+id/toast_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/hatt_icon"
+        android:textSize="12dp"
+        android:textColor="@color/hatt_white"
+        android:text="hatti: 다 할 수 있겠어? 대단하다!!"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        android:layout_alignTop="@id/toast_text"
+        android:layout_toRightOf="@id/toast_text"
+        android:textSize="8dp"
+        android:textColor="@color/hatt_cyan"
+        android:layout_centerVertical="true"
+        android:text="지금"
+
+        />
+
+</RelativeLayout>

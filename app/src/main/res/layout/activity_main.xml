@@ -13,11 +13,10 @@
         android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         >
 
         <ImageView
+            android:layout_marginLeft="12dp"
             android:layout_width="41dp"
             android:layout_height="41dp"
             android:layout_alignParentLeft="true"
@@ -28,6 +27,7 @@
 
         <TextView
             android:id="@+id/editMenu"
+            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -41,6 +41,7 @@
 
         <TextView
             android:id="@+id/finishMenu"
+            android:layout_marginRight="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

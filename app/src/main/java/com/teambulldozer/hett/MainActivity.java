@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -35,6 +36,9 @@ import java.util.Calendar;
 * (2016.2.18. 02:40 )
 * 일반 일정, 완료 일정 사이 투명한 경계선 추가
 *
+* (2016.2.18. 17:00 )
+* 1. 일정 1개, 5개 입력시 알맞은 TOAST 뜨게 추가.
+* 2. 레이아웃 올리고 내리는 게 가끔씩 작동하지 않아서 그 부분 수정.
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -120,8 +124,7 @@ public class MainActivity extends AppCompatActivity {
         setFont(); // 폰트 설정
         showDate(); // 날짜 보여주기, 동기화하는 식으로 나중에 업데이트해야할 수 있다.
         respondToUserInput(); // 유저가 타이핑을 시작하면, 입력버튼(addButton)이 뜨게 한다!
-        screenDownOnNormalState();
-        screenUpOnUserType(); // 유저가 타이핑을 할 때, 툴바가 보이지 않게 가리고, 레이아웃을 위로 끌어올린다.
+        screenUpAndDownOnItsState(); // 유저가 타이핑을 할 때, 레이아웃을 위로 끌어올리고, 타이핑 하지 않을 때 끌어내린다.
 
         ifEditMenuClicked();
         ifFinishMenuClicked();
@@ -138,6 +141,25 @@ public class MainActivity extends AppCompatActivity {
         // The following line makes software keyboard disappear until it is clicked again.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+    }
+
+    public void toastProperMessage(String hatt_id, int numOfTODOs){
+        // 완료된 일정말고, 일반 일정만 5개 이상 될 때, toast를 뜨게 하기.
+        // 완료된 일정의 개수를 센 다음, 완료된 게 하나라도 있으면 다음의 메시지를 띄우지 않는다.
+        if(myDb.isThereCompletedData())
+            return;
+
+        HattToast toast = new HattToast(this);
+
+        if(numOfTODOs == 1) {
+            String toastMessage = hatt_id + ": " + "오늘도 힘내구~!";
+            toast.showToast(toastMessage, Toast.LENGTH_SHORT);
+        } else if (numOfTODOs == 5){
+            String toastMessage = hatt_id + ": " + "다 할 수 있겠어!? 대단하다~~";
+            toast.showToast(toastMessage, Toast.LENGTH_SHORT);
+
+        } else
+            return;
     }
 
     public void ifEditMenuClicked(){
@@ -215,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() == 0) {
+                if (s.length() == 0) {
                        /* After a user types some text, a button disappear.*/
                     addButton.setVisibility(View.INVISIBLE);
                     addLine.setVisibility(View.INVISIBLE);
@@ -226,11 +248,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void screenDownOnNormalState(){
+    public void screenUpAndDownOnItsState(){
         myLayout.addSoftKeyboardLsner(new SoftKeyboardLsnedRelativeLayout.SoftKeyboardLsner() {
             @Override
             public void onSoftKeyboardShow() {
                 Log.d("SoftKeyboard", "Soft keyboard shown");
+                MySimpleCursorAdapter.isUserOnTyping = true;
+                rl1.setVisibility(View.INVISIBLE);
+
+                ViewGroup.MarginLayoutParams LL = (ViewGroup.MarginLayoutParams) dateLayout.getLayoutParams();
+                LL.topMargin = pixelToDP(40);
+
+                ViewGroup.MarginLayoutParams LV = (ViewGroup.MarginLayoutParams) lv1.getLayoutParams();
+                LV.topMargin = pixelToDP(122); //96
+
             }
 
             @Override
@@ -250,25 +281,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    public void screenUpOnUserType(){
-        memoInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rl1.setVisibility(View.INVISIBLE);
-
-                ViewGroup.MarginLayoutParams LL = (ViewGroup.MarginLayoutParams) dateLayout.getLayoutParams();
-                LL.topMargin = pixelToDP(40);
-
-                ViewGroup.MarginLayoutParams LV = (ViewGroup.MarginLayoutParams) lv1.getLayoutParams();
-                LV.topMargin = pixelToDP(122); //96
-
-                MySimpleCursorAdapter.isUserOnTyping = true;
-                requery();
-
-            }
-        });
     }
 
     public int pixelToDP(int paddingPixel){
@@ -329,11 +341,10 @@ public class MainActivity extends AppCompatActivity {
                 int rowId = (cursor.getPosition() + 1); // sqlite와 sync를 맞춰줘야함.
                 //Toast.makeText(getBaseContext(), "Item Clicked: " + rowId, Toast.LENGTH_SHORT).show();
 
-                if(myDb.isCompleted(rowId)) {
+                if (myDb.isCompleted(rowId)) {
                     shiftAndInsert(rowId);
                     // 이 라인에 추가되어야 할 코드는 디비에 있는 내용을 한 칸씩 다음뷰로 shift하는 것임.
-                }
-                else {
+                } else {
                     deleteAndInsert(rowId);
                 }
 
@@ -415,6 +426,7 @@ public class MainActivity extends AppCompatActivity {
                 memoInput.setText("");
 
                 requery();
+                toastProperMessage("hatti", (int) myDb.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
