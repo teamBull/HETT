@@ -36,9 +36,10 @@ import java.util.Calendar;
 * (2016.2.18. 02:40 )
 * 일반 일정, 완료 일정 사이 투명한 경계선 추가
 *
-* (2016.2.18. 17:00 )
+* (2016.2.19. 2:00 )
 * 1. 일정 1개, 5개 입력시 알맞은 TOAST 뜨게 추가.
 * 2. 레이아웃 올리고 내리는 게 가끔씩 작동하지 않아서 그 부분 수정.
+* 3. DB 칼럼명 추가, 그리고 약간의 수정..
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -220,6 +221,16 @@ public class MainActivity extends AppCompatActivity {
         dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + hourInfo + ":" + KOR_MINUTE);
         // need to convert Eng-based day to Kor-based day.
 
+    }
+
+    public int getDate(){
+        Calendar rightNow = Calendar.getInstance();
+        int year = rightNow.get(Calendar.YEAR);
+        int month = rightNow.get(Calendar.MONTH);
+        int date = rightNow.get(Calendar.DATE);
+
+        int timeKey = (year * 10000) + (month * 100) + date; // This timeKey is used to give input to database.
+        return timeKey;
     }
 
     public void respondToUserInput(){

@@ -85,13 +85,13 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
                 try {
                     do {
                         if (Integer.toString(position_sync).equals(cursor.getString(0))) {
-                            if (cursor.getString(1).equals("true")) {
+                            if (cursor.getString(1).equals("1")) {
                                 holder1.starButton.setImageResource(R.drawable.star_off);
-                                myDb.updateData(Integer.toString(position_sync), null, "false", "0");
+                                myDb.updateData(Integer.toString(position_sync), null, 0, 0);
                                 break; // In order to avoid unnecessary loop.
                             } else {
                                 holder1.starButton.setImageResource(R.drawable.star_on);
-                                myDb.updateData(Integer.toString(position_sync), null, "true", "0");
+                                myDb.updateData(Integer.toString(position_sync), null, 1, 0);
                                 break;
                             }
                         }
@@ -226,7 +226,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         try{
             do {
                 if (Integer.toString(position_sync).equals(cursor.getString(0))) {
-                    if (cursor.getString(1).equals("true")) {
+                    if (cursor.getString(1).equals("1")) {
                         starButton.setImageResource(R.drawable.star_on);
                         break;
                     } else {
