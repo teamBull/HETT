@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#B1B2C1"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/prevBtn"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/prev"
+            />
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="배경(글씨체 변경필요)"
+            android:textSize="15sp"
+            android:layout_toRightOf="@+id/prevBtn"/>
+        <TextView
+            android:id="@+id/okBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_alignParentRight="true"
+            android:text="확인"
+            />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/settingBackgroundThemeListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EDEDED">
+    </ListView>
+
+
+</LinearLayout>
