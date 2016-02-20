@@ -2,28 +2,35 @@ package com.teambulldozer.hett;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /*
@@ -76,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     // 폰트
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
         // The following line makes software keyboard disappear until it is clicked again.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        /*기호*/
+
+        initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
 
     }
 
@@ -514,4 +524,155 @@ public class MainActivity extends AppCompatActivity {
         mySimpleCursorAdapter.changeCursor(values);
     }
 
+    /*ㄱㅎ*/
+    /**
+     * MainActivity속에 있는 include객체
+     */
+    private View includeView;
+    /**
+     * NavigationDrawer객체.
+     */
+    private DrawerLayout drawerLayout;
+    /**
+     * NavigationDrawer속에 있는 객체.
+     */
+    private View drawerView;
+    /**
+     * navigation_drawer에 include된 mainPage.
+     */
+    private View mainView;
+    /**
+     * 친구 버튼
+     */
+    private ImageView friendBtn;
+    /**
+     * NavigationDrawer의 가상친구 대화하는 부분.
+     */
+    private NavigationDrawerFriendAskAdapter navigationDrawerFriendAsk;
+    /**
+     * NavigationDrawer의 친구가 대화하는 List를 저장할 listView.
+     */
+    private ListView friendAskListView;
+    /**
+     * NavigationDrawer의 알람 토글 버튼.
+     */
+    private ToggleButton shakeBellToggleButton;
+    /**
+     * 메세지 모드 토글버튼.
+     */
+    private ToggleButton messageModeToggleButton;
+    /**
+     * 배경테마 글씨를 저장하는 텍스트뷰.
+     */
+    private TextView setBackgroundTheme;
+    /**/
+    /**
+     * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
+     */
+    private void initNavigationDrawer(){
+        initForDrawer(); // 드로워 초기화 메소드
+        initFriendAsk(); // 드로워의 대화상자 초기화 메소드.
+        initFriendlyNo(); // 드로워의 친밀도 점수 표기 메소드.
+        initDrawerMenu();
+    }
+    /**
+     * NavigationDrawer의 menu를 초기화 하는 메소드.
+     */
+    private void initDrawerMenu() {
+        shakeBellToggleButton = (ToggleButton) findViewById(R.id.shakeBellToggleButton); enterToggleButton( shakeBellToggleButton ); // 토글버튼 객체 받아오고 이벤트 등록.
+        messageModeToggleButton = (ToggleButton) findViewById(R.id.messageModeToggleButton); enterToggleButton( messageModeToggleButton ); // 토글 버튼 객체 받아오고 이벤트 등록.
+        setBackgroundTheme = (TextView)findViewById(R.id.setBackgroundTheme);
+        setBackgroundTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(),SettingBackgroundThemeActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+
+
+
+    }//toggleButton.setText(null); toggleButton.setTextOn(null); toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
+    private void enterToggleButton (final ToggleButton toggleButton) {
+        toggleButton.setText(null);
+        toggleButton.setTextOn(null);
+        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
+        toggleButton.setSelected(false);
+        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toggleButton.isChecked())
+                    toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
+                else
+                    toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+            }
+        });
+
+    }
+    /**
+     * 드로워 부분의 친밀도를 DB에 접근해서 setting하는 메소드.
+     */
+    private void initFriendlyNo() {
+        //  TextView friendlyNo = (TextView) findViewById(R.id.friendlyNo);
+        // friendlyNo.setText(Html.fromHtml(74+"")); // Html코드가 나와야 한다면 여기로 추가하장..
+    }
+    /**
+     * 가상친구 대화하는 부분을 DB에 접근해서 대화하는 창.
+     */
+    private void initFriendAsk() {
+        ArrayList arrayList = new ArrayList<String>(); // 친구가 대화하는 내용을 초기화 할 arrayList
+        //test data 추후에 DB코드 나와야 함.
+        for(int i=1;i<9;i++) {
+            arrayList.add(i+"번째 데이터");
+        }
+        navigationDrawerFriendAsk = new NavigationDrawerFriendAskAdapter(this.getApplicationContext(),arrayList); // NavigationDrawer의 친구와 이야기 하는 부분의 컴포넌트. BaseAdapter를 상속받아 ListView를 구현할 수 있게끔.
+        friendAskListView = (ListView)findViewById(R.id.friendAskListView);
+        friendAskListView.setAdapter(navigationDrawerFriendAsk);
+    }
+    /**
+     * NavigationDrawer 초기화 부분.
+     */
+    private void initForDrawer() {
+        //mainView = (View)findViewById(R.id.main_view); // navigation_drawer에 있는 include속성값을 받아온다.
+        DrawerLayout.DrawerListener myDrawerListener = new DrawerLayout.DrawerListener() {
+            public void onDrawerClosed(View drawerView) {
+            }
+            public void onDrawerOpened(View drawerView) {
+            }
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+            public void onDrawerStateChanged(int newState) {
+            }
+        };
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);//1 drawerLayout을 받아온다.
+        drawerView = (View) findViewById(R.id.navigation_drawer); // 2. drawer의 내용물을 받아온다.
+
+        friendBtn = (ImageView) findViewById(R.id.friendBtn); // 3. mainView(activity_main의)버튼을 받아온다.
+        friendBtn.setOnClickListener(new View.OnClickListener() { // 4버튼 이벤트 등록.
+
+            public void onClick(View arg0) {
+                drawerLayout.openDrawer(drawerView); // 5. DrawerLayout을 Drawer한다.
+            }
+        });
+        drawerLayout.setDrawerListener(myDrawerListener); //6 DrawerListener를 등록해야한다.
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                return true;
+            }
+        });
+        //드로워의 시간 초기화
+        ((TextClock)findViewById(R.id.currentTimer)).setFormat12Hour(" MM월 dd일 (E) a HH:mm"); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
+        ImageView friend_name_edit_btn = (ImageView) findViewById(R.id.friend_name_edit_btn);
+        friend_name_edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext() ,"friend_name_edit_btn.setOnClickListener",Toast.LENGTH_SHORT).show();
+                //SelfPush.push(getApplicationContext(), "HATT", "클릭 마다 푸쉬가 잘 도착 하네유.");
+            }
+        });
+
+    }
 }
