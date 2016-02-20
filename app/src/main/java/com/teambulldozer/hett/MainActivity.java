@@ -36,10 +36,14 @@ import java.util.Calendar;
 * (2016.2.18. 02:40 )
 * 일반 일정, 완료 일정 사이 투명한 경계선 추가
 *
-* (2016.2.19. 2:00 )
+* (2016.2.19.)
 * 1. 일정 1개, 5개 입력시 알맞은 TOAST 뜨게 추가.
 * 2. 레이아웃 올리고 내리는 게 가끔씩 작동하지 않아서 그 부분 수정.
 * 3. DB 칼럼명 추가, 그리고 약간의 수정..
+* 4. 어떤 경우에도 일정이 위에서 아래로 순서대로 뜨게 수정.
+* 5. DB는 좀더 고쳐야..
+* 6. 애니메이션을 주는 게 조금 어려움 ㅠㅜ
+*
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -137,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                             // 리스트뷰에 아이템 올리기
                             // 그 외에 클릭하면 삭제하는 기능은 MySimpleCursorAdapter에 구현.
 
+
         /* Additional details */
 
         // The following line makes software keyboard disappear until it is clicked again.
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         if(myDb.isThereCompletedData())
             return;
 
-        HattToast toast = new HattToast(this);
+        HattToast toast = new HattToast(this); // 메모리 누수 발생 지점!
 
         if(numOfTODOs == 1) {
             String toastMessage = hatt_id + ": " + "오늘도 힘내구~!";
@@ -350,17 +355,19 @@ public class MainActivity extends AppCompatActivity {
                 Cursor cursor = (Cursor) parent.getAdapter().getItem(position);
                 cursor.moveToPosition(position);
                 int rowId = (cursor.getPosition() + 1); // sqlite와 sync를 맞춰줘야함.
-                //Toast.makeText(getBaseContext(), "Item Clicked: " + rowId, Toast.LENGTH_SHORT).show();
 
                 if (myDb.isCompleted(rowId)) {
-                    shiftAndInsert(rowId);
-                    // 이 라인에 추가되어야 할 코드는 디비에 있는 내용을 한 칸씩 다음뷰로 shift하는 것임.
+                    //클릭된 일정이 끝난 일정일 경우.
+                    if(rowId == 1){ // 선택된 첫 번째 일정이 이미 완료됐을 경우, 해당 일정의 completeness 값만 0으로 바꿔줌.
+                        //myDb.moveDataTo(1, tempMemo); // Just update the value at position 1.
+                        myDb.updateCompleteness("1", 0); // 1번 자리에 있는 일정의 완수여부를 미완으로 바꿈.
+                    } else // 선택된 일정이 두 번째나 두 번째 이후의 일정일 경우,
+                        shiftAndInsert(rowId);
+                    /* */
                 } else {
                     deleteAndInsert(rowId);
                 }
-
                 requery();
-
             }
         });
     }
@@ -389,13 +396,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void shiftAndInsert(int rowId){
         String tempMemo = myDb.getMemoAt(rowId);
+        // tempMemo에 일정에 대한 다른 모든 정보가 들어가야 한다. 지금은 텍스트만 되고 있음.
+        // 해당 포지션에 있는 모든 정보를 다 가져와야함.
 
-        if(rowId == 1){
-            myDb.moveDataToTop(tempMemo); // Just update the value at position 1.
-        } else {
-            myDb.shiftData(rowId-1); // The reason for rowId-1 is for shifting.
-            myDb.moveDataToTop(tempMemo); // 순서 굉장히 중요!
-        }
+            int fromPos = myDb.getBorderlinePos();
+            int toPos = rowId-1;
+            myDb.shiftData(fromPos, toPos);
+            myDb.moveDataTo(fromPos, tempMemo);
+            myDb.updateCompleteness(Integer.toString(fromPos), 0);
+
     }
 
     public void deleteAndInsert(int rowId){
@@ -422,9 +431,16 @@ public class MainActivity extends AppCompatActivity {
                     myDb.insertData(memo, false);
                 } else {
                     if (myDb.isThereCompletedData()) {
+                        // 완료된 일정이 하나라도 있을 경우, 새로운 일정은 일반 일정의 맨 끝과 완료된 일정의 처음 부분 사이
                         myDb.insertData("", false);
-                        myDb.shiftData((int) myDb.numOfEntries()); // 여기 왜 1이 들어가있지.. 마지막 숫자가 들어가 있어야되는데 ;
-                        myDb.moveDataToTop(memo);
+
+                        int fromPos = myDb.getBorderlinePos();
+                        int toPos = (int) myDb.numOfEntries();
+
+                        myDb.shiftData(fromPos, toPos);
+                        myDb.moveDataTo(fromPos, memo);
+                        //fromPos부터 밀기 시작하므로;
+                        //myDb.moveDataToTop(memo);
                     } else
                         myDb.insertData(memo, false);
                 }
@@ -452,9 +468,6 @@ public class MainActivity extends AppCompatActivity {
 
         /* 어댑터를 세팅해주는 것은 한 번만 있으면 될 것 같다.
         즉 populateListView() 메소드는 onCreate에서 한 번만 호출되면 됨.
-
-         */
-        /*
          getBaseContext --> this : Since there was a cast problem when using getBaseContext, it was
          replaced with this.
          */
@@ -496,7 +509,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy() called");
     }
 
-    private void requery(){
+    public void requery(){
         Cursor values = myDb.getAllData();
         mySimpleCursorAdapter.changeCursor(values);
     }

@@ -60,7 +60,16 @@
             />
 
         <ImageView
-            android:id="@+id/finishLine"
+            android:id="@+id/finishLine1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:visibility="invisible"
+            android:src="@drawable/finish_line_1"/>
+
+        <ImageView
+            android:id="@+id/finishLine2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="12dp"

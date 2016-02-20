@@ -126,6 +126,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    public int getBorderlinePos(){
+
+        for(int position = 1; position <= (int)numOfEntries(); position++) {
+            if ((!isCompleted(position)) && isCompleted(position + 1)) {
+                return (position + 1);
+            }
+        }
+
+        return 1; //
+    }
 
     public Cursor getMemoData(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -158,6 +168,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public boolean updateCompleteness(String id, int completeness){ //일정의 완수여부만 업데이트한다.
+        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
+        ContentValues values = new ContentValues();
+        values.put(COL_4, completeness);
+        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
+
+        return true;
+    }
+
+    public boolean updateImportance(String id, int importance){ // 일정의 중요도만 업데이트한다.
+        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
+        ContentValues values = new ContentValues();
+        values.put(COL_3, importance);
+        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
+
+        return true;
+    }
 
     public boolean updateData(String id, String memo, int importance, int completeness){
         SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
@@ -187,20 +214,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
     }
 
-    public void moveDataToTop(String memo){
+    public void moveDataTo(int position, String memo){
         SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
         ContentValues values = new ContentValues();
         values.put(COL_2, memo);
         values.put(COL_3, 0);
         values.put(COL_4, 0);
-        db.update(TABLE_NAME, values, " _id = ?", new String[]{"1"});
+
+        String id = Integer.toString(position);
+        db.update(TABLE_NAME, values, " _id = ?", new String[]{ id });
     }
 
 
-    public void shiftData(int position){
+    public void shiftData(int from, int to){ // from의 자리에 새로 들어갈 메모가 들어가야 한다.
 
-        for(; position >= 1; position--){
-            shiftData_aux(position);
+        for(; to >= from; to--){
+            shiftData_aux(to);
         }
     }
 
@@ -225,8 +254,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     values.put(COL_6, cursor.getString(5));
                     values.put(COL_7, cursor.getString(6));
 
+                    //String id = Integer.toString(position);
                     String id = Integer.toString(position + 1);
-                    db_write.update(TABLE_NAME, values, " _id = ?", new String[]{id});
+                    db_write.update(TABLE_NAME, values, " _id = ?", new String[]{ id });
 
                 }
 
