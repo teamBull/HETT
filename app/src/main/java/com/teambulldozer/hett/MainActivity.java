@@ -670,9 +670,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext() ,"friend_name_edit_btn.setOnClickListener",Toast.LENGTH_SHORT).show();
-                //SelfPush.push(getApplicationContext(), "HATT", "클릭 마다 푸쉬가 잘 도착 하네유.");
+                PushAlarmReservation.getInstance().registerAlarm(getApplicationContext(),15,24,0,"알람아","울려랏!");
             }
         });
 
     }
+
 }
