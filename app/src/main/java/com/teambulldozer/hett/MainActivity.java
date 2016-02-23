@@ -1,6 +1,7 @@
 package com.teambulldozer.hett;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,6 +51,8 @@ import java.util.Calendar;
 * 5. DB는 좀더 고쳐야..
 * 6. 애니메이션을 주는 게 조금 어려움 ㅠㅜ
 *
+* (2016. 2. 20.)
+* 1. 이 버전이 깔끔한 버전.
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "HETT";
 
-    DatabaseHelper myDb;
+    EventTableController myEventController;
     MySimpleCursorAdapter mySimpleCursorAdapter;
     ListView lv1;
     EditText memoInput;
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -103,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* Call the database constructor */
-        myDb = new DatabaseHelper(this); //
+        myEventController = EventTableController.get(this); //
 
         /* Connecting XML widgets and JAVA code. */
         dateBar = (TextView) findViewById(R.id.dateBar);
@@ -144,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
         completeIfItemClicked(); // 아이템 클릭되면 View 바꿔주기
         ifClickedDeleteAllRows(); // 모두 지우기 버튼이 눌렀을 때, 일정 모두 지우기.
         populateListView(); // 한 번만 호출되면 된다.
-                            // 리스트뷰에 아이템 올리기
-                            // 그 외에 클릭하면 삭제하는 기능은 MySimpleCursorAdapter에 구현.
+        // 리스트뷰에 아이템 올리기
+        // 그 외에 클릭하면 삭제하는 기능은 MySimpleCursorAdapter에 구현.
 
 
         /* Additional details */
@@ -157,12 +160,13 @@ public class MainActivity extends AppCompatActivity {
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
 
+
     }
 
     public void toastProperMessage(String hatt_id, int numOfTODOs){
         // 완료된 일정말고, 일반 일정만 5개 이상 될 때, toast를 뜨게 하기.
         // 완료된 일정의 개수를 센 다음, 완료된 게 하나라도 있으면 다음의 메시지를 띄우지 않는다.
-        if(myDb.isThereCompletedData())
+        if(myEventController.isThereCompletedData())
             return;
 
         HattToast toast = new HattToast(this); // 메모리 누수 발생 지점!
@@ -366,11 +370,11 @@ public class MainActivity extends AppCompatActivity {
                 cursor.moveToPosition(position);
                 int rowId = (cursor.getPosition() + 1); // sqlite와 sync를 맞춰줘야함.
 
-                if (myDb.isCompleted(rowId)) {
+                if (myEventController.isCompleted(rowId)) {
                     //클릭된 일정이 끝난 일정일 경우.
-                    if(rowId == 1){ // 선택된 첫 번째 일정이 이미 완료됐을 경우, 해당 일정의 completeness 값만 0으로 바꿔줌.
-                        //myDb.moveDataTo(1, tempMemo); // Just update the value at position 1.
-                        myDb.updateCompleteness("1", 0); // 1번 자리에 있는 일정의 완수여부를 미완으로 바꿈.
+                    if (rowId == 1) { // 선택된 첫 번째 일정이 이미 완료됐을 경우, 해당 일정의 completeness 값만 0으로 바꿔줌.
+                        //myEventController.moveDataTo(1, tempMemo); // Just update the value at position 1.
+                        myEventController.updateCompleteness("1", 0); // 1번 자리에 있는 일정의 완수여부를 미완으로 바꿈.
                     } else // 선택된 일정이 두 번째나 두 번째 이후의 일정일 경우,
                         shiftAndInsert(rowId);
                     /* */
@@ -386,8 +390,8 @@ public class MainActivity extends AppCompatActivity {
         deleteAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDb.deleteAllData();
-                myDb.rearrangeData(Integer.toString((int) myDb.numOfEntries()));
+                myEventController.deleteAllData();
+                myEventController.rearrangeData(Integer.toString((int) myEventController.numOfEntries()));
                 // 삭제와 관련된 부분은 adapter를 새로 설정해줘야함;
                 requery();
             }
@@ -397,62 +401,95 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean deleteRow(String rowId){
 
-        Integer deletedRows = myDb.deleteData(rowId);
-        myDb.rearrangeData(rowId);
+        Integer deletedRows = myEventController.deleteData(rowId);
+        myEventController.rearrangeData(rowId);
         requery();
         return deletedRows != 0;
     }
 
+    /*
+        public void shiftAndInsert(int rowId){
+            String tempMemo = myEventController.getMemoAt(rowId);
+            // tempMemo에 일정에 대한 다른 모든 정보가 들어가야 한다. 지금은 텍스트만 되고 있음.
+            // 해당 포지션에 있는 모든 정보를 다 가져와야함.
 
+                int fromPos = myEventController.getBorderlinePos();
+                int toPos = rowId-1;
+                myEventController.shiftAllData(fromPos, toPos);
+                myEventController.moveDataTo(fromPos, tempMemo);
+                myEventController.updateCompleteness(Integer.toString(fromPos), 0);
+
+        }
+    */
     public void shiftAndInsert(int rowId){
-        String tempMemo = myDb.getMemoAt(rowId);
+        ContentValues tempData = myEventController.getAllContent(rowId);
         // tempMemo에 일정에 대한 다른 모든 정보가 들어가야 한다. 지금은 텍스트만 되고 있음.
         // 해당 포지션에 있는 모든 정보를 다 가져와야함.
 
-            int fromPos = myDb.getBorderlinePos();
-            int toPos = rowId-1;
-            myDb.shiftData(fromPos, toPos);
-            myDb.moveDataTo(fromPos, tempMemo);
-            myDb.updateCompleteness(Integer.toString(fromPos), 0);
+        int fromPos = myEventController.getBorderlinePos();
+        int toPos = rowId-1;
+        myEventController.shiftAllData(fromPos, toPos);
+        //myEventController.moveDataTo(fromPos, tempMemo);
+        myEventController.moveDataTo(fromPos, tempData);
+        myEventController.updateCompleteness(Integer.toString(fromPos), 0);
 
     }
 
     public void deleteAndInsert(int rowId){
-
-        String tempMemo = myDb.getMemoAt(rowId);
+        // 수정 필요
+        ContentValues tempData = myEventController.getAllContent(rowId);
         deleteRow(Integer.toString(rowId));
-        myDb.insertData(tempMemo, true);
-
+        myEventController.insertData("", true);
+        myEventController.moveDataTo((int) myEventController.numOfEntries(), tempData);
+        myEventController.updateCompleteness(Integer.toString((int) myEventController.numOfEntries()), 1);
     }
 
+    /*
+        public void deleteAndInsert(int rowId){
+    // 수정 필요
+            String tempMemo = myEventController.getMemoAt(rowId);
+            deleteRow(Integer.toString(rowId));
+            myEventController.insertData(tempMemo, true);
+
+        }
+    */
     public void addOnUserInput() {
+        // 이 부분 고쳐야 함;;
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 String memo = memoInput.getText().toString();
+
                 if (memo.isEmpty()) {
                     return;
                     /* If a user does not type any word, then, memo is not to be added to the list. */
                 }
 
-                if (myDb.numOfEntries() == 0) { // 이 조건이 있는 이유는, DB가 비어있을 때, isThereCompleteData()를 호출하면 에러가 뜨기 때문.
-                    myDb.insertData(memo, false);
+                if (myEventController.numOfEntries() == 0) { // 이 조건이 있는 이유는, DB가 비어있을 때, isThereCompleteData()를 호출하면 에러가 뜨기 때문.
+                    myEventController.insertData(memo, false);
                 } else {
-                    if (myDb.isThereCompletedData()) {
+                    if (myEventController.isThereCompletedData()) {
                         // 완료된 일정이 하나라도 있을 경우, 새로운 일정은 일반 일정의 맨 끝과 완료된 일정의 처음 부분 사이
-                        myDb.insertData("", false);
+                        myEventController.insertData(memo, false); // 일단 메모 내용을 맨 밑으로 넣은 다음에,
+                        ContentValues insertedData = myEventController.getAllContent((int) myEventController.numOfEntries());
 
-                        int fromPos = myDb.getBorderlinePos();
-                        int toPos = (int) myDb.numOfEntries();
+                        int fromPos = myEventController.getBorderlinePos();
+                        int toPos = (int) myEventController.numOfEntries();
 
-                        myDb.shiftData(fromPos, toPos);
-                        myDb.moveDataTo(fromPos, memo);
+                        myEventController.shiftAllData(fromPos, toPos); // 인덱스 1부터 마지막거 하나 전까지의 데이터를 한칸씩 뒤로 밀고,
+                        myEventController.moveDataTo(fromPos, insertedData);
+
+                        //myEventController.updateMemo("1", memo); // 인덱스 1의 memo 내용 업데이트...
+
+                        // 이부분에서 메모내용만 업데이트 하면 됨. 새로 입력한 데이터는 메모값만 갖고 있기 때문에.
+                        // 근데 밀기 이전에 데이타가 남아있을 수 있다.
+                        // 그래서 새로 생긴 걸로 다 업데이트를 해줘야돼.
                         //fromPos부터 밀기 시작하므로;
-                        //myDb.moveDataToTop(memo);
+                        //myEventController.moveDataToTop(memo);
                     } else
-                        myDb.insertData(memo, false);
+                        myEventController.insertData(memo, false);
                 }
 
                     /*
@@ -463,17 +500,17 @@ public class MainActivity extends AppCompatActivity {
                 memoInput.setText("");
 
                 requery();
-                toastProperMessage("hatti", (int) myDb.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                toastProperMessage("hatti", (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
 
     private void populateListView(){
-        Cursor cursor = myDb.getAllData();
-        String[] fromFieldNames = new String[] { myDb.COL_2 };
+        Cursor cursor = myEventController.getAllData();
+        String[] fromFieldNames = new String[] { EventTableController.Columns.MEMO };
         int[] toViewIDS = new int[] { R.id.memoContent};
         mySimpleCursorAdapter =
-                new MySimpleCursorAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, 0, myDb);
+                new MySimpleCursorAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, 0, myEventController);
         lv1.setAdapter(mySimpleCursorAdapter);
 
         /* 어댑터를 세팅해주는 것은 한 번만 있으면 될 것 같다.
@@ -500,7 +537,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){
-        Cursor cursor = myDb.getAllData();
+        Cursor cursor = myEventController.getAllData();
         mySimpleCursorAdapter.changeCursor(cursor);
         super.onResume();
         Log.d(TAG, "onResume(Bundle) called");
@@ -515,14 +552,17 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         ((SimpleCursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
-        myDb.close();
+        myEventController.myDb.close();
         Log.d(TAG, "onDestroy() called");
     }
 
     public void requery(){
-        Cursor values = myDb.getAllData();
+        Cursor values = myEventController.getAllData();
         mySimpleCursorAdapter.changeCursor(values);
     }
+
+
+
 
     /*ㄱㅎ*/
     /**

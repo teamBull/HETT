@@ -27,7 +27,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
 
     private Context mContext; // In order to call MainActivity's method
-    DatabaseHelper myDb;
+    EventTableController myEventController;
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
     //int currentBorderline;
@@ -36,10 +36,10 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
     public static boolean isOnEditMenu = true;
 
 
-    public MySimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags, DatabaseHelper db) {
+    public MySimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags, EventTableController controller) {
         super(context, layout, c, from, to, flags);
         mContext = context;
-        myDb = db;
+        myEventController = controller;
         NanumSquare_B = Typeface.createFromAsset(context.getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(context.getAssets(), "NanumBarunGothic_Regular.ttf");
 
@@ -118,7 +118,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         viewHolder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor cursor = myDb.getImportanceData();
+                Cursor cursor = myEventController.getImportanceData();
                 cursor.moveToFirst();
 
                 try {
@@ -126,11 +126,11 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
                         if (Integer.toString(position_sync).equals(cursor.getString(0))) {
                             if (cursor.getString(1).equals("1")) {
                                 viewHolder.starButton.setImageResource(R.drawable.star_off); // 이 라인 지우면 안돼;
-                                myDb.updateImportance(Integer.toString(position_sync), 0);
+                                myEventController.updateImportance(Integer.toString(position_sync), 0);
                                 break; // In order to avoid unnecessary loop.
                             } else {
                                 viewHolder.starButton.setImageResource(R.drawable.star_on);
-                                myDb.updateImportance(Integer.toString(position_sync), 1);
+                                myEventController.updateImportance(Integer.toString(position_sync), 1);
                                 break;
                             }
                         }
@@ -164,7 +164,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         int position_before = position_sync-1;
         int position_after = position_sync;
 
-        if((!myDb.isCompleted(position_before)) && myDb.isCompleted(position_after)){
+        if((!myEventController.isCompleted(position_before)) && myEventController.isCompleted(position_after)){
             ViewGroup.LayoutParams layoutParams = viewHolder.borderline.getLayoutParams();
             layoutParams.height = ((MainActivity) mContext).pixelToDP(8);
             viewHolder.borderline.setLayoutParams(layoutParams);
@@ -201,7 +201,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
     }
 
     public void setMemo(int position_sync, TextView textView){
-        Cursor cursor = myDb.getMemoData();
+        Cursor cursor = myEventController.getMemoData();
         cursor.moveToFirst();
        try{
            do {
@@ -228,7 +228,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
 
     public void ifImportant_fillStar(int position_sync, ImageView starButton) {
-        Cursor cursor = myDb.getImportanceData();
+        Cursor cursor = myEventController.getImportanceData();
         cursor.moveToFirst();
 
         try{
@@ -254,7 +254,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
     public void ifFinished_drawFinishLine(int position_sync, ViewHolder viewHolder){
 
-        if(myDb.isCompleted(position_sync)){
+        if(myEventController.isCompleted(position_sync)){
             viewHolder.starButton.setVisibility(View.INVISIBLE);
             viewHolder.nextButton.setVisibility(View.INVISIBLE);
             viewHolder.orderButton.setVisibility(View.INVISIBLE);
@@ -267,7 +267,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
     public void ifFinished_giveOpacity(int position_sync, ViewHolder viewHolder){
 
-        if(myDb.isCompleted(position_sync)){
+        if(myEventController.isCompleted(position_sync)){
 
             viewHolder.text.setTextColor(ContextCompat.getColor(mContext, R.color.hatt_completedTaskColor));
             viewHolder.list_item.setBackgroundColor(ContextCompat.getColor(mContext, R.color.hatt_completedItemColor));
