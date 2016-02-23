@@ -14,13 +14,15 @@ public class SelfPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context,Intent intent) {
-        NotificationManager notificationmanager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification.Builder builder = new Notification.Builder(context);
-        builder.setSmallIcon(R.drawable.hatt).setTicker("HETT").setWhen(System.currentTimeMillis())
-                .setNumber(1).setContentTitle(intent.getStringExtra("pushAlarmTitle")).setContentText(intent.getStringExtra("pushAlarmBody"))
-                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE).setContentIntent(pendingIntent).setAutoCancel(true);
+        if(DrawerTableController.getInstance().searchPushMode()) {
+            NotificationManager notificationmanager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            Notification.Builder builder = new Notification.Builder(context);
+            builder.setSmallIcon(R.drawable.hatt).setTicker("HETT").setWhen(System.currentTimeMillis())
+                    .setNumber(1).setContentTitle(intent.getStringExtra("pushAlarmTitle")).setContentText(intent.getStringExtra("pushAlarmBody"))
+                    .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE).setContentIntent(pendingIntent).setAutoCancel(true);
 
-        notificationmanager.notify(1, builder.build());
+            notificationmanager.notify(1, builder.build());
+        }
     }
 }

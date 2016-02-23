@@ -14,10 +14,6 @@ import java.util.Map;
  */
 public class PushAlarmReservation {
     /**
-     * 푸쉬 알람 on off에 따라 알람을 추가 하는지 마는지 체크하는 메소드.
-     */
-    private boolean isPushAlarm = false;
-    /**
      * 지금 해쉬맵의 개수.
      */
     public static int hashMapCurrentSize=0;
@@ -84,11 +80,8 @@ public class PushAlarmReservation {
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
     public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody) {
-        if(isPushAlarm){
-            hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
-            return true;
-        }
-        return false;
+        hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
+        return true;
     }
     /**
      * 저장할 해쉬맵의 크기.
@@ -134,7 +127,6 @@ public class PushAlarmReservation {
             this.pushAlarmBody=pushAlarmBody;
             registerAlarm();
         }
-
         /**
          * 알람 등록하는 메소드.
          */
@@ -154,7 +146,7 @@ public class PushAlarmReservation {
             am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
         }
     }
-    public void changePushAlarmMode(boolean isBoolean){
+    /*public void changePushAlarmMode(boolean isBoolean){
         this.isPushAlarm=isBoolean;
-    }
+    }*/
 }

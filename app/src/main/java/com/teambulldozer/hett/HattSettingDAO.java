@@ -5,31 +5,33 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by GHKwon on 2016-02-21.
  */
 public class HattSettingDAO extends SQLiteOpenHelper {
-    private final static String HATT_DB = "HATT.db";
-    private final static String HATT_SETTING_TB_NAME = "hatt_setting_tb";
-    private static final int DB_VERSION = 1;
-    private Context context;
+
     private static HattSettingDAO hattSettingDAO;
+    private Context context;
+    private final static String HATT_DB = "HATTI.db";
+    private static final int DB_VERSION = 1;
+    private final static String HATT_SETTING_TB_NAME = "hatt_setting_tb";
+
+    private static final String CREATE_HATT_SETTING_TABLE = "create table "+HATT_SETTING_TB_NAME+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_bell_mode integer ,is_push_alarm integer );";
+
     public static HattSettingDAO getInstance(Context context) {
         if(hattSettingDAO==null)
-            hattSettingDAO = new HattSettingDAO(context,HATT_DB,null,0);
+            hattSettingDAO = new HattSettingDAO(context);
         return hattSettingDAO;
     }
-
     /**
      * @param context SQLiteOpenHelper내부에서 DB파일을 생성 및 접근하기 위해서 사용함.
-     * @param dbName db이름.
-     * @param cursorFactory 사용자 정의 커서를 설정할 떄 사용하는데 대부분 null로 넘어온다. 사용주의
-     * @param version // DB버전 나중에 마이그레이션 사용할 때 쓰려고 사용함.
      */
-    private HattSettingDAO(Context context, String dbName, SQLiteDatabase.CursorFactory cursorFactory, int version) {
-        super(context, dbName, cursorFactory, version);
-        this.context = context;
+    private HattSettingDAO(Context context){
+        super(context, HATT_DB, null, DB_VERSION);
+        this.context=context;
     }
 
     /**
@@ -39,24 +41,32 @@ public class HattSettingDAO extends SQLiteOpenHelper {
      *
      * @param sqLiteDatabase
      */
+    @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(
-                "create table if not exists " + HATT_SETTING_TB_NAME + " (hatt_setting_code TEXT primary key,hatt_friend_name TEXT not null,is_bell_mode integer not null,is_push_alarm integer not null);");
+        sqLiteDatabase.execSQL(CREATE_HATT_SETTING_TABLE);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("hatt_setting_code","user1");
+        contentValues.put("hatt_friend_name","Hatti");
+        contentValues.put("is_bell_mode",0);
+        contentValues.put("is_push_alarm",0);
+        sqLiteDatabase.insert(HATT_SETTING_TB_NAME, null, contentValues);
+
     }
 
-    public void onOpen(SQLiteDatabase sqLiteDatabase) {
-        super.onOpen(sqLiteDatabase);
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+
     }
 
+    @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        if(oldVersion < newVersion) { // 만약 새로운 버전이 재 배포 되었을 경우
             sqLiteDatabase.execSQL("drop table if exists "+HATT_SETTING_TB_NAME); // 테이블을 삭제하고
             onCreate(sqLiteDatabase); // 새로운 테이블을 만든다.
-        }
     }
-
-    public long isnert(ContentValues contentValues) {
-        /*getWritableDatabase은 읽기 혹은 쓰기 전용으로 SQLiteDataBase객체를 반환함.*/
+}
+/*public long isnert(ContentValues contentValues) {
+        //getWritableDatabase은 읽기 혹은 쓰기 전용으로 SQLiteDataBase객체를 반환함.
         return getWritableDatabase().insert(HATT_SETTING_TB_NAME, null, contentValues);
     }
 
@@ -81,5 +91,4 @@ public class HattSettingDAO extends SQLiteOpenHelper {
 
     public int delete(String whereClause, String[] whereArgs) {
         return getWritableDatabase().delete(HATT_SETTING_TB_NAME,  whereClause, whereArgs);
-    }
-}
+    }*/

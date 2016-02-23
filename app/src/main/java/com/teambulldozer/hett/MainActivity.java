@@ -563,10 +563,6 @@ public class MainActivity extends AppCompatActivity {
         Cursor values = myEventController.getAllData();
         mySimpleCursorAdapter.changeCursor(values);
     }
-
-
-
-
     /*ㄱㅎ*/
     /**
      * MainActivity속에 있는 include객체
@@ -612,28 +608,48 @@ public class MainActivity extends AppCompatActivity {
      * 배경화면 테마 선택하는 페이지로 이동하는 이미지뷰 버튼.
      */
     private ImageView backgroundThemeRightButton;
-    /**/
+    /**
+     * Edit_friend_name_activity화면으로 이동 시 startActivityForResult로 화면 이동을 하기 때문에
+     * 화면에 대한 번호를 정해줬다.
+     * 번호를 팀원들끼리 몇 번을 사용하겠다 라는 말이 없어서 10번부터 시작했다
+     * -기호-
+     */
+    private static final int EDIT_FRIEND_NAME_ACTIVITY=10;
+    /**
+     * Edit_friend_name_activity화면으로 이동 후, 이름을 서로 다른 메소드에서 변경을 하기 때문에, 로컬변수로는
+     * 해결할 수 없는 문제점이 있었다.
+     * 그래서 멤버필드로 정의하고, 다음과 같이 사용하게 되었다.
+     */
+    private TextView friend_edit;
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
     private void initNavigationDrawer(){
+        DrawerTableController.getInstance(getApplicationContext());
         initForDrawer(); // 드로워 초기화 메소드
         initFriendAsk(); // 드로워의 대화상자 초기화 메소드.
-        initFriendlyNo(); // 드로워의 친밀도 점수 표기 메소드.
+        // 해당 메소드는 onDrawerStateChanged 메소드에서 호출하게 되었다.
+        // initFriendlyNo(); // 드로워의 친밀도 점수 표기 메소드.
         initDrawerMenu();
     }
     /**
      * NavigationDrawer의 menu를 초기화 하는 메소드.
      */
     private void initDrawerMenu() {
-        isBellMode = (ToggleButton) findViewById(R.id.isBellMode); enterToggleButton(isBellMode); // 토글버튼 객체 받아오고 이벤트 등록.
-        isPushAlarm = (ToggleButton) findViewById(R.id.isPushAlarm); enterToggleButton(isPushAlarm); // 토글 버튼 객체 받아오고 이벤트 등록.
+        // 토글버튼 객체 받아오고 이벤트 등록.
+        isBellMode = (ToggleButton) findViewById(R.id.isBellMode);
+        registerToggleButtonByNobell(isBellMode);
+        // 토글 버튼 객체 받아오고 이벤트 등록.
+        isPushAlarm = (ToggleButton) findViewById(R.id.isPushAlarm);
+        registerTogggleButtonByPushalarm(isPushAlarm);
+        //배경화면 세팅 하는 TextView.
         setBackgroundTheme = (TextView)findViewById(R.id.setBackgroundTheme);
+        //만얀 배경화면 세팅 화면을 선택했을 경우.
         setBackgroundTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getApplicationContext(), SettingBackgroundThemeActivity.class);
+                Intent intent = new Intent(); // 인텐트를 생성
+                intent.setClass(getApplicationContext(), SettingBackgroundThemeActivity.class); // SettingbackgroundActivity로 이동.
                 startActivityForResult(intent, 0);
             }
         });
@@ -641,18 +657,19 @@ public class MainActivity extends AppCompatActivity {
         backgroundThemeRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),SettingBackgroundThemeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
                 startActivity(intent);
             }
         });
+    }
 
-
-
-    }//toggleButton.setText(null); toggleButton.setTextOn(null); toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
-    private void enterToggleButton (final ToggleButton toggleButton) {
-        toggleButton.setText(null);
-        toggleButton.setTextOn(null);
-        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
+    /**
+     * 아직 기능 구현이 안 된 메소드이다. 무음모드 토글 버튼의 기능이 정말 무엇일까 생각하면서 메소드를 작성했..
+     * @param toggleButton
+     */
+    private void registerToggleButtonByNobell(final ToggleButton toggleButton) {
+        initToggleButton(toggleButton);
+        //토글버튼 그머시기냐...그거 얘는 아직 기능이 구현이 안된 애라 좀 더 손바ㅗ야됨..
         toggleButton.setSelected(false);
         toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
         toggleButton.setOnClickListener(new View.OnClickListener() {
@@ -660,27 +677,70 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (toggleButton.isChecked()) {
                     toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
-                    switch(v.getId()) {
-                        case R.id.isPushAlarm : PushAlarmReservation.getInstance().changePushAlarmMode(true); break;
-                    }
-                }
-                else{
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(true);
+                    DrawerTableController.getInstance().updatePushMode(true);
+                } else {
                     toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
-                    switch(v.getId()) {
-                        case R.id.isPushAlarm : PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
-                    }
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
+                    DrawerTableController.getInstance().updatePushMode(false);
                 }
-
             }
         });
-
+    }
+    /**
+     * 푸쉬알람의 ToggleButton의 이벤트를 등록하기 위한 메소드이다.
+     * @param toggleButton 푸쉬알람 객체.
+     */
+    private void registerTogggleButtonByPushalarm(final ToggleButton toggleButton) {
+        //토글버튼이 2개인데 공통부분을 메소드로 분리했음.
+        initToggleButton(toggleButton);
+        //DB에 접근해서 pushMode가 true인지 false인지 체크한다.
+        boolean isPushMode = DrawerTableController.getInstance().searchPushMode();
+        if(isPushMode) {
+            toggleButton.setSelected(true);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+        } else {
+            toggleButton.setSelected(false);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+        }
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toggleButton.isChecked()) {
+                    toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(true);
+                    DrawerTableController.getInstance().updatePushMode(true);
+                } else {
+                    toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                        //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
+                    DrawerTableController.getInstance().updatePushMode(false);
+                }
+            }
+        });
+    }
+    //toggleButton.setText(null); toggleButton.setTextOn(null); toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
+    private void initToggleButton (final ToggleButton toggleButton) {
+        toggleButton.setText(null);
+        toggleButton.setTextOn(null);
+        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
     }
     /**
      * 드로워 부분의 친밀도를 DB에 접근해서 setting하는 메소드.
      */
     private void initFriendlyNo() {
-        //  TextView friendlyNo = (TextView) findViewById(R.id.friendlyNo);
-        // friendlyNo.setText(Html.fromHtml(74+"")); // Html코드가 나와야 한다면 여기로 추가하장..
+        //drawerTableController에 instance를 생성함.
+
+        //완료일정 count.
+        TextView completeScheduleNo = (TextView)findViewById(R.id.completeScheduleNo);
+        completeScheduleNo.setText(DrawerTableController.getInstance().searchByCompleteEvent() + "");
+        //Toast.makeText(getApplicationContext(),DrawerTableController.getInstance().setDataBaseHelper(getApplicationContext()).searchByCompleteEvent()+"",Toast.LENGTH_SHORT).show();
+        //반복일정 count.
+        //searchByRepeatEvent
+        TextView repeatScheduleNo = (TextView)findViewById(R.id.repeatScheduleNo);
+        repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent()+"");
+        //selectByFriendName
+        friend_edit = (TextView)findViewById(R.id.friend_edit);
+        friend_edit.setText(DrawerTableController.getInstance().searchByFriendName()+"");
     }
     /**
      * 가상친구 대화하는 부분을 DB에 접근해서 대화하는 창.
@@ -704,10 +764,21 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerClosed(View drawerView) {
             }
             public void onDrawerOpened(View drawerView) {
+
             }
             public void onDrawerSlide(View drawerView, float slideOffset) {
+
             }
+            /**
+             * state가 2일 때 Drawer가 Open되는것.
+             * @param newState
+             */
             public void onDrawerStateChanged(int newState) {
+                switch (newState) {
+                    case 2 :
+                        initFriendlyNo();
+                        break;
+                }
             }
         };
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);//1 drawerLayout을 받아온다.
@@ -723,7 +794,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.setDrawerListener(myDrawerListener); //6 DrawerListener를 등록해야한다.
         drawerView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
+
                 return true;
             }
         });
@@ -734,11 +805,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("friend_edit",friend_edit.getText().toString());
                 intent.setClass(getApplicationContext(), EditFriendNameActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,EDIT_FRIEND_NAME_ACTIVITY);
             }
         });
 
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        Bundle extraBundle;
+        //MainActivity에서 부여한 번호표를 비교
+        /*
+        * initForDrawer메소드의 friend_name_edit_btn 버튼을 클릭하여 가상 친구의 이름 변경 액티비티로 이동 후, 다시 원래 화면으로 돌아왔을 당시,
+        * 이름이 변경되었을 확률이 있으므로 변경된 이름을 set 해줘야 사용자가 볼 수 있다.
+        * */
+        if (requestCode == EDIT_FRIEND_NAME_ACTIVITY) {
+            Log.d("EDIT_FRIEND_NAME_LOG", "THIS CLOSE !!");//로그기록
+            //번호표를 부여한 Activity의 실행 여뷰, 켄슬, 오케이, 등등 실행에 관련된 행위 구분
+            if (resultCode == RESULT_OK) {//세컨드 액티비티에서 이 값을 반환하는 코드가 동작 됐을때
+                extraBundle = intent.getExtras();//번들로 반환됐으므로 번들을 불러오면 셋팅된 값이 있다.
+                String new_friend_edit_name = extraBundle.getString("new_friend_edit_name");//인자로 구분된 값을 불러오는 행위를 하고
+                friend_edit.setText(new_friend_edit_name); //변경된 이름을 setting!
+            }
+        }
+    }
 }

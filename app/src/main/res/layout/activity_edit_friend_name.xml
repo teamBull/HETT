@@ -59,8 +59,6 @@
         android:textSize="14sp"
         android:paddingLeft="12dp"
         android:textColorHint="#dadada"
-
-
         />
 
 </RelativeLayout>
