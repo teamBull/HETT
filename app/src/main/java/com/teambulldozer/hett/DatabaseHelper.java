@@ -30,15 +30,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // There are only two columns
 
-    static class eventColumns {
-        public static final String ID = "_id"; // CursorAdapter에서 id명은 반드시 _id. 수정하면 안된다.
-        public static final String MEMO = "MEMO";
-        public static final String IMPORTANCE = "IMPORTANCE";
-        public static final String COMPLETENESS = "COMPLETENESS";
-        public static final String DATE = "DATE";
-        public static final String REPEAT = "REPEAT";
-        public static final String ALARM = "ALARM";    }
-
     private static final String CREATE_EVENT_TABLE =
             "create table " + TABLE_NAME +
                     " (_id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE INTEGER, REPEAT INTEGER, ALARM INTEGER);";

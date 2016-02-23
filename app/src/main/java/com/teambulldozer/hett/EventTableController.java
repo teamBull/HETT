@@ -24,7 +24,7 @@ public class EventTableController {
         static final String REPEAT = "REPEAT";
         static final String ALARM = "ALARM";
     }
-    
+
     private EventTableController(Context context){
         myDb = DatabaseHelper.get(context);
     }
