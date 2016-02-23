@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    >
+    <ImageView
+        android:id="@+id/editFriendNamePrevPage"
+        android:layout_width="36dp"
+        android:layout_height="45.5dp"
+        android:paddingTop="9.5dp"
+        android:layout_marginBottom="9.5dp"
+        android:layout_marginRight="12dp"
+
+        android:src="@drawable/prev"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:text="이름"
+        android:textSize="15sp"
+        android:textColor="#525252"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/editFriendNamePrevPage"
+        />
+    <TextView
+        android:id="@+id/okayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:textSize="15sp"
+        android:text="확인"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:paddingRight="12dp"
+        android:paddingLeft="20dp"
+        android:textColor="#62668F"
+        />
+    <TextView
+        android:id="@+id/friend_name_description_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="친구 이름을 입력해 주세요."
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="28dp"
+        android:layout_below="@id/editFriendNamePrevPage"
+        android:layout_marginBottom="7dp"
+        />
+    <EditText
+        android:id="@+id/friendNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_below="@id/friend_name_description_view"
+        android:hint="친구 이름을 입력해 주세요."
+        android:textSize="14sp"
+        android:paddingLeft="12dp"
+        android:textColorHint="#dadada"
+
+
+        />
+
+</RelativeLayout>
