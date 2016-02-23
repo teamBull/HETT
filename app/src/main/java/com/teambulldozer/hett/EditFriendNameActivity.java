@@ -69,7 +69,7 @@ public class EditFriendNameActivity extends AppCompatActivity {
                     try {
                         // DrawerTableController의 인스턴스를 받아와서 이름을 set해주는 메소드이다.
                         DrawerTableController.getInstance(getApplicationContext()).updateByFriendName(friendNameEditText.getText().toString());
-                        Toast.makeText(getApplicationContext(), "가상친구 이름이 " + friendNameEditText.getText() + " 으로 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                        new HattToast(getApplicationContext()).showToast("앞으로 내 이름은 " + friendNameEditText.getText() + " 군!", Toast.LENGTH_SHORT);
                         Bundle bundle = new Bundle();
                         bundle.putString("new_friend_edit_name", friendNameEditText.getText().toString());
                         setResult(RESULT_OK, new Intent().putExtras(bundle));//이 코드를 줄인 것 ->Intent intent = new Intent();intent.putExtras(bundle);
