@@ -14,14 +14,14 @@ import java.util.ArrayList;
  */
 public class SettingBackgroundThemeActivity extends AppCompatActivity {
     private ListView settingBackgroundThemeListView;
-    private TextView okBtn;
+    private TextView settingBackgroundThemeOkBtn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settting_background_theme);
         initBackgroundTheme();
-        okBtn = (TextView)findViewById(R.id.okBtn);
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
+        settingBackgroundThemeOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"저장되었습니다",Toast.LENGTH_SHORT).show();
@@ -29,14 +29,16 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
         });
 
     }
-    private ArrayList<String> arrayList;
+
     private BackgroundThemeAdapter backgroundThemeAdapter;
     public void initBackgroundTheme() {
-        arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<String>();
         String []tempString = new String[]{"기본 테마","바다","나무나무","스트라이프","빗방울","눈송이"};
-        for(int i=0 ; i < tempString.length ; i++)
+        for(int i = 0 ; i < 6 ; i++) {
+
             arrayList.add(tempString[i]);
-        backgroundThemeAdapter = new BackgroundThemeAdapter(getApplicationContext() , arrayList ) ;
+        }
+        backgroundThemeAdapter = new BackgroundThemeAdapter(this.getApplicationContext() , arrayList ) ;
         settingBackgroundThemeListView = (ListView) findViewById( R.id.settingBackgroundThemeListView);
         settingBackgroundThemeListView.setAdapter(backgroundThemeAdapter);
     }

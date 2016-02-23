@@ -6,187 +6,187 @@
     android:layout_height="match_parent"
     android:layout_gravity="left"
     >
-<com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout
+    <com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout
 
-    android:id="@+id/myLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/hatt_background"
-    >
-
-
-    <RelativeLayout
-        android:id="@+id/rl1"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        >
-
-        <ImageView
-            android:id="@+id/friendBtn"
-            android:layout_marginLeft="12dp"
-            android:layout_width="41dp"
-            android:layout_height="41dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/menu"
-            android:background="@android:color/transparent"
-            android:layout_alignTop="@+id/editMenu"
-            />
-
-        <TextView
-            android:id="@+id/editMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="15dp"
-            android:padding="12dp"
-            android:textColor="@color/hatt_edit"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:text="편집"
-            />
-
-        <TextView
-            android:id="@+id/finishMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="15dp"
-            android:padding="12dp"
-            android:textColor="@color/hatt_edit"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:text="완료"
-            android:visibility="invisible"
-            />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/dateLayout"
-        android:layout_marginTop="55dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="24dp">
-
-        <TextView
-            android:id="@+id/dateBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/hatt_date"
-            android:textSize="22dp"
-            android:text="날짜정보"
-            android:layout_marginBottom="8dp"
-            />
-
-        <TextView
-            android:id="@+id/todayBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/hatt_date"
-            android:textSize="22dp"
-            android:text="오늘 할 일"
-            />
-
-
-    </LinearLayout>
-
-
-
-    <RelativeLayout
-        android:id="@+id/rl2"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:layout_alignParentBottom="true"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:background="@color/hatt_cyan"
-        android:orientation="horizontal"
-        >
-
-        <EditText
-            android:id="@+id/memoInput"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_centerVertical="true"
-            android:background="@color/hatt_edittextWindow"
-            android:hint="@string/addanewtask"
-            android:paddingLeft="24dp"
-            android:textSize="15dp"
-            android:textColor="@color/hatt_turquoise_opacity100"
-            android:focusableInTouchMode="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-             />
-
-        <TextView
-            android:id="@+id/addButton"
-            android:layout_width="51dp"
-            android:layout_height="41dp"
-            android:text="입력"
-
-            android:gravity="center"
-            android:textColor="@color/hatt_white"
-            android:textSize="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/memoInput"
-            android:layout_alignTop="@+id/memoInput"
-            android:visibility="invisible"
-            />
-
-        <ImageView
-            android:id="@+id/addLine"
-            android:src="@drawable/line"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="36dp"
-            android:visibility="invisible"
-            />
-
-    </RelativeLayout>
-
-
-    <ListView
-        android:id="@+id/lv1"
-        android:layout_marginTop="137dp"
-        android:layout_above="@id/rl2"
+        android:id="@+id/myLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-
-        android:smoothScrollbar="true"
-        android:scrollingCache="false"
-        android:animationCache="false"
-
-        android:divider="@android:color/transparent"
-        android:dividerHeight="2dp"
+        android:background="@color/hatt_background"
         >
 
-    </ListView>
 
-    <TextView
-        android:id="@+id/deleteAllButton"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:text="전체 삭제 하기"
-        android:textSize="16dp"
-        android:textColor="@color/hatt_white"
-        android:background="@color/hatt_cyan"
-        android:gravity="center_horizontal|center_vertical"
-        android:layout_alignParentBottom="true"
-        android:visibility="invisible"
-        />
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            >
 
-</com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout>
+            <ImageView
+                android:id="@+id/friendBtn"
+                android:layout_marginLeft="12dp"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/menu"
+                android:background="@android:color/transparent"
+                android:layout_alignTop="@+id/editMenu"
+                />
+
+            <TextView
+                android:id="@+id/editMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="15dp"
+                android:padding="12dp"
+                android:textColor="@color/hatt_edit"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:text="편집"
+                />
+
+            <TextView
+                android:id="@+id/finishMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="15dp"
+                android:padding="12dp"
+                android:textColor="@color/hatt_edit"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:text="완료"
+                android:visibility="invisible"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/dateLayout"
+            android:layout_marginTop="55dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="24dp">
+
+            <TextView
+                android:id="@+id/dateBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hatt_date"
+                android:textSize="22dp"
+                android:text="날짜정보"
+                android:layout_marginBottom="8dp"
+                />
+
+            <TextView
+                android:id="@+id/todayBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hatt_date"
+                android:textSize="22dp"
+                android:text="오늘 할 일"
+                />
+
+
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rl2"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@color/hatt_cyan"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:id="@+id/memoInput"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_centerVertical="true"
+                android:background="@color/hatt_edittextWindow"
+                android:hint="@string/addanewtask"
+                android:paddingLeft="24dp"
+                android:textSize="15dp"
+                android:textColor="@color/hatt_turquoise_opacity100"
+                android:focusableInTouchMode="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                />
+
+            <TextView
+                android:id="@+id/addButton"
+                android:layout_width="51dp"
+                android:layout_height="41dp"
+                android:text="입력"
+
+                android:gravity="center"
+                android:textColor="@color/hatt_white"
+                android:textSize="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/memoInput"
+                android:layout_alignTop="@+id/memoInput"
+                android:visibility="invisible"
+                />
+
+            <ImageView
+                android:id="@+id/addLine"
+                android:src="@drawable/line"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="36dp"
+                android:visibility="invisible"
+                />
+
+        </RelativeLayout>
+
+
+        <ListView
+            android:id="@+id/lv1"
+            android:layout_marginTop="137dp"
+            android:layout_above="@id/rl2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+
+            android:smoothScrollbar="true"
+            android:scrollingCache="false"
+            android:animationCache="false"
+
+            android:divider="@android:color/transparent"
+            android:dividerHeight="2dp"
+            >
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/deleteAllButton"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:text="전체 삭제 하기"
+            android:textSize="16dp"
+            android:textColor="@color/hatt_white"
+            android:background="@color/hatt_cyan"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_alignParentBottom="true"
+            android:visibility="invisible"
+            />
+
+    </com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout>
     <RelativeLayout
         android:id="@+id/navigation_drawer"
         android:layout_width="match_parent"
@@ -194,7 +194,7 @@
         android:background="#FFFFFF"
         android:layout_gravity="left">
 
-        <TextClock
+        <TextView
             android:id="@+id/currentTimer"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -394,7 +394,7 @@
             android:layout_below="@id/noBellMode"
             />
         <ToggleButton
-            android:id="@+id/shakeBellToggleButton"
+            android:id="@+id/isBellMode"
             android:layout_width="39dp"
             android:layout_height="39dp"
             android:layout_alignParentRight="true"
@@ -422,11 +422,11 @@
             android:layout_below="@id/pushAlarm"
             />
         <ToggleButton
-            android:id="@+id/messageModeToggleButton"
+            android:id="@+id/isPushAlarm"
             android:layout_width="39dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/shakeBellToggleButton"
+            android:layout_below="@+id/isBellMode"
             android:layout_marginRight="12dp"
             android:layout_marginTop="4dp"
             />

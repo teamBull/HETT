@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#B1B2C1"
+    android:background="#F0F0F0"
     >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,17 +24,22 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="배경(글씨체 변경필요)"
+            android:text="배경"
             android:textSize="15sp"
-            android:layout_toRightOf="@+id/prevBtn"/>
+            android:layout_toRightOf="@+id/prevBtn"
+            android:textColor="#525252"
+            />
         <TextView
-            android:id="@+id/okBtn"
+            android:id="@+id/settingBackgroundThemeOkBtn"
             android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="30dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
+            android:gravity="center_vertical"
             android:textSize="15sp"
             android:layout_alignParentRight="true"
+            android:textColor="#62668F"
             android:text="확인"
             />
     </RelativeLayout>
@@ -43,7 +48,13 @@
         android:id="@+id/settingBackgroundThemeListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EDEDED">
+        android:dividerHeight="2dp"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#FFFFFF"
+        >
     </ListView>
 
 

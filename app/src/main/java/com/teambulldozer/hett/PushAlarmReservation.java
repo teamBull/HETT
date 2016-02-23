@@ -14,6 +14,10 @@ import java.util.Map;
  */
 public class PushAlarmReservation {
     /**
+     * 푸쉬 알람 on off에 따라 알람을 추가 하는지 마는지 체크하는 메소드.
+     */
+    private boolean isPushAlarm = false;
+    /**
      * 지금 해쉬맵의 개수.
      */
     public static int hashMapCurrentSize=0;
@@ -40,7 +44,8 @@ public class PushAlarmReservation {
      * PushAlarmReservation 객체를 얻어올 수 있는 메소드.
      * @return PushAlarmReservation의 인스턴스
      */
-    public static PushAlarmReservation getInstance() {
+    public static PushAlarmReservation getInstance()
+    {
         return pushAlarmReservation;
     }
     /**
@@ -60,8 +65,7 @@ public class PushAlarmReservation {
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
     public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmBody) {
-        registerAlarm(context, hour, min, second, PUSH_ALARM_TITLE_HATT, pushAlarmBody);
-        return true;
+        return registerAlarm(context, hour, min, second, PUSH_ALARM_TITLE_HATT, pushAlarmBody);
     }
     /**
      * 알람을 등록하는 메소드. 푸쉬 알람의 제목이 앱 이름으로 등록되어 있다.
@@ -80,8 +84,11 @@ public class PushAlarmReservation {
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
     public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody) {
-        hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
-        return true;
+        if(isPushAlarm){
+            hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
+            return true;
+        }
+        return false;
     }
     /**
      * 저장할 해쉬맵의 크기.
@@ -146,5 +153,8 @@ public class PushAlarmReservation {
             //알람 예약
             am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
         }
+    }
+    public void changePushAlarmMode(boolean isBoolean){
+        this.isPushAlarm=isBoolean;
     }
 }

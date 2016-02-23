@@ -30,8 +30,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /*
 * (2016.2.18. 01:00 )
@@ -596,15 +599,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * NavigationDrawer의 알람 토글 버튼.
      */
-    private ToggleButton shakeBellToggleButton;
+    private ToggleButton isBellMode;
     /**
      * 메세지 모드 토글버튼.
      */
-    private ToggleButton messageModeToggleButton;
+    private ToggleButton isPushAlarm;
     /**
      * 배경테마 글씨를 저장하는 텍스트뷰.
      */
     private TextView setBackgroundTheme;
+    /**
+     * 배경화면 테마 선택하는 페이지로 이동하는 이미지뷰 버튼.
+     */
+    private ImageView backgroundThemeRightButton;
     /**/
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
@@ -619,15 +626,23 @@ public class MainActivity extends AppCompatActivity {
      * NavigationDrawer의 menu를 초기화 하는 메소드.
      */
     private void initDrawerMenu() {
-        shakeBellToggleButton = (ToggleButton) findViewById(R.id.shakeBellToggleButton); enterToggleButton( shakeBellToggleButton ); // 토글버튼 객체 받아오고 이벤트 등록.
-        messageModeToggleButton = (ToggleButton) findViewById(R.id.messageModeToggleButton); enterToggleButton( messageModeToggleButton ); // 토글 버튼 객체 받아오고 이벤트 등록.
+        isBellMode = (ToggleButton) findViewById(R.id.isBellMode); enterToggleButton(isBellMode); // 토글버튼 객체 받아오고 이벤트 등록.
+        isPushAlarm = (ToggleButton) findViewById(R.id.isPushAlarm); enterToggleButton(isPushAlarm); // 토글 버튼 객체 받아오고 이벤트 등록.
         setBackgroundTheme = (TextView)findViewById(R.id.setBackgroundTheme);
         setBackgroundTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(getApplicationContext(),SettingBackgroundThemeActivity.class);
+                intent.setClass(getApplicationContext(), SettingBackgroundThemeActivity.class);
                 startActivityForResult(intent, 0);
+            }
+        });
+        backgroundThemeRightButton = (ImageView)findViewById(R.id.backgroundThemeRightButton); // 드로워의 배경 테마 변경 버튼이다(버튼이지만 이미지뷰로 구현했음)
+        backgroundThemeRightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),SettingBackgroundThemeActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -643,10 +658,19 @@ public class MainActivity extends AppCompatActivity {
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (toggleButton.isChecked())
+                if (toggleButton.isChecked()) {
                     toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
-                else
+                    switch(v.getId()) {
+                        case R.id.isPushAlarm : PushAlarmReservation.getInstance().changePushAlarmMode(true); break;
+                    }
+                }
+                else{
                     toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                    switch(v.getId()) {
+                        case R.id.isPushAlarm : PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
+                    }
+                }
+
             }
         });
 
@@ -704,13 +728,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //드로워의 시간 초기화
-        ((TextClock)findViewById(R.id.currentTimer)).setFormat12Hour(" MM월 dd일 (E) a HH:mm"); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
+        ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
         ImageView friend_name_edit_btn = (ImageView) findViewById(R.id.friend_name_edit_btn);
         friend_name_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext() ,"friend_name_edit_btn.setOnClickListener",Toast.LENGTH_SHORT).show();
-                PushAlarmReservation.getInstance().registerAlarm(getApplicationContext(),15,24,0,"알람아","울려랏!");
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), EditFriendNameActivity.class);
+                startActivity(intent);
             }
         });
 

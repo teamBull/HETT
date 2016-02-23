@@ -1,12 +1,14 @@
 package com.teambulldozer.hett;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,10 +28,10 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     }
     @Override
     public int getCount() {
-        return 0;
+        return this.arrayList.size();
     }
-    public View getItem(int position) {
-        return null;
+    public String getItem(int position) {
+        return this.arrayList.get(position);
     }
     @Override
     public long getItemId(int position){
@@ -38,10 +40,15 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     @Override
     public View getView(int position,View covertView,ViewGroup parent) {
         View itemLayout = layoutInflater.inflate(R.layout.list_setting_background_theme,null);
-        TextView friend_ask = (TextView)itemLayout.findViewById(R.id.backgroundThemeName);
-        friend_ask.setText(arrayList.get(position).toString());
+        TextView backgroundThemeName = (TextView)itemLayout.findViewById(R.id.backgroundThemeName);
+        backgroundThemeName.setText(arrayList.get(position).toString());
         ImageView backgroundThemeOpenStatus = (ImageView)itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
-        //backgroundThemeOpenStatus.setImageDrawable(layoutInflater.getContext().getResources().getDrawable(R.drawable.lock));
+        backgroundThemeOpenStatus.setImageResource(R.drawable.select);
+        if(arrayList.get(position).toString().equals("나무나무")) {
+            ImageView imageView = (ImageView)itemLayout.findViewById(R.id.selectedBackgroundTheme);
+            imageView.setImageResource(R.drawable.bg_pattern_tree_01);
+            imageView.setVisibility(View.VISIBLE);
+        }
         return itemLayout;
     }
 }
