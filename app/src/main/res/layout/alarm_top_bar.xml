@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:paddingRight="12dp"
+    android:background="#ffffff">
+
+    <Button
+        android:id="@+id/btn_alarm_prev"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/prev" />
+
+    <EditText
+        android:id="@+id/alarm_todo_title"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@null"
+        android:text="임시 텍스트"
+        android:textColor="#585858"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="right|center_vertical">
+
+        <Button
+            android:id="@+id/btn_turned_off_star"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/star_off" />
+
+        <Button
+            android:id="@+id/btn_turned_on_star"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/star_on"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</LinearLayout>

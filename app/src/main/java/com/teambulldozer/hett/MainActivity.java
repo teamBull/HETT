@@ -9,7 +9,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +30,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
+import com.mobeta.android.dslv.DragSortController;
+import com.mobeta.android.dslv.DragSortListView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,9 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "HETT";
 
+    // variables regarding back button
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+    private long mBackPressed;
+
     EventTableController myEventController;
-    MySimpleCursorAdapter mySimpleCursorAdapter;
-    ListView lv1;
+    MyDragSortAdapter myDragSortAdapter;
+    DragSortListView lv1;
+    DragSortController dragSortController;
     EditText memoInput;
     TextView addButton;
     TextView dateBar;
@@ -79,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout dateLayout;
     SoftKeyboardLsnedRelativeLayout myLayout;
 
+
     //편집 버튼을 눌렀을 때 보이는 위젯들
     TextView finishMenu;
     ImageView deleteButton;
@@ -88,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     // 폰트
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
+
 
 
     @Override
@@ -107,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
 
         setContentView(R.layout.activity_main);
+        //
+        //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
         /* Call the database constructor */
         myEventController = EventTableController.get(this); //
@@ -115,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         dateBar = (TextView) findViewById(R.id.dateBar);
         todayBar = (TextView) findViewById(R.id.todayBar);
         editMenu = (TextView) findViewById(R.id.editMenu);
-        lv1 = (ListView) findViewById(R.id.lv1);
+        lv1 = (DragSortListView) findViewById(R.id.lv1);
         memoInput = (EditText) findViewById(R.id.memoInput);
         addButton = (TextView) findViewById(R.id.addButton);
         addLine = (ImageView) findViewById(R.id.addLine);
@@ -136,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
+        dragSortSetting();
 
         /* These are the main functions of the main page. */
         setFont(); // 폰트 설정
@@ -151,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         ifClickedDeleteAllRows(); // 모두 지우기 버튼이 눌렀을 때, 일정 모두 지우기.
         populateListView(); // 한 번만 호출되면 된다.
         // 리스트뷰에 아이템 올리기
-        // 그 외에 클릭하면 삭제하는 기능은 MySimpleCursorAdapter에 구현.
+        // 그 외에 클릭하면 삭제하는 기능은 MyDragSortAdapter에 구현.
 
 
         /* Additional details */
@@ -162,9 +174,61 @@ public class MainActivity extends AppCompatActivity {
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
+    }
 
+    @Override
+    public void onBackPressed()
+    {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            return;
+        }
+        else { Toast.makeText(getBaseContext(), "뒤로 버튼을 한번 더 누르면 앱을 종료합니다.", Toast.LENGTH_SHORT).show(); }
+
+        mBackPressed = System.currentTimeMillis();
+    }
+
+    public void dragSortSetting(){
+
+        dragSortController = new DragSortController(lv1);
+        dragSortController.setDragHandleId(R.id.orderButton);
+        dragSortController.setSortEnabled(true);
+        dragSortController.setDragInitMode(0);
+
+        lv1.setFloatViewManager(dragSortController);
+        lv1.setOnTouchListener(dragSortController);
+        lv1.setDragEnabled(true);
 
     }
+
+    private DragSortListView.DropListener onDrop = new DragSortListView.DropListener(){
+
+        @Override
+            public void drop(int from, int to){
+
+            from += 1;
+            to += 1; // 위치 인식이 다르기 때문에.
+
+            if(myEventController.isCompleted(to) || myEventController.isCompleted(from))
+                return;
+
+            ContentValues temp = myEventController.getAllContent(from);
+            // 위에서 밑으로 내릴 때는 제대로 동작함. 밑에서 위로 올릴 때도 잘 고려해야함.
+            if(from < to){
+                myEventController.shiftAllDataUp(from, to); // from ~ to까지 위로 한 칸씩 업데이트
+                myEventController.shiftContentValuesTo(temp, to);
+
+            } else if (from > to){
+                myEventController.shiftAllDataDown(from, to); // from ~ to 까지 밑으로 한 칸씩 업데이트
+                myEventController.shiftContentValuesTo(temp, to);
+            }
+
+            requery();
+            }
+
+    };
+
 
     public void toastProperMessage(String hatt_id, int numOfTODOs){
         // 완료된 일정말고, 일반 일정만 5개 이상 될 때, toast를 뜨게 하기.
@@ -194,7 +258,8 @@ public class MainActivity extends AppCompatActivity {
                 editMenu.setVisibility(View.INVISIBLE);
                 finishMenu.setVisibility(View.VISIBLE);
 
-                MySimpleCursorAdapter.isOnEditMenu = false;
+
+                MyDragSortAdapter.isOnEditMenu = false;
                 requery();
 
                 rl2.setVisibility(View.INVISIBLE);
@@ -213,7 +278,8 @@ public class MainActivity extends AppCompatActivity {
                 finishMenu.setVisibility(View.INVISIBLE);
                 editMenu.setVisibility(View.VISIBLE);
 
-                MySimpleCursorAdapter.isOnEditMenu = true;
+
+                MyDragSortAdapter.isOnEditMenu = true;
                 requery();
 
                 rl2.setVisibility(View.VISIBLE);
@@ -286,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSoftKeyboardShow() {
                 Log.d("SoftKeyboard", "Soft keyboard shown");
-                MySimpleCursorAdapter.isUserOnTyping = true;
+                MyDragSortAdapter.isUserOnTyping = true;
                 rl1.setVisibility(View.INVISIBLE);
 
                 ViewGroup.MarginLayoutParams LL = (ViewGroup.MarginLayoutParams) dateLayout.getLayoutParams();
@@ -300,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSoftKeyboardHide() {
                 Log.d("SoftKeyboard", "Soft keyboard hidden");
-                MySimpleCursorAdapter.isUserOnTyping = false;
+                MyDragSortAdapter.isUserOnTyping = false;
 
                 rl1.setVisibility(View.VISIBLE);
 
@@ -369,9 +435,8 @@ public class MainActivity extends AppCompatActivity {
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor cursor = (Cursor) parent.getAdapter().getItem(position);
-                cursor.moveToPosition(position);
-                int rowId = (cursor.getPosition() + 1); // sqlite와 sync를 맞춰줘야함.
+
+                int rowId = position + 1;
 
                 if (myEventController.isCompleted(rowId)) {
                     //클릭된 일정이 끝난 일정일 경우.
@@ -410,20 +475,6 @@ public class MainActivity extends AppCompatActivity {
         return deletedRows != 0;
     }
 
-    /*
-        public void shiftAndInsert(int rowId){
-            String tempMemo = myEventController.getMemoAt(rowId);
-            // tempMemo에 일정에 대한 다른 모든 정보가 들어가야 한다. 지금은 텍스트만 되고 있음.
-            // 해당 포지션에 있는 모든 정보를 다 가져와야함.
-
-                int fromPos = myEventController.getBorderlinePos();
-                int toPos = rowId-1;
-                myEventController.shiftAllData(fromPos, toPos);
-                myEventController.moveDataTo(fromPos, tempMemo);
-                myEventController.updateCompleteness(Integer.toString(fromPos), 0);
-
-        }
-    */
     public void shiftAndInsert(int rowId){
         ContentValues tempData = myEventController.getAllContent(rowId);
         // tempMemo에 일정에 대한 다른 모든 정보가 들어가야 한다. 지금은 텍스트만 되고 있음.
@@ -447,15 +498,7 @@ public class MainActivity extends AppCompatActivity {
         myEventController.updateCompleteness(Integer.toString((int) myEventController.numOfEntries()), 1);
     }
 
-    /*
-        public void deleteAndInsert(int rowId){
-    // 수정 필요
-            String tempMemo = myEventController.getMemoAt(rowId);
-            deleteRow(Integer.toString(rowId));
-            myEventController.insertData(tempMemo, true);
 
-        }
-    */
     public void addOnUserInput() {
         // 이 부분 고쳐야 함;;
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -489,7 +532,7 @@ public class MainActivity extends AppCompatActivity {
                         // 이부분에서 메모내용만 업데이트 하면 됨. 새로 입력한 데이터는 메모값만 갖고 있기 때문에.
                         // 근데 밀기 이전에 데이타가 남아있을 수 있다.
                         // 그래서 새로 생긴 걸로 다 업데이트를 해줘야돼.
-                        //fromPos부터 밀기 시작하므로;
+                        // fromPos부터 밀기 시작하므로;
                         //myEventController.moveDataToTop(memo);
                     } else
                         myEventController.insertData(memo, false);
@@ -502,6 +545,7 @@ public class MainActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 memoInput.setText("");
 
+
                 requery();
                 toastProperMessage("hatti", (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
@@ -512,10 +556,19 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = myEventController.getAllData();
         String[] fromFieldNames = new String[] { EventTableController.Columns.MEMO };
         int[] toViewIDS = new int[] { R.id.memoContent};
-        mySimpleCursorAdapter =
-                new MySimpleCursorAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, 0, myEventController);
-        lv1.setAdapter(mySimpleCursorAdapter);
 
+        myDragSortAdapter =
+                new MyDragSortAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, myEventController);
+        lv1.setAdapter(myDragSortAdapter);
+        lv1.setDropListener(onDrop);
+/*
+        myDragSortAdapter =
+                new MyDragSortAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, myEventController);
+        AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(myDragSortAdapter);
+        animationAdapter.setAbsListView(lv1);
+        lv1.setAdapter(animationAdapter);
+        lv1.setDropListener(onDrop);
+*/
         /* 어댑터를 세팅해주는 것은 한 번만 있으면 될 것 같다.
         즉 populateListView() 메소드는 onCreate에서 한 번만 호출되면 됨.
          getBaseContext --> this : Since there was a cast problem when using getBaseContext, it was
@@ -541,7 +594,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         Cursor cursor = myEventController.getAllData();
-        mySimpleCursorAdapter.changeCursor(cursor);
+        myDragSortAdapter.changeCursor(cursor);
         super.onResume();
         Log.d(TAG, "onResume(Bundle) called");
     }
@@ -554,14 +607,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onDestroy(){
         super.onDestroy();
-        ((SimpleCursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
+        //((CursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
+        //((SimpleCursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
         myEventController.myDb.close();
         Log.d(TAG, "onDestroy() called");
     }
 
     public void requery(){
         Cursor values = myEventController.getAllData();
-        mySimpleCursorAdapter.changeCursor(values);
+        myDragSortAdapter.changeCursor(values);
     }
     /*ㄱㅎ*/
     /**

@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class EventTableController {
 
     private static EventTableController mEventTableController;
+    private Context mContext;
     DatabaseHelper myDb;
     static final String TABLE_NAME = "event_table";
 
@@ -27,6 +28,7 @@ public class EventTableController {
 
     private EventTableController(Context context){
         myDb = DatabaseHelper.get(context);
+        mContext = context;
     }
 
     public static EventTableController get(Context context){
@@ -41,6 +43,7 @@ public class EventTableController {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.MEMO, memo);
         contentValues.put(Columns.IMPORTANCE, 0); // 입력 단계에서 중요 설정 할 수 없으므로, default 값은 false.
+        contentValues.put(Columns.DATE, ((MainActivity)mContext).getDate()); // 인풋 시에 날짜가 DB에 기입된다.
 
         if(completeness)
             contentValues.put(Columns.COMPLETENESS, 1); // 입력 단계에서 완수여부 마찬가지로 설정할 수 없음.
@@ -182,7 +185,7 @@ public class EventTableController {
         //values.put(Columns.MEMO, memo);
         values.put(Columns.IMPORTANCE, importance);
         values.put(Columns.COMPLETENESS, completeness);
-        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
+        db.update(TABLE_NAME, values, " _id = ?", new String[]{id});
 
         return true;
     }
@@ -203,18 +206,6 @@ public class EventTableController {
         db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
     }
 
-    /*
-    public void moveDataTo(int position, String memo){
-        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues values = new ContentValues();
-        values.put(Columns.MEMO, memo);
-        values.put(Columns.IMPORTANCE, 0);
-        values.put(Columns.COMPLETENESS, 0);
-
-        String id = Integer.toString(position);
-        db.update(TABLE_NAME, values, " _id = ?", new String[]{ id });
-    }
-    */
 
     public void moveDataTo(int position, ContentValues values){
         SQLiteDatabase db= myDb.getWritableDatabase();
@@ -228,7 +219,6 @@ public class EventTableController {
         Cursor cursor = db_read.query(TABLE_NAME, columns, null, null, null, null, null);
         cursor.moveToFirst();
 
-        SQLiteDatabase db_write = myDb.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         try {
@@ -258,6 +248,20 @@ public class EventTableController {
 
         for(; toPos >= fromPos; toPos--){
             shiftDataFromTo(toPos, toPos + 1);
+        }
+    }
+
+    public void shiftAllDataUp(int fromPos, int toPos){ // from의 자리에 새로 들어갈 메모가 들어가야 한다.
+
+        for(; toPos > fromPos; fromPos++){
+            shiftDataFromTo(fromPos+1, fromPos);
+        }
+    }
+
+    public void shiftAllDataDown(int fromPos, int toPos){ // from의 자리에 새로 들어갈 메모가 들어가야 한다.
+
+        for(; toPos < fromPos; fromPos--){
+            shiftDataFromTo(fromPos-1, fromPos);
         }
     }
 
@@ -295,6 +299,15 @@ public class EventTableController {
         }
 
     }
+
+    public void shiftContentValuesTo(ContentValues values, int toPos){
+
+        SQLiteDatabase db_write = myDb.getWritableDatabase();
+        String id = Integer.toString(toPos); // 이 게 다른 값으로 바뀌면 됨.
+        db_write.update(TABLE_NAME, values, " _id = ?", new String[]{ id });
+
+    }
+
 
     public Cursor getAllData(){
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.

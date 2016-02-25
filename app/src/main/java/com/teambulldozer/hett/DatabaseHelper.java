@@ -28,7 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "event_table";
 
 
-    // There are only two columns
 
     private static final String CREATE_EVENT_TABLE =
             "create table " + TABLE_NAME +

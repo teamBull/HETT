@@ -11,6 +11,10 @@
         >
 
         <activity
+            android:name=".AlarmMain">
+        </activity>
+
+        <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
