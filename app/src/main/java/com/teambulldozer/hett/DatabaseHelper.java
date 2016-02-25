@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_EVENT_TABLE);
         db.execSQL(CREATE_FRIEND_TABLE);
+        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0);");
     }
 
     @Override

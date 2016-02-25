@@ -84,14 +84,6 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
         } else {
             viewHolder = (ViewHolder) v.getTag();
         }
-//        v.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                // 여기서 이벤트를 막습니다.
-//
-//                return true;
-//            }
-//        });
 
         /* 그룹을 펼칠때와 닫을때 아이콘을 변경해 준다.
         그룹을 펼칠 때 childview와 groupview의 경계선을 보여준다.
@@ -104,9 +96,20 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
                 viewHolder.tv_groupName.setTextColor(Color.parseColor("#1bbbbf"));
         }
         else{
-            if (groupPosition == 1 && friendData.getTotalPoint() < 20){
+            if(groupPosition == 0 && friendData.getTotalPoint() >= 0){
+                viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
+                viewHolder.ivTalkStLock.setVisibility(View.INVISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
+                v.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return false;
+                    }
+                });
+            }
+            else if (groupPosition == 1 && friendData.getTotalPoint() < 20){
                 viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
                 v.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     // 여기서 이벤트를 막습니다.
@@ -116,6 +119,7 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
             }else if (groupPosition == 2 && friendData.getTotalPoint() < 40){
                 viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
                 v.setOnTouchListener(new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
                         // 여기서 이벤트를 막습니다.
@@ -123,11 +127,7 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
                     }
                 });
             }
-            else {
-                viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
-                viewHolder.ivTalkStLock.setVisibility(View.INVISIBLE);
-                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
-            }
+
         }
 
         viewHolder.tv_groupName.setText(getGroup(groupPosition));
