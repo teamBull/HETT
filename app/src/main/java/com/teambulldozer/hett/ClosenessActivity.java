@@ -36,8 +36,9 @@ public class ClosenessActivity extends AppCompatActivity {
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
-        DatabaseHelper dbHelper = new DatabaseHelper.get(this);
+        DatabaseHelper dbHelper = DatabaseHelper.get(this);
         FriendDataManager dataManager = new FriendDataManager(this);
+        EventTableController controller = EventTableController.get(this);
 
         btnPrevCloseness = (Button)findViewById(R.id.btnPrevCloseness);
         btnPrevCloseness.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +48,7 @@ public class ClosenessActivity extends AppCompatActivity {
             }
         });
 
-        todayPoint = (float)dbHelper.getCompletedDataSize()/dbHelper.numOfEntries();
+        todayPoint = (float)controller.getCompletedDataSize()/controller.numOfEntries();
 
         tvTodayPoint = (TextView)findViewById(R.id.tvTodayPoint);
         tvTodayPoint.setText(String.format("%.1f°", todayPoint));

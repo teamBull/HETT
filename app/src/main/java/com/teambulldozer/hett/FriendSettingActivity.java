@@ -21,7 +21,7 @@ public class FriendSettingActivity extends AppCompatActivity {
     TextView tvFsName;
     TextView tvFsTalk;
 
-    FriendDBHelper helper;
+    DatabaseHelper helper;
     FriendDto friendData;
     FriendDataManager friendDataManager;
 
@@ -39,7 +39,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
-        helper = new FriendDBHelper(this);
+        helper = DatabaseHelper.get(this);
         friendDataManager = new FriendDataManager(this);
 
         friendData = friendDataManager.getFriend();

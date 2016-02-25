@@ -324,4 +324,27 @@ public class EventTableController {
         return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
+    public int getCompletedDataSize(){
+        Cursor cursor = getCompletenessData();
+        cursor.moveToFirst();
+
+        int size = 0;
+
+        try {
+            do {
+                if(cursor.getString(1).equals("1"))
+                    size++;// "1" means it is completed.
+                else
+                    continue;
+            } while (cursor.moveToNext());
+        } finally {
+
+            if(cursor != null)
+                cursor.close();
+
+        }
+
+        return size;
+
+    }
 }
