@@ -634,14 +634,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private ImageView friendBtn;
     /**
-     * NavigationDrawer의 가상친구 대화하는 부분.
-     */
-    private NavigationDrawerFriendAskAdapter navigationDrawerFriendAsk;
-    /**
-     * NavigationDrawer의 친구가 대화하는 List를 저장할 listView.
-     */
-    private ListView friendAskListView;
-    /**
      * NavigationDrawer의 알람 토글 버튼.
      */
     private ToggleButton isBellMode;
@@ -685,9 +677,6 @@ public class MainActivity extends AppCompatActivity {
      * NavigationDrawer의 menu를 초기화 하는 메소드.
      */
     private void initDrawerMenu() {
-        // 토글버튼 객체 받아오고 이벤트 등록.
-        isBellMode = (ToggleButton) findViewById(R.id.isBellMode);
-        registerToggleButtonByNobell(isBellMode);
         // 토글 버튼 객체 받아오고 이벤트 등록.
         isPushAlarm = (ToggleButton) findViewById(R.id.isPushAlarm);
         registerTogggleButtonByPushalarm(isPushAlarm);
@@ -713,30 +702,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 아직 기능 구현이 안 된 메소드이다. 무음모드 토글 버튼의 기능이 정말 무엇일까 생각하면서 메소드를 작성했..
-     * @param toggleButton
-     */
-    private void registerToggleButtonByNobell(final ToggleButton toggleButton) {
-        initToggleButton(toggleButton);
-        //토글버튼 그머시기냐...그거 얘는 아직 기능이 구현이 안된 애라 좀 더 손바ㅗ야됨..
-        toggleButton.setSelected(false);
-        toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
-        toggleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (toggleButton.isChecked()) {
-                    toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
-                    //PushAlarmReservation.getInstance().changePushAlarmMode(true);
-                    DrawerTableController.getInstance().updatePushMode(true);
-                } else {
-                    toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
-                    //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
-                    DrawerTableController.getInstance().updatePushMode(false);
-                }
-            }
-        });
-    }
-    /**
      * 푸쉬알람의 ToggleButton의 이벤트를 등록하기 위한 메소드이다.
      * @param toggleButton 푸쉬알람 객체.
      */
@@ -761,7 +726,7 @@ public class MainActivity extends AppCompatActivity {
                     DrawerTableController.getInstance().updatePushMode(true);
                 } else {
                     toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
-                        //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
                     DrawerTableController.getInstance().updatePushMode(false);
                 }
             }
@@ -795,14 +760,7 @@ public class MainActivity extends AppCompatActivity {
      * 가상친구 대화하는 부분을 DB에 접근해서 대화하는 창.
      */
     private void initFriendAsk() {
-        ArrayList arrayList = new ArrayList<String>(); // 친구가 대화하는 내용을 초기화 할 arrayList
-        //test data 추후에 DB코드 나와야 함.
-        for(int i=1;i<9;i++) {
-            arrayList.add(i+"번째 데이터");
-        }
-        navigationDrawerFriendAsk = new NavigationDrawerFriendAskAdapter(this.getApplicationContext(),arrayList); // NavigationDrawer의 친구와 이야기 하는 부분의 컴포넌트. BaseAdapter를 상속받아 ListView를 구현할 수 있게끔.
-        friendAskListView = (ListView)findViewById(R.id.friendAskListView);
-        friendAskListView.setAdapter(navigationDrawerFriendAsk);
+
     }
     /**
      * NavigationDrawer 초기화 부분.
