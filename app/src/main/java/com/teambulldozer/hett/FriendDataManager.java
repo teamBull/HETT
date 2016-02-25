@@ -28,6 +28,15 @@ public class FriendDataManager {
         this.friend = friend;
     }
 
+    public String getFriendName(){
+        db = dbHelper.getReadableDatabase();
+
+        cursor = db.rawQuery("SELECT * FROM friend_table", null);
+        cursor.moveToNext();
+
+        return cursor.getString(1);
+    }
+    
     public FriendDto getFriend(){
         db = dbHelper.getReadableDatabase();
 

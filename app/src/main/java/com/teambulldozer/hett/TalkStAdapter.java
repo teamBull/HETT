@@ -69,8 +69,6 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
 
         View v = convertView;
 
-
-
         if (v == null) {
             viewHolder = new ViewHolder();
             v = inflater.inflate(R.layout.list_talk_style_group, parent, false);
