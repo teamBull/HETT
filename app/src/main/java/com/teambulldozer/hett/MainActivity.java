@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +18,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +35,6 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     /* 디버그를 위한 개발자 모드 설정. true로 설정되어 있을 시, 오류 발생시 강제로 앱을 종료한다. */
 
     private static final String TAG = "HETT";
+
+    Handler mHandler;
 
     // variables regarding back button
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
@@ -146,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
           * */
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
+
+        mHandler= new Handler();
 
         dragSortSetting();
 
@@ -434,9 +439,9 @@ public class MainActivity extends AppCompatActivity {
     public void completeIfItemClicked(){
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
-                int rowId = position + 1;
+                final int rowId = position + 1;
 
                 if (myEventController.isCompleted(rowId)) {
                     //클릭된 일정이 끝난 일정일 경우.
@@ -447,8 +452,30 @@ public class MainActivity extends AppCompatActivity {
                         shiftAndInsert(rowId);
                     /* */
                 } else {
-                    deleteAndInsert(rowId);
+                /*
+                    view.animate().setDuration(300)
+                            .alpha(0)
+                            .withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    deleteAndInsert(rowId);
+                                    requery();
+                                    view.setAlpha(1);
+                                }
+                            });
+                            */
+
+                    slide_out_right(lv1, position);
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteAndInsert(rowId);
+                            requery();
+                        }
+                    }, 1000);
+
                 }
+
                 requery();
             }
         });
@@ -547,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 requery();
-                toastProperMessage("hatti", (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                toastProperMessage("", (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
@@ -570,6 +597,22 @@ public class MainActivity extends AppCompatActivity {
          replaced with this.
          */
     }
+    // 사라지는 애니메이션
+    public void fade(DragSortListView lv1, int rowId){
+        ImageView image = (ImageView) lv1.getChildAt(rowId).findViewById(R.id.finishLine1); // 이렇게 해야 정확히 차일드뷰의 뷰를 찾는다.
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
+        image.startAnimation(animation);
+        //return view;
+    }
+
+    // 줄 긋는 애니메이션
+    public void slide_out_right(DragSortListView lv1, int rowId){
+        ImageView image = (ImageView) lv1.getChildAt(rowId).findViewById(R.id.finishLine1);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_right);
+        image.startAnimation(animation);
+        //return view;
+    }
+
 
     /*
     * 밑의 lifecycle methods는 디버그를 위해 존재한다.
