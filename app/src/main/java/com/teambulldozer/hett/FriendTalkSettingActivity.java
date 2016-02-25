@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -55,7 +51,7 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         tvBtnTalkStOk = (TextView)findViewById(R.id.tvBtnTalkStOk);
         tvTalkStyle = (TextView)findViewById(R.id.tvTalkStyle);
 
-        friendDataManager = new FriendDataManager(this);
+        friendDataManager = FriendDataManager.get(this);
 
         mListView = (ExpandableListView) findViewById(R.id.exLvTalkStyle);
         talkSt = "기본 테마";

@@ -574,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 requery();
-                toastProperMessage("", (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                toastProperMessage(FriendDataManager.get(getApplicationContext()).getFriendName(), (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
@@ -855,9 +855,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("friend_edit",friend_edit.getText().toString());
+                intent.putExtra("friend_edit", friend_edit.getText().toString());
                 intent.setClass(getApplicationContext(), EditFriendNameActivity.class);
-                startActivityForResult(intent,EDIT_FRIEND_NAME_ACTIVITY);
+                startActivityForResult(intent, EDIT_FRIEND_NAME_ACTIVITY);
             }
         });
 

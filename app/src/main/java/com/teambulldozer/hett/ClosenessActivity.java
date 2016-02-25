@@ -2,7 +2,6 @@ package com.teambulldozer.hett;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +36,7 @@ public class ClosenessActivity extends AppCompatActivity {
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
         DatabaseHelper dbHelper = DatabaseHelper.get(this);
-        FriendDataManager dataManager = new FriendDataManager(this);
+        FriendDataManager dataManager = FriendDataManager.get(this);
         EventTableController controller = EventTableController.get(this);
 
         btnPrevCloseness = (Button)findViewById(R.id.btnPrevCloseness);

@@ -34,7 +34,7 @@ public class FriendNameSettingActivity extends AppCompatActivity {
         });
 
 
-        friendDataManager = new FriendDataManager(this);
+        friendDataManager = FriendDataManager.get(this);
 
 
 

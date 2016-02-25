@@ -4,30 +4,46 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 /**
  * Created by YUNSEON on 2016-02-16.
  */
 public class FriendDataManager {
-    Context context = null;
+
+    private static FriendDataManager mFriendDataManager;
+    private Context context = null;
     DatabaseHelper dbHelper;
     SQLiteDatabase db;
     FriendDto friend;
     Cursor cursor;
 
-    public FriendDataManager(Context context) {
+    private FriendDataManager(Context context) {
         this.context = context;
         dbHelper = DatabaseHelper.get(context);
         friend = new FriendDto();
+    }
+
+    public static FriendDataManager get(Context context){
+        if(mFriendDataManager == null){
+            mFriendDataManager = new FriendDataManager(context);
+        }
+
+        return mFriendDataManager;
     }
 
     public void setFriend(FriendDto friend){
         this.friend = friend;
     }
 
+    public String getFriendName(){
+        db = dbHelper.getReadableDatabase();
+
+        cursor = db.rawQuery("SELECT * FROM friend_table", null);
+        cursor.moveToNext();
+
+        return cursor.getString(1);
+    }
+    
     public FriendDto getFriend(){
         db = dbHelper.getReadableDatabase();
 

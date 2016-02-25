@@ -3,9 +3,7 @@ package com.teambulldozer.hett;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,7 +37,7 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
         this.childList = childList;
         NanumBarunGothic_R = Typeface.createFromAsset(c.getAssets(), "NanumBarunGothic_Regular.ttf");
         helper = DatabaseHelper.get(c);
-        friendDataManager = new FriendDataManager(c);
+        friendDataManager = FriendDataManager.get(c);
         friendData = friendDataManager.getFriend();
         dm = c.getResources().getDisplayMetrics();
     }
@@ -68,8 +65,6 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
     public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         View v = convertView;
-
-
 
         if (v == null) {
             viewHolder = new ViewHolder();

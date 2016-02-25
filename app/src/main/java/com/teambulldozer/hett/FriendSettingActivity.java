@@ -40,7 +40,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
         helper = DatabaseHelper.get(this);
-        friendDataManager = new FriendDataManager(this);
+        friendDataManager = FriendDataManager.get(this);
 
         friendData = friendDataManager.getFriend();
 
