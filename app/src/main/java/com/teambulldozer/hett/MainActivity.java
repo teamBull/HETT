@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
-
+        FriendDataManager manager = new FriendDataManager(this);
         setContentView(R.layout.activity_main);
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
@@ -869,6 +869,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
     }
     @Override
