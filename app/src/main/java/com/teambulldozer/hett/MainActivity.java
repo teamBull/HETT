@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
-
+        FriendDataManager manager = new FriendDataManager(this);
         setContentView(R.layout.activity_main);
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
@@ -856,7 +856,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("friend_edit",friend_edit.getText().toString());
                 intent.setClass(getApplicationContext(), EditFriendNameActivity.class);
-                startActivityForResult(intent,EDIT_FRIEND_NAME_ACTIVITY);
+                startActivityForResult(intent, EDIT_FRIEND_NAME_ACTIVITY);
             }
         });
 
@@ -868,6 +868,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
     }
     @Override
