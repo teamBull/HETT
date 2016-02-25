@@ -24,15 +24,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.text.SimpleDateFormat;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -559,16 +559,11 @@ public class MainActivity extends AppCompatActivity {
 
         myDragSortAdapter =
                 new MyDragSortAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, myEventController);
-        lv1.setAdapter(myDragSortAdapter);
-        lv1.setDropListener(onDrop);
-/*
-        myDragSortAdapter =
-                new MyDragSortAdapter(this, R.layout.list_item_memo, cursor, fromFieldNames, toViewIDS, myEventController);
         AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(myDragSortAdapter);
         animationAdapter.setAbsListView(lv1);
         lv1.setAdapter(animationAdapter);
         lv1.setDropListener(onDrop);
-*/
+
         /* 어댑터를 세팅해주는 것은 한 번만 있으면 될 것 같다.
         즉 populateListView() 메소드는 onCreate에서 한 번만 호출되면 됨.
          getBaseContext --> this : Since there was a cast problem when using getBaseContext, it was
