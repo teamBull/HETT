@@ -26,6 +26,10 @@
         <receiver android:name=".SelfPushReceiver"></receiver>
         <activity android:name=".EditFriendNameActivity"/>
         <activity android:name=".SettingBackgroundThemeActivity"/>
+        <activity android:name=".ClosenessActivity"/>
+        <activity android:name=".FriendNameSettingActivity"/>
+        <activity android:name=".FriendSettingActivity"/>
+        <activity android:name=".FriendTalkSettingActivity"/>
     </application>
 
 </manifest>

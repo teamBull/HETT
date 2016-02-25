@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#ededed">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+
+        <Button
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/btnPrevCloseness"
+            android:background="@drawable/prev"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="친밀도"
+            android:id="@+id/tvClCloseness"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="48dp"
+            android:textSize="15dp"
+            android:textColor="#525252" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:id="@+id/tvBtnClosenessOk"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="12dp"
+            android:textColor="#cc202b78"
+            android:padding="12dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="54.3dp"
+            android:background="#b1b2c1"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스케줄 등록 및 완료 내역을 바탕으로 친밀도가 산정됩니다. 일정 친밀도를 달성하면 새로운 말투와 배경 테마를 획득해 적용할 수 있습니다."
+            android:id="@+id/tvClDesc"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#b1b2c1"
+            android:textSize="9.5dp"
+            android:lineSpacingExtra="1.3dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="101.7dp"
+        android:background="#b1b2c1"></LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="117.2dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="123dp"
+            android:background="#1bbbbf"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="false"
+                android:layout_marginTop="90dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-9°"
+                    android:id="@+id/tvTodayPoint"
+                    android:textColor="#ffffff"
+                    android:textSize="12dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:alpha="204" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="오늘 우리 사이는"
+                    android:id="@+id/tvCl1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/tvTodayPoint"
+                    android:layout_toStartOf="@+id/tvTodayPoint"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:textSize="12dp"
+                    android:textColor="#ffffff"
+                    android:alpha="204" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="올라갔어요 :-)"
+                    android:id="@+id/tvCl2"
+                    android:layout_alignTop="@+id/tvCl1"
+                    android:layout_toRightOf="@+id/tvTodayPoint"
+                    android:layout_toEndOf="@+id/tvTodayPoint"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:textColor="#ffffff"
+                    android:alpha="204"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="12dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="52°"
+                android:id="@+id/tvTotalPoint"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:textSize="60dp"
+                android:textColor="#ffffff" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
