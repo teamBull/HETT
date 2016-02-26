@@ -16,6 +16,7 @@
         android:src="@drawable/prev"
         />
     <TextView
+        android:id="@+id/editFriendNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         android:text="이름"
@@ -23,6 +24,7 @@
         android:textColor="#525252"
         android:gravity="center_vertical"
         android:layout_toRightOf="@id/editFriendNamePrevPage"
+
         />
     <TextView
         android:id="@+id/okayBtn"
@@ -36,6 +38,11 @@
         android:paddingLeft="20dp"
         android:textColor="#62668F"
         />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#525252"
+        android:layout_below="@id/okayBtn"/>
     <TextView
         android:id="@+id/friend_name_description_view"
         android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by YUNSEON on 2016-02-16.
@@ -30,7 +31,7 @@ public class FriendSettingActivity extends AppCompatActivity {
     // 폰트
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
-
+    private final int EDIT_FRIEND_NAME_ACTIVITY = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         btnPrevFriennd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_OK,new Intent().putExtras(new Bundle()));
                 finish();
             }
         });
@@ -59,7 +61,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         tvFsName = (TextView)findViewById(R.id.tvFsName);
         tvFsTalk = (TextView)findViewById(R.id.tvFsTalk);
 
-        tvFriendName.setText(friendData.getFriendName().toString());
+        tvFriendName.setText(DrawerTableController.getInstance(getApplicationContext()).searchByFriendName());
         tvFriendTalkSt.setText(friendData.getFriendTalkSt().toString());
 
         setFont();
@@ -77,10 +79,10 @@ public class FriendSettingActivity extends AppCompatActivity {
     }
     public void onClick(View v){
         switch(v.getId()){
+            case R.id.tvFriendName:
             case R.id.layoutName:
-                intent = new Intent(FriendSettingActivity.this, FriendNameSettingActivity.class);
-                intent.putExtra("friendItem", friendData);
-                startActivityForResult(intent, 1);
+                intent = new Intent(FriendSettingActivity.this, EditFriendNameActivity.class);
+                startActivityForResult(intent, EDIT_FRIEND_NAME_ACTIVITY);
                 break;
 
             case R.id.layoutTalkSt:
@@ -89,21 +91,29 @@ public class FriendSettingActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.tvBtnFreindOk:
+            case R.id.tvBtnFreindOk: {
+                Bundle bundle = new Bundle();
+                setResult(RESULT_OK,new Intent().putExtras(bundle));
                 finish();
+            }
+
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
+
         // 액티비티가 정상적으로 종료되었을 경우
-        if(resultCode==RESULT_OK)
+        if(requestCode == EDIT_FRIEND_NAME_ACTIVITY )
         {
             // FriendSettingActivity 호출한 경우에만 처리합니다.
-            if(requestCode==1){
+            if(resultCode==RESULT_OK){
                 // 받아온 이름을 액티비티에 표시합니다.
-                tvFriendName.setText(data.getStringExtra("data_name"));
+                Bundle extraBundle = data.getExtras();//번들로 반환됐으므로 번들을 불러오면 셋팅된 값이 있다.
+                String new_friend_edit_name = extraBundle.getString("new_friend_edit_name");//인자로 구분된 값을 불러오는 행위를 하고
+                Toast.makeText(this,new_friend_edit_name,Toast.LENGTH_SHORT).show();
+                tvFriendName.setText(new_friend_edit_name);
             }
         }
     }
