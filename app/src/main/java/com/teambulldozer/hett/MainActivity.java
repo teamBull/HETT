@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
                             deleteAndInsert(rowId);
                             requery();
                         }
-                    }, 60);
+                    }, 80);
                 }
 
                 requery();
