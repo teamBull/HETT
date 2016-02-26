@@ -62,7 +62,7 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         viewHolder.completelistItem = (RelativeLayout) view.findViewById(R.id.list_item_complete);
 
         viewHolder.memoContent = (TextView) view.findViewById(R.id.memo_content);
-        viewHolder.memoContent.setTypeface(NanumBarunGothic_R);
+        viewHolder.memoContent.setTypeface(NanumSquare_B);
         view.setTag(viewHolder);
 
         initializeAllButtons();
