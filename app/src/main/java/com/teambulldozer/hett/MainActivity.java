@@ -667,6 +667,7 @@ public class MainActivity extends AppCompatActivity {
      * 친구 버튼
      */
     private ImageView friendBtn;
+    private TextView completeSchedule;
     /**
      * NavigationDrawer의 알람 토글 버튼.
      */
@@ -731,6 +732,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
                 startActivity(intent);
+            }
+        });
+        completeSchedule = (TextView)findViewById(R.id.completeSchedule);
+        completeSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),CompleteActivity.class);
+                startActivity(intent);
+               /* HattToast toast = new HattToast(getApplicationContext()); // 메모리 누수 발생 지점!
+                toast.showToast("asdfasd", Toast.LENGTH_SHORT);*/
             }
         });
     }
