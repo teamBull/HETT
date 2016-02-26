@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENT_REPEAT_TABLE=
             "create table " + TABLE_NAME4 +
-                    "(_id INTEGER, DAY_OF_WEEK TEXT NOT NULL)";
+                    "(_id INTEGER, DAY_OF_WEEK TEXT NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id))";
     /*private static final String CREATE_EVENT_REPREAT_VIEW_TABLE=
             "CREATE OR REPLACE VIEW " + VIEW_NAME +
                     "AS " +

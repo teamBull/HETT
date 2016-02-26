@@ -60,9 +60,9 @@ public class RepeatEventTableController {
         db.execSQL("DELETE FROM " + "event_table");
     }
 
-    public Cursor getEventTableRepeatData(){
+    public Cursor getEventRepeatData(){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-        String sql = "SELECT * FROM event_complete_table where REPEAT == ? ORDER BY DATE ASC";
+        String sql = "SELECT E._ID,E.MEMO,E.IMPORTANCE,E.DATE,R.DAY_OF_WEEK FROM event_table e,repeat_table r where e.repeat = ? AND e._id = r._id ORDER BY E.DATE ASC";
         String[] completeness = {"1"};
         Cursor res = db.rawQuery(sql, completeness);
         return res;
