@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_FRIEND_TABLE =
             "create table " + TABLE_NAME2 +
-                    "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, total_point float);";
+                    "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, today_point double, total_point double);";
 
     /*private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +

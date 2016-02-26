@@ -9,7 +9,7 @@ public class FriendDto implements Serializable {
     private int id;
     private String friendName;
     private String friendTalkSt;
-    private float totalPoint;
+    private double totalPoint;
 
     public FriendDto() {
     }
@@ -46,11 +46,11 @@ public class FriendDto implements Serializable {
         this.friendTalkSt = friendTalkSt;
     }
 
-    public float getTotalPoint() {
+    public double getTotalPoint() {
         return totalPoint;
     }
 
-    public void setTotalPoint(float totalPoint) {
+    public void setTotalPoint(double totalPoint) {
         this.totalPoint = totalPoint;
     }
 }

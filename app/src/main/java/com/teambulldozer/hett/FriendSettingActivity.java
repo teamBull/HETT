@@ -80,20 +80,32 @@ public class FriendSettingActivity extends AppCompatActivity {
             case R.id.layoutName:
                 intent = new Intent(FriendSettingActivity.this, FriendNameSettingActivity.class);
                 intent.putExtra("friendItem", friendData);
-                finish();
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 break;
 
             case R.id.layoutTalkSt:
                 intent = new Intent(FriendSettingActivity.this, FriendTalkSettingActivity.class);
                 intent.putExtra("friendItem", friendData);
-                finish();
                 startActivity(intent);
                 break;
 
             case R.id.tvBtnFreindOk:
                 finish();
         }
-
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        // 액티비티가 정상적으로 종료되었을 경우
+        if(resultCode==RESULT_OK)
+        {
+            // FriendSettingActivity 호출한 경우에만 처리합니다.
+            if(requestCode==1){
+                // 받아온 이름을 액티비티에 표시합니다.
+                tvFriendName.setText(data.getStringExtra("data_name"));
+            }
+        }
+    }
+
 }

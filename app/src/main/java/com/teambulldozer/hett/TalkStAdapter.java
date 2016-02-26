@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +40,7 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
         helper = DatabaseHelper.get(c);
         friendDataManager = FriendDataManager.get(c);
         friendData = friendDataManager.getFriend();
+        Log.i("dddd", friendData.getTotalPoint()+""+friendData.getFriendName());
         dm = c.getResources().getDisplayMetrics();
     }
 
@@ -84,13 +86,18 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
         그룹을 펼칠 때 childview와 groupview의 경계선을 보여준다.
         그룹을 펼치면 해당 position의 groupview의 text 색을 바꾼다.
         그룹이 닫히면 다시 text 색을 원상태로 바꾼다.*/
+        viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
+        viewHolder.ivTalkStLock.setVisibility(View.INVISIBLE);
+        viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
         if (isExpanded) {
                 viewHolder.ivTalkStCheck.setVisibility(View.VISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.INVISIBLE);
                 viewHolder.dividerTop.setVisibility(View.VISIBLE);
                 viewHolder.tv_groupName.setTextColor(Color.parseColor("#1bbbbf"));
+            Log.i("ddd", friendData.getTotalPoint()+"");
         }
         else{
+            //기본테마
             if(groupPosition == 0 && friendData.getTotalPoint() >= 0){
                 viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.INVISIBLE);
@@ -101,7 +108,9 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
                     }
                 });
             }
-            else if (groupPosition == 1 && friendData.getTotalPoint() < 20){
+
+            //연서복
+            else if (groupPosition == 1  && (int)friendData.getTotalPoint() <= 19){
                 viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
                 viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
@@ -111,7 +120,24 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
                     return true;
                 }
                 });
-            }else if (groupPosition == 2 && friendData.getTotalPoint() < 40){
+            }
+
+
+            //한쿸어 어려훠효
+            else if (groupPosition == 2 && (int)friendData.getTotalPoint() <= 59){
+                viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
+                viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
+                v.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // 여기서 이벤트를 막습니다.
+                        return true;
+                    }
+                });
+            }
+
+            //극존칭
+            else if(groupPosition == 3 && (int)friendData.getTotalPoint() <= 79){
                 viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
                 viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
