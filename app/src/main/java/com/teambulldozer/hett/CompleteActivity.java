@@ -1,9 +1,15 @@
 package com.teambulldozer.hett;
 
+import android.app.LoaderManager;
+import android.content.AsyncQueryHandler;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
+import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,16 +20,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CompleteActivity extends AppCompatActivity {
+import java.util.List;
+
+public class CompleteActivity extends AppCompatActivity{
     private static boolean devMode = false;
     /* 디버그를 위한 개발자 모드 설정. true로 설정되어 있을 시, 오류 발생시 강제로 앱을 종료한다. */
 
     private static final String TAG = "HETT";
-
+    private static final int LOADER_ID = 0;
 
     CompleteEventTableController completeEventCtr;
     CompleteSimpleCursorAdapter cursorAdapter;
     Cursor cursor;
+    Loader<Cursor> loader;
+
     //activity_complete.xml
     SoftKeyboardLsnedRelativeLayout softRelativeLayout;
     RelativeLayout completeToolbarLayout;
@@ -77,6 +87,7 @@ public class CompleteActivity extends AppCompatActivity {
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
+
         /* These are the complete_activity functions of the complete_event page. */
         setFont(); // 폰트 설정
 
@@ -105,6 +116,7 @@ public class CompleteActivity extends AppCompatActivity {
             }
         });
     }
+
     private void ifFinishMenuClicked() {
         this.finishMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,15 +146,23 @@ public class CompleteActivity extends AppCompatActivity {
         this.cursor.moveToFirst();
         String[] fromFieldNames = new String[] {CompleteEventTableController.Columns.MEMO};
         int[] toViewIDS = new int[] { R.id.memo_content};
-        CompleteSimpleCursorAdapter  completeSimpleCursorAdapter = new CompleteSimpleCursorAdapter(this,R.layout.list_item_complete,this.cursor,fromFieldNames,toViewIDS,0,completeEventCtr);
-        this.listView.setAdapter(completeSimpleCursorAdapter);
+        cursorAdapter = new CompleteSimpleCursorAdapter(this,R.layout.list_item_complete,this.cursor,fromFieldNames,toViewIDS,0,completeEventCtr);
+        this.listView.setAdapter(cursorAdapter);
+
     }
-
-
-
     public void setFont(){
         this.editMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
         //this.memoContent.setTypeface(NanumSquare_B);
+    }
+    public boolean deleteRow(String rowId){
+        Integer deletedRows = completeEventCtr.deleteData(rowId);
+        completeEventCtr.rearrangeData(rowId);
+        requery();
+        return deletedRows != 0;
+    }
+    public void requery(){
+        Cursor cursor = completeEventCtr.getEventTableCompleteData();
+        cursorAdapter.changeCursor(cursor);
     }
 }

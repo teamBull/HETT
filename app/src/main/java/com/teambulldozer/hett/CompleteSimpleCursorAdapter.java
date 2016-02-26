@@ -54,6 +54,7 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         view.setTag(viewHolder);
 
         initializeAllButtons();
+        //((CompleteActivity)mContext).getLoaderManager().restartLoader()
         return view;
     }
 
@@ -76,10 +77,12 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
-                completeEventCtr.deleteData(String.valueOf(v.getTag()));
-                completeEventCtr.rearrangeData(String.valueOf(v.getTag()));
-                changeCursor(getCursor());
+                //Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
+                //completeEventCtr.deleteData(String.valueOf(v.getTag()));
+                //completeEventCtr.rearrangeData(String.valueOf(v.getTag()));
+                //changeCursor(getCursor());
+                if (!((CompleteActivity)mContext).deleteRow(String.valueOf(v.getTag())))
+                    Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
             }
         });
         if(isOnEditMenu){
