@@ -14,8 +14,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
 
 /**
@@ -23,7 +21,7 @@ import java.util.Calendar;
  */
 public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     private Context mContext; // In order to call MainActivity's method
-    RepeatEventTableController repeatEventCtr;
+    RepeatEventController repeatEventCtr;
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
     ViewHolder viewHolder;
@@ -36,7 +34,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     3) c : DB에서 가져온 Data를 가리키는 Cursor.
     4) from : DB 필드 이름
     5) to : DB 필드에 대응되는 component의 id*/
-    public RepeatSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags,RepeatEventTableController repeatEventCtr) {
+    public RepeatSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags,RepeatEventController repeatEventCtr) {
         super(context, layout, c, from, to, flags);
         this.mContext = context;
         this.repeatEventCtr = repeatEventCtr;
@@ -80,6 +78,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Log.i("Adapter", "bindView");
+        RelativeLayout.LayoutParams relativeLayoutPrams;
         ViewHolder holder = (ViewHolder)view.getTag();
 
         String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("E.DATE"))));
@@ -92,16 +91,15 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         }
 
         if(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE")) == 1 ){
+            Log.d("important",String.valueOf(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE"))));
             holder.startBtn.setImageResource(R.drawable.star_on);
-
         }else{
+            Log.d("important",String.valueOf(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE"))));
             holder.startBtn.setImageResource(R.drawable.star_off);
-
         }
         holder.startBtn.setTag(cursor.getInt(cursor.getColumnIndex("E._id")));
 
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("E.MEMO")));
-
 
         holder.dayOfWeek.setText(cursor.getString(cursor.getColumnIndex("R.DAY_OF_WEEK")));
 
@@ -111,6 +109,11 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     }
 
     private void initializeAllButtons(){
+        if(isOnEditMenu){
+            viewHolder.repeatDeleteBtn.setVisibility(View.GONE);//-버튼 삭제
+        }else{
+            viewHolder.repeatDeleteBtn.setVisibility(View.VISIBLE);//-버튼 생성
+        }
         viewHolder.repeatDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,15 +125,12 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
                     Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
             }
         });
-        if(isOnEditMenu){
-            viewHolder.repeatDeleteBtn.setVisibility(View.INVISIBLE);
-        }else{
-            viewHolder.repeatDeleteBtn.setVisibility(View.VISIBLE);
-        }
+
         viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
+                if (!((RepeatEventActivity)mContext).upDateRow(String.valueOf(v.getTag()), getCursor().getInt(getCursor().getColumnIndex("E.IMPORTANCE"))))
+                    Toast.makeText(mContext, "Data Not updated", Toast.LENGTH_LONG).show();
             }
         });
     }

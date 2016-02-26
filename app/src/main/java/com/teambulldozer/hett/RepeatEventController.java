@@ -40,7 +40,7 @@ public class RepeatEventController {
         contentValues.put(Columns.COMPLETENESS,completeness);
         contentValues.put(Columns.DATE, date);
         contentValues.put(Columns.REPEAT,repeat);
-        contentValues.put(Columns.ALARM,alarm);
+        contentValues.put(Columns.ALARM, alarm);
 
         long result = sqLiteDatabase.insert("event_table", null, contentValues);
         if(result == -1)
@@ -52,7 +52,7 @@ public class RepeatEventController {
     //delete
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        unRepeatDate(id,db);
+        unRepeatDate(id, db);
         return db.delete("repeat_table", "_id = ?", new String[] { id });
     }
 
@@ -70,6 +70,17 @@ public class RepeatEventController {
         return res;
     }
     //update
+    public int updateImportances(String id,int importance){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        if(importance == 1){
+            importance = 0;
+        }else{
+            importance =1;
+        }
+        values.put(Columns.IMPORTANCE, importance);
+        return db.update(EVENT_TABLE, values, " _id = ?", new String[] { id });
+    }
     public void unRepeatDate(String id){
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         db.execSQL("UPDATE event_table set repeat = 0 where _id = " + id);

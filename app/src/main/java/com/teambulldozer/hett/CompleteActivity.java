@@ -52,7 +52,7 @@ public class CompleteActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (devMode)
+        if (CompleteActivity.devMode)
         {
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectLeakedSqlLiteObjects()

@@ -19,26 +19,26 @@ public class RepeatEventActivity extends AppCompatActivity {
 
     private static final String TAG = "RepeatEventActivity";
 
-    RepeatEventTableController repeatEventTableController;
-    RepeatSimpleCursorAdapter repeatSimpleCursorAdapter;
-    Cursor cursor;
+    private RepeatEventController repeatEventController;
+    private RepeatSimpleCursorAdapter repeatSimpleCursorAdapter;
+    private Cursor cursor;
 
     //activity_repeat.xml
-    SoftKeyboardLsnedRelativeLayout softRelativeLayout;
-    RelativeLayout repeatToolbarLayout;
-    ImageView prevBtn;
-    TextView deleteMenuBtn;
-    TextView finishMenuBtn;
-    ListView listView;
-    TextView deleteAllBtn;//편집 버튼을 눌렀을 때 보이는 위젯
+    private SoftKeyboardLsnedRelativeLayout softRelativeLayout;
+    private RelativeLayout repeatToolbarLayout;
+    private ImageView prevBtn;
+    private TextView deleteMenuBtn;
+    private TextView finishMenuBtn;
+    private  ListView listView;
+    private TextView deleteAllBtn;//편집 버튼을 눌렀을 때 보이는 위젯
 
     // 폰트
-    Typeface NanumSquare_B;
-    Typeface NanumBarunGothic_R;
+    private Typeface NanumSquare_B;
+    private Typeface NanumBarunGothic_R;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (devMode)
+        if (RepeatEventActivity.devMode)
         {
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectLeakedSqlLiteObjects()
@@ -52,7 +52,7 @@ public class RepeatEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_repeat);
 
         /* Call the database constructor */
-        this.repeatEventTableController = RepeatEventTableController.get(this);
+        this.repeatEventController = RepeatEventController.get(this);
 
         /* Connecting XML widgets and JAVA code. */
         this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout)findViewById(R.id.repeat_layout);
@@ -126,18 +126,18 @@ public class RepeatEventActivity extends AppCompatActivity {
         deleteAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                repeatEventTableController.deleteAllData();
+                repeatEventController.deleteAllData();
                 populateListView();
             }
         });
     }
 
     private void populateListView() {
-        this.cursor = repeatEventTableController.getEventRepeatData();
+        this.cursor = repeatEventController.getEventRepeatData();
         this.cursor.moveToFirst();
-        String[] fromFieldNames = new String[] {RepeatEventTableController.Columns.MEMO};
+        String[] fromFieldNames = new String[] {RepeatEventController.Columns.MEMO};
         int[] toViewIDS = new int[] { R.id.repeat_memo_content};
-        repeatSimpleCursorAdapter = new RepeatSimpleCursorAdapter(this,R.layout.list_item_repeat,this.cursor,fromFieldNames,toViewIDS,0,repeatEventTableController);
+        repeatSimpleCursorAdapter = new RepeatSimpleCursorAdapter(this,R.layout.list_item_repeat,this.cursor,fromFieldNames,toViewIDS,0, repeatEventController);
         this.listView.setAdapter(repeatSimpleCursorAdapter);
 
     }
@@ -146,12 +146,18 @@ public class RepeatEventActivity extends AppCompatActivity {
         this.finishMenuBtn.setTypeface(NanumSquare_B);
     }
     public boolean deleteRow(String rowId){
-        Integer deletedRows = repeatEventTableController.deleteData(rowId);
+        Integer deletedRows = repeatEventController.deleteData(rowId);
         requery();
         return deletedRows != 0;
     }
+    public boolean upDateRow(String rowId,int importance){
+        Log.d("upDateRow",String.valueOf(importance));
+        Integer updateRows = repeatEventController.updateImportances(rowId,importance);
+        requery();
+        return updateRows != 0;
+    }
     public void requery(){
-        Cursor cursor = repeatEventTableController.getEventRepeatData();
+        Cursor cursor = repeatEventController.getEventRepeatData();
         repeatSimpleCursorAdapter.changeCursor(cursor);
     }
 }
