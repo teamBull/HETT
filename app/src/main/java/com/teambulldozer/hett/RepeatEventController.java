@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by SEONGBONG on 2016-02-26.
  */
-public class RepeatEventTableController {
-    private static RepeatEventTableController mRepeatEventTableController;
+public class RepeatEventController {
+    private static RepeatEventController mRepeatEventController;
     DatabaseHelper dbhelper;
     static final String EVENT_TABLE = "event_table";
     static class Columns {
@@ -21,14 +21,14 @@ public class RepeatEventTableController {
         static final String REPEAT = "REPEAT";
         static final String ALARM = "ALARM";
     }
-    private RepeatEventTableController(Context context){
+    private RepeatEventController(Context context){
         dbhelper = DatabaseHelper.get(context);
     }
-    public static RepeatEventTableController get(Context context){
-        if(mRepeatEventTableController == null){
-            mRepeatEventTableController = new RepeatEventTableController(context);
+    public static RepeatEventController get(Context context){
+        if(mRepeatEventController == null){
+            mRepeatEventController = new RepeatEventController(context);
         }
-        return mRepeatEventTableController;
+        return mRepeatEventController;
     }
     //insert
     public boolean insertToEventTable(int id, String memo, int importance, int completeness,int date,int repeat,int alarm){
