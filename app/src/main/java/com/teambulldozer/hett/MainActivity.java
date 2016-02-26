@@ -870,6 +870,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView myFriendNo = (TextView)findViewById(R.id.myFriendNo);
+        myFriendNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosenessActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
     @Override
