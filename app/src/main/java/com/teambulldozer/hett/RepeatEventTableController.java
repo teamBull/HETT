@@ -58,7 +58,6 @@ public class RepeatEventTableController {
 
     public void deleteAllData(){
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        //UPDATE
         unRepeatAllData(db);
         db.execSQL("DELETE FROM " + "repeat_table");
     }
@@ -84,11 +83,5 @@ public class RepeatEventTableController {
     }
     public void unRepeatAllData(SQLiteDatabase db){
         db.execSQL("UPDATE event_table set repeat = 0");
-    }
-    public void rearrangeData(String id){
-        SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        db.execSQL("UPDATE event_table SET _id = (_id - 1) WHERE _id > " + id);
-        db.execSQL("UPDATE repeat_table SET _id = (_id - 1) WHERE _id > " + id);
-        db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
     }
 }

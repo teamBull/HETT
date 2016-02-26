@@ -82,7 +82,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         Log.i("Adapter", "bindView");
         ViewHolder holder = (ViewHolder)view.getTag();
 
-        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("DATE"))));
+        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("E.DATE"))));
         if(maxDate == null || !maxDate.equals(dateInfo)){
             Log.d("date Info", "maxDate" + maxDate + "dateInfo" + dateInfo);
             maxDate = dateInfo;
@@ -91,20 +91,18 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
             holder.dateline.setText(dateInfo);
         }
 
-        if(cursor.getInt(cursor.getColumnIndex("IMPORTANCE")) == 1 ){
+        if(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE")) == 1 ){
             holder.startBtn.setImageResource(R.drawable.star_on);
         }else{
             holder.startBtn.setImageResource(R.drawable.star_off);
         }
 
-        holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
-        if(cursor.getInt(cursor.getColumnIndex("REPEAT")) == 1 ){
-            holder.dayOfWeek.setText("반복값 있음");
-            //여기서 다른 테이블에서 가져와야함..
-            //아니면 처음부터 두개 테이블에서 값을 가져와야함..
-        }
+        holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("E.MEMO")));
 
-        holder.repeatDeleteBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
+
+        holder.dayOfWeek.setText(cursor.getString(cursor.getColumnIndex("R.DAY_OF_WEEK")));
+
+        holder.repeatDeleteBtn.setTag(cursor.getInt(cursor.getColumnIndex("E._id")));
 
         super.bindView(view, context, cursor);
     }
@@ -117,6 +115,8 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
                 //completeEventCtr.deleteData(String.valueOf(v.getTag()));
                 //completeEventCtr.rearrangeData(String.valueOf(v.getTag()));
                 //changeCursor(getCursor());
+                if (!((RepeatEventActivity)mContext).deleteRow(String.valueOf(v.getTag())))
+                    Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
             }
         });
         if(isOnEditMenu){
