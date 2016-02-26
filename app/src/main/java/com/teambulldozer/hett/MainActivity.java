@@ -59,6 +59,11 @@ import java.util.Locale;
 *
 * (2016. 2. 20.)
 * 1. 이 버전이 깔끔한 버전.
+*
+* (2016. 2. 26)
+* 1. 일정 완료 시 선 그어지는 애니메이션 추가
+* 2. 편집 탭과 완료탭에서 할 수 있는 기능 분리.
+*
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -457,14 +462,15 @@ public class MainActivity extends AppCompatActivity {
                     /* */
                 } else {
 
-                    slide_out_right(lv1, position);
+                    //slide_out_right(lv1, position);
+                    fade(lv1, position);
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             deleteAndInsert(rowId);
                             requery();
                         }
-                    }, 1000);
+                    }, 80);
                 }
 
                 requery();
@@ -749,8 +755,9 @@ public class MainActivity extends AppCompatActivity {
      * @param toggleButton 푸쉬알람 객체.
      */
     private void registerTogggleButtonByPushalarm(final ToggleButton toggleButton) {
-        //토글버튼이 2개인데 공통부분을 메소드로 분리했음.
-        initToggleButton(toggleButton);
+        toggleButton.setText(null);
+        toggleButton.setTextOn(null);
+        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
         //DB에 접근해서 pushMode가 true인지 false인지 체크한다.
         boolean isPushMode = DrawerTableController.getInstance().searchPushMode();
         if(isPushMode) {
@@ -775,12 +782,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    //toggleButton.setText(null); toggleButton.setTextOn(null); toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
-    private void initToggleButton (final ToggleButton toggleButton) {
-        toggleButton.setText(null);
-        toggleButton.setTextOn(null);
-        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
-    }
     /**
      * 드로워 부분의 친밀도를 DB에 접근해서 setting하는 메소드.
      */
@@ -798,6 +799,11 @@ public class MainActivity extends AppCompatActivity {
         //selectByFriendName
         friend_edit = (TextView)findViewById(R.id.friend_edit);
         friend_edit.setText(DrawerTableController.getInstance().searchByFriendName()+"");
+        //드로워의 시간 초기화
+        ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
+        //getTotalPoint
+        ((TextView)findViewById(R.id.friendlyNo)).setText(FriendDataManager.get(getApplicationContext()).getTotalPoint()+"");
+
     }
     /**
      * 가상친구 대화하는 부분을 DB에 접근해서 대화하는 창.
@@ -821,7 +827,7 @@ public class MainActivity extends AppCompatActivity {
             }
             /**
              * state가 2일 때 Drawer가 Open되는것.
-             * @param newStatewef
+             * @param newState
              */
             public void onDrawerStateChanged(int newState) {
                 switch (newState) {
@@ -849,7 +855,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //드로워의 시간 초기화
-        ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
         ImageView friend_name_edit_btn = (ImageView) findViewById(R.id.friend_name_edit_btn);
         friend_name_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override

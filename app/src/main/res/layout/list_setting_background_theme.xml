@@ -23,6 +23,7 @@
         android:layout_marginRight="15dp"
         android:src="@drawable/lock"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/backgroundThemeName"
         />
     <ImageView
         android:id="@+id/selectedBackgroundTheme"
@@ -31,5 +32,6 @@
         android:layout_height="130dp"
         android:visibility="gone"
         />
+
 
 </RelativeLayout>
