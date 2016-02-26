@@ -410,7 +410,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp" />
+                android:layout_marginBottom="13dp"
+                android:dividerHeight="8dp"
+                android:divider="#ffffff" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

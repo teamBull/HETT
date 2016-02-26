@@ -27,16 +27,14 @@ public class FriendNameSettingActivity extends AppCompatActivity {
         btnPrevName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(FriendNameSettingActivity.this, FriendSettingActivity.class);
+                //intent = new Intent(FriendNameSettingActivity.this, FriendSettingActivity.class);
                 finish();
-                startActivity(intent);
+               // startActivity(intent);
             }
         });
 
 
         friendDataManager = FriendDataManager.get(this);
-
-
 
         etFriendName = (EditText)findViewById(R.id.etFreindName);
 
@@ -48,10 +46,15 @@ public class FriendNameSettingActivity extends AppCompatActivity {
             case R.id.tvBtnNameOk:
                 friendItem = (FriendDto)getIntent().getSerializableExtra("friendItem");
                 friendDataManager.updateFriendName(etFriendName.getText().toString(), friendItem.getFriendTalkSt());
-                intent = new Intent(FriendNameSettingActivity.this, FriendSettingActivity.class);
+
+                Intent intent = getIntent();
+                intent.putExtra("data_name",etFriendName.getText().toString());
+                setResult(RESULT_OK,intent);
                 finish();
-                startActivity(intent);
                 break;
         }
     }
+
+
+
 }

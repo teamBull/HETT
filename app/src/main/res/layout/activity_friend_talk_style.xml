@@ -80,7 +80,8 @@
             android:fadingEdge = "none"
             android:dividerHeight="2dp"
             android:cacheColorHint="#00000000"
-            android:divider="#ededed" />
+            android:divider="#ededed"
+            android:footerDividersEnabled="false" />
     </RelativeLayout>
 
 </RelativeLayout>

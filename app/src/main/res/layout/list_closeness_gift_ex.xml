@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="31dp"
         android:text="New Text"
-        android:id="@+id/tvCltalkMore"
+        android:id="@+id/tvClTalkMore"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
