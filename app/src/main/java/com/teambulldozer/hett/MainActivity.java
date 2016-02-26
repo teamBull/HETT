@@ -739,9 +739,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),CompleteActivity.class);
-                startActivity(intent);
-               /* HattToast toast = new HattToast(getApplicationContext()); // 메모리 누수 발생 지점!
-                toast.showToast("asdfasd", Toast.LENGTH_SHORT);*/
+                startActivityForResult(intent,0);
             }
         });
     }
@@ -823,7 +821,7 @@ public class MainActivity extends AppCompatActivity {
             }
             /**
              * state가 2일 때 Drawer가 Open되는것.
-             * @param newState
+             * @param newStatewef
              */
             public void onDrawerStateChanged(int newState) {
                 switch (newState) {
