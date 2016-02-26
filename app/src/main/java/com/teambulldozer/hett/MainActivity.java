@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
+        new AlarmAMZero(getApplicationContext());
     }
 
     @Override
@@ -738,7 +739,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
-                startActivityForResult(intent,SETTING_BACKGROUND_THEME_ACTIVITY);
+                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
             }
         });
         completeSchedule = (TextView)findViewById(R.id.completeSchedule);
