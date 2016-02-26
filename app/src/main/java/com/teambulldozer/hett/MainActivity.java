@@ -59,6 +59,11 @@ import java.util.Locale;
 *
 * (2016. 2. 20.)
 * 1. 이 버전이 깔끔한 버전.
+*
+* (2016. 2. 26)
+* 1. 일정 완료 시 선 그어지는 애니메이션 추가
+* 2. 편집 탭과 완료탭에서 할 수 있는 기능 분리.
+*
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -457,14 +462,15 @@ public class MainActivity extends AppCompatActivity {
                     /* */
                 } else {
 
-                    slide_out_right(lv1, position);
+                    //slide_out_right(lv1, position);
+                    fade(lv1, position);
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             deleteAndInsert(rowId);
                             requery();
                         }
-                    }, 1000);
+                    }, 60);
                 }
 
                 requery();

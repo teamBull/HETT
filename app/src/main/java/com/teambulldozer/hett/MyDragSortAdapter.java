@@ -243,6 +243,7 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
 
     public void ifImportant_fillStar(int position_sync, ImageView starButton) {
         Cursor cursor = myEventController.getImportanceData();
+        //Cursor cursor = getCursor();
         cursor.moveToFirst();
 
         try{

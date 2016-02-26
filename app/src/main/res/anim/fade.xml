@@ -5,14 +5,14 @@
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:duration="300">
+        android:duration="20">
     </alpha>
 
     <alpha
         android:startOffset="0"
         android:fromAlpha="1"
         android:toAlpha="0"
-        android:duration="700">
+        android:duration="40">
     </alpha>
 
 </set>
