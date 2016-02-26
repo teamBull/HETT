@@ -161,6 +161,266 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="360dp"
+            android:layout_height="110dp"
+            android:layout_below="@+id/relativeLayout2"
+            android:background="#ffffff"
+            android:layout_above="@+id/relativeLayout5"></RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:layout_marginTop="143dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:id="@+id/relativeLayout3">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:id="@+id/ivGiftBox0"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/giftbox"
+                android:layout_marginLeft="3dp" />
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:id="@+id/ivGiftBox1"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/giftbox"
+                android:layout_marginLeft="63dp" />
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:id="@+id/ivGiftBox2"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="123dp"
+                android:src="@drawable/giftbox" />
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:id="@+id/ivGiftBox3"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="183dp"
+                android:src="@drawable/giftbox" />
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:id="@+id/ivGiftBox4"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="243dp"
+                android:src="@drawable/giftbox" />
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="27dp"
+                android:id="@+id/ivGiftBox5"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="303dp"
+                android:src="@drawable/giftbox" />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="170dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:id="@+id/frameLayout">
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bar_bg" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/clip_source" />
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="13dp"
+            android:layout_below="@+id/frameLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="6dp"
+            android:id="@+id/relativeLayout4"
+            android:layout_marginBottom="13dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0°"
+                android:id="@+id/tvCl0dg"
+                android:textSize="11dp"
+                android:layout_marginLeft="9dp"
+                android:textColor="#c7c8c8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20°"
+                android:id="@+id/tvCl20dg"
+                android:layout_marginLeft="65dp"
+                android:textSize="11dp"
+                android:textColor="#c7c8c8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="40°"
+                android:id="@+id/tvCl40dg"
+                android:layout_marginLeft="125dp"
+                android:textSize="11dp"
+                android:textColor="#c7c8c8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60°"
+                android:id="@+id/tvCl60dg"
+                android:layout_marginLeft="185dp"
+                android:textSize="11dp"
+                android:textColor="#c7c8c8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="80°"
+                android:id="@+id/tvCl80dg"
+                android:layout_marginLeft="245dp"
+                android:textSize="11dp"
+                android:textColor="#c7c8c8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100°"
+                android:id="@+id/tvCl100dg"
+                android:layout_marginLeft="299dp"
+                android:textSize="11dp"
+                android:textColor="#c7c8c8" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_below="@+id/relativeLayout4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:id="@+id/relativeLayout5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다음 보상"
+                android:id="@+id/tvClNext"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textSize="14dp"
+                android:textColor="#1bbbbf"
+                android:layout_marginLeft="12dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/relativeLayout5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ffffff"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/relativeLayout6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="말투"
+                android:id="@+id/tvClGift"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="12dp"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:alpha="51" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="말투"
+                android:id="@+id/tvClGiftTitle"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="12dp"
+                android:textSize="14dp"
+                android:textColor="#000000"
+                android:alpha="51" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/relativeLayout6"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#b1b2c1"
+            android:id="@+id/relativeLayout7"></RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayout7"
+            android:background="#ffffff"
+            android:layout_marginBottom="13dp">
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lvGiftEx"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="13dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="13dp"
+                android:layout_marginTop="13dp"
+                android:id="@+id/rlthemeEx"></RelativeLayout>
+        </RelativeLayout>
+
+
     </RelativeLayout>
 
 </RelativeLayout>
