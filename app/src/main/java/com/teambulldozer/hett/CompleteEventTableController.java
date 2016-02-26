@@ -60,7 +60,7 @@ public class CompleteEventTableController {
 
     public Cursor getEventTableCompleteData(){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-        String sql = "SELECT * FROM event_complete_table where completeness == ?";
+        String sql = "SELECT * FROM event_complete_table where completeness == ? ORDER BY DATE ASC";
         String[] completeness = {"1"};
         Cursor res = db.rawQuery(sql, completeness);
         return res;

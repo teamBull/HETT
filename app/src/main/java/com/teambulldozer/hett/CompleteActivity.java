@@ -93,8 +93,9 @@ public class CompleteActivity extends AppCompatActivity{
 
         ifEditMenuClicked();
         ifFinishMenuClicked();
-
+        ifPrevBtnClicked();
         ifClickedDeleteAllRows();   // 모두 지우기 버튼이 눌렀을 때, 일정 모두 지우기.
+
         populateListView();         // listview populate
 
         // The following line makes software keyboard disappear until it is clicked again.
@@ -132,11 +133,22 @@ public class CompleteActivity extends AppCompatActivity{
             }
         });
     }
+    private void ifPrevBtnClicked(){
+        this.prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(),"Asdf",Toast.LENGTH_SHORT).show();
+                CompleteSimpleCursorAdapter.isOnEditMenu = true;
+                finish();
+            }
+        });
+    }
     private void ifClickedDeleteAllRows() {
         deleteAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 completeEventCtr.deleteAllData();
+                populateListView();
             }
         });
     }
@@ -153,7 +165,6 @@ public class CompleteActivity extends AppCompatActivity{
     public void setFont(){
         this.editMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
-        //this.memoContent.setTypeface(NanumSquare_B);
     }
     public boolean deleteRow(String rowId){
         Integer deletedRows = completeEventCtr.deleteData(rowId);

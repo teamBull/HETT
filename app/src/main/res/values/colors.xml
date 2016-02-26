@@ -14,8 +14,10 @@
     <color name="hatt_addanewtask">#88202b78</color>
     <color name="hatt_edittextWindow">#33ffffff</color>
     <color name="hatt_completedTaskColor">#88585858</color>
+    <color name="hatt_completed_event_date">#525252</color>
     <color name="hatt_completedItemColor">#66ffffff</color>
     <color name="hatt_toastbg">#b3000000</color>
+    <color name="hatt_linecolor">#b1b2c1</color>
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>

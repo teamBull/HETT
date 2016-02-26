@@ -1,18 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\YUNSEON\\AndroidStudioProjects\\bulldozer\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
-        "map": []
-    },
-    {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        "outputFile": "C:\\Users\\GHKwon\\AndroidStudioProjects\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
-=======
-        "outputFile": "C:\\Users\\YUNSEON\\AndroidStudioProjects\\bulldozer\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
->>>>>>> yunsun
-=======
-        "outputFile": "C:\\Users\\flecho\\cleanVersion\\DB_incorporate\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
->>>>>>> yunsun
+        "outputFile": "D:\\NEXTERS\\nproject\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
         "map": []
     }
 ]

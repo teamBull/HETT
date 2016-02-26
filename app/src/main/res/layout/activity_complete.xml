@@ -20,7 +20,6 @@
             android:layout_centerVertical="true"
             android:src="@drawable/prev"
             android:background="@android:color/transparent"
-
             />
 
         <TextView
@@ -63,7 +62,13 @@
             />
 
     </RelativeLayout>
-
+    <View
+        android:id="@+id/complete_layout_line"
+        android:layout_below="@+id/complete_toolbar_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="0.7dp"
+        android:background="@color/hatt_linecolor"
+        />
 
     <ListView
         android:id="@+id/complete_listview"
@@ -72,7 +77,7 @@
         android:orientation="vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:layout_below="@+id/complete_toolbar_layout"
+        android:layout_below="@+id/complete_layout_line"
         android:smoothScrollbar="true"
         android:scrollingCache="false"
         android:animationCache="false"

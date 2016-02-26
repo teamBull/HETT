@@ -1,9 +1,11 @@
 package com.teambulldozer.hett;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,10 @@ import android.widget.Toast;
 import com.teambulldozer.hett.DatabaseHelper;
 import com.teambulldozer.hett.R;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+
 /**
  * Created by SEONGBONG on 2016-02-23.
  */
@@ -26,6 +32,7 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
     Typeface NanumBarunGothic_R;
     ViewHolder viewHolder;
 
+    private static String maxDate=null;
     public static boolean isOnEditMenu = true;
 
     /*1) context : ListView의 context
@@ -46,11 +53,16 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         viewHolder = new ViewHolder();
         LayoutInflater li = (LayoutInflater)mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
         View view = li.inflate(R.layout.list_item_complete, parent, false);
-        viewHolder.borderline = (ImageView) view.findViewById(R.id.border_line);
+
+        viewHolder.borderline = (TextView) view.findViewById(R.id.border_line);
+        viewHolder.borderline.setTypeface(NanumSquare_B);
+
         viewHolder.deleteButton = (ImageView) view.findViewById(R.id.delete_btn);
+
         viewHolder.completelistItem = (RelativeLayout) view.findViewById(R.id.list_item_complete);
+
         viewHolder.memoContent = (TextView) view.findViewById(R.id.memo_content);
-        viewHolder.memoContent.setTypeface(NanumBarunGothic_R);
+        viewHolder.memoContent.setTypeface(NanumSquare_B);
         view.setTag(viewHolder);
 
         initializeAllButtons();
@@ -62,13 +74,23 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
     public void bindView(View view, Context context, Cursor cursor) {
         Log.i("Adapter", "bindView");
         ViewHolder holder = (ViewHolder)view.getTag();
+
+        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("DATE"))));
+        if(maxDate == null || !maxDate.equals(dateInfo)){
+            Log.d("date Info", "maxDate" + maxDate + "dateInfo" + dateInfo);
+            maxDate = dateInfo;
+            int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,35, mContext.getResources().getDisplayMetrics());
+            holder.borderline.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
+            holder.borderline.setText(dateInfo);
+        }
+
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
         holder.deleteButton.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
         super.bindView(view, context, cursor);
     }
 
     private static class ViewHolder {
-        public ImageView borderline;
+        public TextView borderline;
         public RelativeLayout completelistItem;
         public ImageView deleteButton;
         public TextView memoContent;
@@ -90,5 +112,43 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         }else{
             viewHolder.deleteButton.setVisibility(View.VISIBLE);
         }
+    }
+    public String dayConverter(String dateInfo){
+        Calendar calendar = Calendar.getInstance();
+
+        String year = dateInfo.substring(0, 4);
+        String month = dateInfo.substring(4,6);
+        String date = dateInfo.substring(6,8);
+
+        calendar.set(Calendar.YEAR,Integer.parseInt(year));
+        calendar.set(Calendar.MONTH,Integer.parseInt(month));
+        calendar.set(Calendar.DATE,Integer.parseInt(date));
+
+        String dayOfWeek="";
+        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+            case 1:
+                Log.i("ca",String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)));
+                dayOfWeek = "토";
+                break;
+            case 2:
+                dayOfWeek = "일";
+                break;
+            case 3:
+                dayOfWeek = "월";
+                break;
+            case 4:
+                dayOfWeek = "화";
+                break;
+            case 5:
+                dayOfWeek = "수";
+                break;
+            case 6:
+                dayOfWeek = "목";
+                break;
+            case 7:
+                dayOfWeek = "금";
+                break;
+        }
+        return month + "월 " + date + "일 " + "(" + dayOfWeek + ")";
     }
 }
