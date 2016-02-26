@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="completeEventAcitivity_date_textview_height">35dp</dimen>
     <dimen name="completeEventAcitivity_date_textsize">11sp</dimen>
+    <dimen name="repeatEventAcitivity_date_textview_height">35dp</dimen>
+    <dimen name="repeatEventAcitivity_date_textsize">11sp</dimen>
 </resources>
