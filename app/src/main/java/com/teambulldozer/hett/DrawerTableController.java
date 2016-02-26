@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by GHKwon on 2016-02-23.
  */
@@ -18,10 +20,7 @@ public class DrawerTableController {
      * 친구와 대화하는 테이블에 접근하는 객체.
      */
     private HattFriendAskDAO hattFriendAskDAO;
-    /**
-     * 환경 설정을 제어할 수 있는 객체.
-     */
-    private HattSettingDAO hattSettingDAO;
+
     /**
      * 이벤트 테이블의 객체.
      */
@@ -58,7 +57,7 @@ public class DrawerTableController {
      */
     private DrawerTableController(Context context) {
         hattFriendAskDAO = HattFriendAskDAO.getInstance(context);
-        hattSettingDAO = HattSettingDAO.getInstance(context);
+
         databaseHelper = DatabaseHelper.get(context);
     }
     /**
@@ -71,14 +70,6 @@ public class DrawerTableController {
         return this;
     }
 
-    /**
-     * 호출하는 액티비티에서 HattSettingDAO를 사용하기 위해 Context객체를 새롭게 set하는 메소드.
-     * @param context 호출하는 액티비티의 Context객체.
-     */
-    public DrawerTableController setHattSettingDAOContext(Context context) {
-        hattSettingDAO = HattSettingDAO.getInstance(context);
-        return this;
-    }
     public DrawerTableController setDataBaseHelper(Context context) {
         databaseHelper = DatabaseHelper.get(context);
         return this;
@@ -109,11 +100,11 @@ public class DrawerTableController {
      * @param friendName
      */
     public int updateByFriendName(String friendName) {
-        SQLiteDatabase sqLiteDatabase = hattSettingDAO.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         ContentValues contentValues  = new ContentValues();
         contentValues.put("hatt_friend_name", friendName);
         /* 3번째 전달인자는 where절의 조건이다 / 4번째 전달인자는 ?로 준 값의 input될 data들.*/
-        int result = sqLiteDatabase.update("HATT_SETTING_TB",contentValues,"hatt_setting_code=?",new String[]{"user1"});
+        int result = sqLiteDatabase.update("HATT_SETTING_TABLE",contentValues,"hatt_setting_code=?",new String[]{"user1"});
         return result;
         /*SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -125,8 +116,8 @@ public class DrawerTableController {
      * @return 가상친구의 이름.
      */
     public String searchByFriendName() {
-        SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
-        String sql = "select * from hatt_setting_tb;";
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from hatt_setting_table;";
         String friendName = "";
         Cursor cursor = null;
         try {
@@ -148,18 +139,18 @@ public class DrawerTableController {
     }
 
     public boolean updatePushMode(boolean isPushMode) {
-        SQLiteDatabase sqLiteDatabase = hattSettingDAO.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         if(isPushMode)
             contentValues.put("is_push_alarm",1);
         else
             contentValues.put("is_push_alarm",0);
-        sqLiteDatabase.update("HATT_SETTING_TB",contentValues,"hatt_setting_code=?",new String[]{"user1"});
+        sqLiteDatabase.update("HATT_SETTING_TABLE",contentValues,"hatt_setting_code=?",new String[]{"user1"});
         return true;
     }
     public boolean searchPushMode() {
-        SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
-        String sql = "select * from hatt_setting_tb;";
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from HATT_SETTING_TABLE;";
         Cursor cursor = null ;
         boolean isPushMode;
         try {
@@ -179,6 +170,35 @@ public class DrawerTableController {
             }
         }
         return false;
+    }
+    public ArrayList<BackgroundThemeDTO> searchBackbroundThemeDTOAllData(){
+        ArrayList<BackgroundThemeDTO> arrayList = new ArrayList<BackgroundThemeDTO>();
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from hatt_background_theme_table;";
+        Cursor cursor = null;
+        cursor = sqLiteDatabase.rawQuery(sql,null);
+        while( cursor . moveToNext() ) {
+            arrayList.add(new BackgroundThemeDTO( cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3) ));
+        }
+        cursor.close();
+        return arrayList;
+    }
+    public byte updateSelectedBackgroundTheme(int i) {
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+        String sql = "update hatt_background_theme_table set is_selected=0";
+        sqLiteDatabase.execSQL(sql);
+        sql = "update hatt_background_theme_table set is_selected=1 where background_code="+i;
+        sqLiteDatabase.execSQL(sql);
+        return 0;
+    }
+    public String searchSelectedBackgroundTheme() {
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from hatt_background_theme_table where is_selected=1";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql,null);
+        cursor.moveToNext();
+        String theme = cursor.getString(cursor.getColumnIndex("background_theme_name"));
+        cursor.close();
+        return theme;
     }
 
 
