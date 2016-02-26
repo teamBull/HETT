@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String TABLE_NAME = "event_table";
     public static final String TABLE_NAME2 = "friend_table";
+    public static final String TABLE_NAME3 = "event_complete_table";
 
 
 
@@ -37,6 +38,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_FRIEND_TABLE =
             "create table " + TABLE_NAME2 +
                     "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, total_point float);";
+
+    private static final String CREATE_EVENT_COMPLETE_TABLE =
+            "create table " + TABLE_NAME3 +
+                    "(_id INTEGER, MEMO TEXT NOT NULL, DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";
 
     private DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,12 +59,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_EVENT_TABLE);
         db.execSQL(CREATE_FRIEND_TABLE);
+        db.execSQL(CREATE_EVENT_COMPLETE_TABLE);
         db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME3);
         onCreate(db);
     }
 
