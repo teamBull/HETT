@@ -81,7 +81,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         RelativeLayout.LayoutParams relativeLayoutPrams;
         ViewHolder holder = (ViewHolder)view.getTag();
 
-        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("E.DATE"))));
+        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("DATE"))));
         if(maxDate == null || !maxDate.equals(dateInfo)){
             Log.d("date Info", "maxDate" + maxDate + "dateInfo" + dateInfo);
             maxDate = dateInfo;
@@ -90,20 +90,15 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
             holder.dateline.setText(dateInfo);
         }
 
-        if(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE")) == 1 ){
-            Log.d("important",String.valueOf(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE"))));
+        holder.startBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
+        if(cursor.getInt(cursor.getColumnIndex("IMPORTANCE")) == 1 ){
             holder.startBtn.setImageResource(R.drawable.star_on);
         }else{
-            Log.d("important",String.valueOf(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE"))));
             holder.startBtn.setImageResource(R.drawable.star_off);
         }
-        holder.startBtn.setTag(cursor.getInt(cursor.getColumnIndex("E._id")));
-
-        holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("E.MEMO")));
-
-        holder.dayOfWeek.setText(cursor.getString(cursor.getColumnIndex("R.DAY_OF_WEEK")));
-
-        holder.repeatDeleteBtn.setTag(cursor.getInt(cursor.getColumnIndex("E._id")));
+        holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
+        holder.dayOfWeek.setText(cursor.getString(cursor.getColumnIndex("DAY_OF_WEEK")));
+        holder.repeatDeleteBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
 
         super.bindView(view, context, cursor);
     }
@@ -117,10 +112,6 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         viewHolder.repeatDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
-                //completeEventCtr.deleteData(String.valueOf(v.getTag()));
-                //completeEventCtr.rearrangeData(String.valueOf(v.getTag()));
-                //changeCursor(getCursor());
                 if (!((RepeatEventActivity)mContext).deleteRow(String.valueOf(v.getTag())))
                     Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
             }
@@ -129,7 +120,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((RepeatEventActivity)mContext).upDateRow(String.valueOf(v.getTag()), getCursor().getInt(getCursor().getColumnIndex("E.IMPORTANCE"))))
+                if (!((RepeatEventActivity)mContext).upDateRow(String.valueOf(v.getTag())))
                     Toast.makeText(mContext, "Data Not updated", Toast.LENGTH_LONG).show();
             }
         });

@@ -192,17 +192,20 @@ public class EventTableController {
 
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
+        db.delete("repeat_table", "code = ?", new String[] { id });
         return db.delete(TABLE_NAME, "_id = ?", new String[] { id });
     }
 
     public void deleteAllData(){
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
         db.execSQL("delete from " + TABLE_NAME);
+        db.execSQL("delete from repeat_table");
     }
 
     public void rearrangeData(String id){
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
         db.execSQL("UPDATE " + TABLE_NAME + " SET _id = (_id - 1) WHERE _id > " + id);
+        db.execSQL("UPDATE repeat_table SET code = (code - 1) WHERE CODE > " + id);
         db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
     }
 

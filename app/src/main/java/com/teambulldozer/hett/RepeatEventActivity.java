@@ -150,9 +150,9 @@ public class RepeatEventActivity extends AppCompatActivity {
         requery();
         return deletedRows != 0;
     }
-    public boolean upDateRow(String rowId,int importance){
-        Log.d("upDateRow",String.valueOf(importance));
-        Integer updateRows = repeatEventController.updateImportances(rowId,importance);
+    public boolean upDateRow(String rowId){
+
+        Integer updateRows = repeatEventController.updateImportances(rowId,repeatEventController.getEventImportance(rowId));
         requery();
         return updateRows != 0;
     }
