@@ -93,9 +93,12 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
 
         if(cursor.getInt(cursor.getColumnIndex("E.IMPORTANCE")) == 1 ){
             holder.startBtn.setImageResource(R.drawable.star_on);
+
         }else{
             holder.startBtn.setImageResource(R.drawable.star_off);
+
         }
+        holder.startBtn.setTag(cursor.getInt(cursor.getColumnIndex("E._id")));
 
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("E.MEMO")));
 
@@ -124,6 +127,12 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         }else{
             viewHolder.repeatDeleteBtn.setVisibility(View.VISIBLE);
         }
+        viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     public String dayConverter(String dateInfo){
         Calendar calendar = Calendar.getInstance();

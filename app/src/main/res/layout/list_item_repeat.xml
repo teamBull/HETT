@@ -30,6 +30,7 @@
         <ImageView
             android:id="@+id/repeat_star_btn"
             android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/star_off"

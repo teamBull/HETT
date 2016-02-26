@@ -674,6 +674,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private ImageView friendBtn;
     private TextView completeSchedule;
+    private TextView repeatSchedule;
     /**
      * NavigationDrawer의 알람 토글 버튼.
      */
@@ -745,6 +746,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),CompleteActivity.class);
+                startActivityForResult(intent,0);
+            }
+        });
+        repeatSchedule = (TextView)findViewById(R.id.againSchedule);
+        repeatSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),RepeatEventActivity.class);
                 startActivityForResult(intent,0);
             }
         });

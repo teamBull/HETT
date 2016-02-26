@@ -135,8 +135,8 @@ public class RepeatEventActivity extends AppCompatActivity {
     private void populateListView() {
         this.cursor = repeatEventTableController.getEventRepeatData();
         this.cursor.moveToFirst();
-        String[] fromFieldNames = new String[] {CompleteEventTableController.Columns.MEMO};
-        int[] toViewIDS = new int[] { R.id.memo_content};
+        String[] fromFieldNames = new String[] {RepeatEventTableController.Columns.MEMO};
+        int[] toViewIDS = new int[] { R.id.repeat_memo_content};
         repeatSimpleCursorAdapter = new RepeatSimpleCursorAdapter(this,R.layout.list_item_repeat,this.cursor,fromFieldNames,toViewIDS,0,repeatEventTableController);
         this.listView.setAdapter(repeatSimpleCursorAdapter);
 

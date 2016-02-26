@@ -64,7 +64,7 @@ public class RepeatEventTableController {
 
     public Cursor getEventRepeatData(){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-        String sql = "SELECT E._ID,E.MEMO,E.IMPORTANCE,E.DATE,R.DAY_OF_WEEK FROM event_table e,repeat_table r where e.repeat = ? AND e._id = r._id ORDER BY E.DATE ASC";
+        String sql = "SELECT E._ID,MEMO,IMPORTANCE,DATE,DAY_OF_WEEK FROM event_table e,repeat_table r where e.repeat = ? AND e._id = r._id ORDER BY E.DATE ASC";
         String[] completeness = {"1"};
         Cursor res = db.rawQuery(sql, completeness);
         return res;
