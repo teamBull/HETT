@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +
-                    "(_id INTEGER, MEMO TEXT NOT NULL, DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";
+                    "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER,DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";
 
     private DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
