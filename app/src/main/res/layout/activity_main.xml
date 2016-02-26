@@ -115,6 +115,7 @@
                 android:background="@color/hatt_edittextWindow"
                 android:hint="@string/addanewtask"
                 android:paddingLeft="24dp"
+                android:paddingRight="60dp"
                 android:textSize="15dp"
                 android:textColor="@color/hatt_turquoise_opacity100"
                 android:focusableInTouchMode="true"
