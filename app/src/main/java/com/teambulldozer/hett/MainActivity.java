@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
-        FriendDataManager manager = new FriendDataManager(this);
+        FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
@@ -441,6 +441,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
+                // 편집 상태에서만 일정의 완료가 가능하게 만들기.
+                if(!MyDragSortAdapter.isOnEditMenu)
+                    return;
+
                 final int rowId = position + 1;
 
                 if (myEventController.isCompleted(rowId)) {
@@ -452,18 +456,6 @@ public class MainActivity extends AppCompatActivity {
                         shiftAndInsert(rowId);
                     /* */
                 } else {
-                /*
-                    view.animate().setDuration(300)
-                            .alpha(0)
-                            .withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    deleteAndInsert(rowId);
-                                    requery();
-                                    view.setAlpha(1);
-                                }
-                            });
-                            */
 
                     slide_out_right(lv1, position);
                     mHandler.postDelayed(new Runnable() {
@@ -473,7 +465,6 @@ public class MainActivity extends AppCompatActivity {
                             requery();
                         }
                     }, 1000);
-
                 }
 
                 requery();
