@@ -96,7 +96,8 @@
             android:background="#1bbbbf"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:id="@+id/relativeLayout2">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -159,6 +160,7 @@
                 android:textColor="#ffffff" />
 
         </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
