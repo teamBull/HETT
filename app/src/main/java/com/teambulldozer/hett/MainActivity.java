@@ -411,6 +411,17 @@ public class MainActivity extends AppCompatActivity {
         finishMenu.setTypeface(NanumSquare_B);
         deleteAllButton.setTypeface(NanumSquare_B);
 
+        ((TextView)findViewById(R.id.friend_edit)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friend_ask_1)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friend_ask_2)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.myFriendNo)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.completeSchedule)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.againSchedule)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.setting)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.pushAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.backgroundTheme)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.setBackgroundTheme)).setTypeface(NanumBarunGothic_R);
+
     }
 
     public String minuteConverter(int minuteInfo){
@@ -677,6 +688,7 @@ public class MainActivity extends AppCompatActivity {
      * 친구 버튼
      */
     private ImageView friendBtn;
+    private TextView againSchedule;
     private TextView completeSchedule;
     /**
      * NavigationDrawer의 알람 토글 버튼.
@@ -702,6 +714,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final int EDIT_FRIEND_NAME_ACTIVITY=10;
     private static final int SETTING_BACKGROUND_THEME_ACTIVITY=11;
+    private static final int FRIEND_SETTING_ACTIVITY=12; // 윤선이꺼
     /**
      * Edit_friend_name_activity화면으로 이동 후, 이름을 서로 다른 메소드에서 변경을 하기 때문에, 로컬변수로는
      * 해결할 수 없는 문제점이 있었다.
@@ -713,6 +726,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
+
         initForDrawer(); // 드로워 초기화 메소드
         initFriendAsk(); // 드로워의 대화상자 초기화 메소드.
         // 해당 메소드는 onDrawerStateChanged 메소드에서 호출하게 되었다.
@@ -878,7 +892,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FriendSettingActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,FRIEND_SETTING_ACTIVITY);
             }
         });
 
@@ -918,6 +932,12 @@ public class MainActivity extends AppCompatActivity {
                 extraBundle = intent.getExtras();//번들로 반환됐으므로 번들을 불러오면 셋팅된 값이 있다.
                 String new_friend_edit_name = extraBundle.getString("background_theme_name");//인자로 구분된 값을 불러오는 행위를 하고
                 setBackgroundTheme.setText(new_friend_edit_name); //변경된 이름을 setting!
+            }
+        }
+        else if (requestCode == FRIEND_SETTING_ACTIVITY) {
+            if(resultCode==RESULT_OK) {
+                extraBundle = intent.getExtras();
+                friend_edit.setText(DrawerTableController.getInstance().searchByFriendName());
             }
         }
 
