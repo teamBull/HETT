@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
+        new AlarmAMZero(getApplicationContext());
     }
 
     @Override
@@ -700,6 +701,7 @@ public class MainActivity extends AppCompatActivity {
      * -기호-
      */
     private static final int EDIT_FRIEND_NAME_ACTIVITY=10;
+    private static final int SETTING_BACKGROUND_THEME_ACTIVITY=11;
     /**
      * Edit_friend_name_activity화면으로 이동 후, 이름을 서로 다른 메소드에서 변경을 하기 때문에, 로컬변수로는
      * 해결할 수 없는 문제점이 있었다.
@@ -732,7 +734,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(); // 인텐트를 생성
                 intent.setClass(getApplicationContext(), SettingBackgroundThemeActivity.class); // SettingbackgroundActivity로 이동.
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
             }
         });
         backgroundThemeRightButton = (ImageView)findViewById(R.id.backgroundThemeRightButton); // 드로워의 배경 테마 변경 버튼이다(버튼이지만 이미지뷰로 구현했음)
@@ -740,7 +742,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
             }
         });
         completeSchedule = (TextView)findViewById(R.id.completeSchedule);
@@ -798,7 +800,7 @@ public class MainActivity extends AppCompatActivity {
         //반복일정 count.
         //searchByRepeatEvent
         TextView repeatScheduleNo = (TextView)findViewById(R.id.repeatScheduleNo);
-        repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent()+"");
+        repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent() + "");
         //selectByFriendName
         friend_edit = (TextView)findViewById(R.id.friend_edit);
         friend_edit.setText(DrawerTableController.getInstance().searchByFriendName() + "");
@@ -806,6 +808,8 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
         //getTotalPoint
         ((TextView)findViewById(R.id.friendlyNo)).setText(FriendDataManager.get(getApplicationContext()).getTotalPoint() + "");
+
+        setBackgroundTheme.setText(DrawerTableController.getInstance().searchSelectedBackgroundTheme());
 
     }
     /**
@@ -906,7 +910,17 @@ public class MainActivity extends AppCompatActivity {
                 String new_friend_edit_name = extraBundle.getString("new_friend_edit_name");//인자로 구분된 값을 불러오는 행위를 하고
                 friend_edit.setText(new_friend_edit_name); //변경된 이름을 setting!
             }
+
         }
+        else if(requestCode == SETTING_BACKGROUND_THEME_ACTIVITY) {
+
+            if (resultCode == RESULT_OK) {
+                extraBundle = intent.getExtras();//번들로 반환됐으므로 번들을 불러오면 셋팅된 값이 있다.
+                String new_friend_edit_name = extraBundle.getString("background_theme_name");//인자로 구분된 값을 불러오는 행위를 하고
+                setBackgroundTheme.setText(new_friend_edit_name); //변경된 이름을 setting!
+            }
+        }
+
     }
     
 }
