@@ -30,6 +30,8 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
     private ArrayList<String> mChildListContent1 = null;
     private ArrayList<String> mChildListContent2 = null;
     private ArrayList<String> mChildListContent3 = null;
+    private ArrayList<String> mChildListContent4 = null;
+    private ArrayList<String> mChildListContent5 = null;
     private ExpandableListView mListView;
     FriendDataManager friendDataManager;
     FriendDto friendItem;
@@ -61,6 +63,8 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         mChildListContent1 = new ArrayList<String>();
         mChildListContent2 = new ArrayList<String>();
         mChildListContent3 = new ArrayList<String>();
+        mChildListContent4 = new ArrayList<String>();
+        mChildListContent5 = new ArrayList<String>();
 
         //말투 - 기본 테마
         mGroupList.add("기본 테마");
@@ -80,14 +84,25 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
 
         mChildList.add(mChildListContent2);
 
+        //말투 - 외국인
+        mGroupList.add("한쿸어 어려훠효");
+
+        mChildListContent3.add("아뇽하세효");
+        mChildListContent3.add("이룬 자라고이찌요?");
+        mChildListContent3.add("같치 파이팅!!");
+
+        mChildList.add(mChildListContent3);
+
         //말투 - 극존칭
         mGroupList.add("극존칭");
 
-        mChildListContent3.add("1");
-        mChildListContent3.add("1");
-        mChildListContent3.add("1");
+        mChildListContent3.add("안녕하시옵니까");
+        mChildListContent3.add("약조들을 잊지 않고 계시온지요?");
+        mChildListContent3.add("통촉하여!!주시옵소서!!");
 
         mChildList.add(mChildListContent3);
+
+        //말투-
 
         adapter = new TalkStAdapter(this, mGroupList, mChildList);
         mListView.setAdapter(adapter);
@@ -130,9 +145,9 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                intent = new Intent(FriendTalkSettingActivity.this, FriendSettingActivity.class);
+                //intent = new Intent(FriendTalkSettingActivity.this, FriendSettingActivity.class);
                 finish();
-                startActivity(intent);
+                //startActivity(intent);
 
             }
         });
@@ -149,6 +164,10 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
                 intent = new Intent(FriendTalkSettingActivity.this, FriendSettingActivity.class);
                 finish();
                 startActivity(intent);
+//                Intent intent = getIntent();
+//                intent.putExtra("data_talk",talkSt);
+//                setResult(2,intent);
+                finish();
                 break;
         }
     }

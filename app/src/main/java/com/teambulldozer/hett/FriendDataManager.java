@@ -53,7 +53,7 @@ public class FriendDataManager {
         int id = cursor.getInt(0);
         String friend_name = cursor.getString(1);
         String talk_st = cursor.getString(2);
-        float total_point = cursor.getFloat(3);
+        double total_point = cursor.getDouble(3);
 
         friend.setId(id);
         friend.setFriendName(friend_name);
@@ -85,20 +85,20 @@ public class FriendDataManager {
         dbHelper.close();
     }
 
-    public float getTotalPoint(){
+    public double getTotalPoint(){
         db = dbHelper.getReadableDatabase();
-        float size;
+        double size;
 
         cursor = db.rawQuery("SELECT * FROM friend_table", null);
         cursor.moveToNext();
 
-        size = cursor.getFloat(3);
+        size = cursor.getDouble(3);
 
         dbHelper.close();
         cursor.close();
         return size;
     }
-    public void updateTotalPoint(int id, float totalPoint){
+    public void updateTotalPoint(int id, double totalPoint){
         db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("total_point", totalPoint);

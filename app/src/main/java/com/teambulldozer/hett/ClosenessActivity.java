@@ -5,19 +5,28 @@ import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 /**
  * Created by YUNSEON on 2016-02-16.
  */
 public class ClosenessActivity extends AppCompatActivity {
+
+    NextGiftAdapter adapter;
+    ArrayList al;
+    RelativeLayout rlthemeEx;
 
     Button btnPrevCloseness;
 
@@ -33,8 +42,10 @@ public class ClosenessActivity extends AppCompatActivity {
 
     ImageView ivGiftBox0, ivGiftBox1, ivGiftBox2, ivGiftBox3, ivGiftBox4, ivGiftBox5;
 
+    ListView lvGiftEx;
+
     float todayPoint;
-    float totalPoint;
+    double totalPoint;
 
     // 폰트
     Typeface NanumSquare_B;
@@ -67,7 +78,6 @@ public class ClosenessActivity extends AppCompatActivity {
         @Override
         public void run() {
             doTheDownAnimation(fromLevel, toLevel);
-            Log.i("ddd", toLevel + ", " + fromLevel);
         }
     };
     @Override
@@ -90,10 +100,15 @@ public class ClosenessActivity extends AppCompatActivity {
             }
         });
 
-        todayPoint = (float)controller.getCompletedDataSize()/controller.numOfEntries();
+        if(controller.numOfEntries() == 0){
+            todayPoint = 0;
+        }else {
+            todayPoint = (float) controller.getCompletedDataSize() / controller.numOfEntries();
+        }
+        //datamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
+        totalPoint = dataManager.getTotalPoint()+todayPoint;
+        dataManager.updateTotalPoint(1, totalPoint);
 
-        dataManager.updateTotalPoint(1, dataManager.getTotalPoint()+todayPoint);
-        totalPoint = dataManager.getTotalPoint();
 
         tvTodayPoint = (TextView)findViewById(R.id.tvTodayPoint);
         tvTodayPoint.setText(String.format("%.1f°", todayPoint));
@@ -125,23 +140,51 @@ public class ClosenessActivity extends AppCompatActivity {
         ivGiftBox4 = (ImageView)findViewById(R.id.ivGiftBox4);
         ivGiftBox5 = (ImageView)findViewById(R.id.ivGiftBox5);
 
-        //gift box 켰다 끄기
+        ArrayList al = new ArrayList();
+        rlthemeEx = (RelativeLayout)findViewById(R.id.rlthemeEx);
+        //gift box 켰다 끄기, 보상 미리보기
         if(totalPoint <= 0){
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            tvClGift.setText("말투");
+            tvClGiftTitle.setText("연서복");
+            al.add("울 애긔~ㅎ안녕?ㅎ");
+            al.add("어빠가 울 애긔 일 좀 도와줄까~ㅎ");
+            al.add("오눌도 히믈내요! 자랄쑤이쏘!");
+            al.add("넝담~ㅎ");
         }else if (totalPoint < 20){
+            tvClGift.setText("배경");
+            tvClGiftTitle.setText("나무나무");
+            rlthemeEx.setBackground((getResources().getDrawable(R.drawable.bg_pattern_tree)));
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+
         }else if (totalPoint < 40){
+            tvClGift.setText("배경");
+            tvClGiftTitle.setText("스트라이프");
+            rlthemeEx.setBackground((getResources().getDrawable(R.drawable.pattern_bg_stripe)));
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+
         }else if (totalPoint < 60){
+            tvClGift.setText("말투");
+            tvClGiftTitle.setText("한쿸어 어려훠효");
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            al.add("아뇽하세효");
+            al.add("이룬 자라고이찌요?");
+            al.add("오눌도 히믈내요! 자랄쑤이쏘!");
+            al.add("같치 파이팅!!");
         }else if (totalPoint < 80){
+            tvClGift.setText("말투");
+            tvClGiftTitle.setText("극존칭");
+            al.add("안녕하시옵니까");
+            al.add("약조들을 잊지 않고 계시온지요?");
+            al.add("통촉하여!!주시옵소서!!");
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+
         }else if (totalPoint < 100){
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
@@ -152,8 +195,18 @@ public class ClosenessActivity extends AppCompatActivity {
 
         }
 
-        //다음 보상 보여주는 것 1. 리스트뷰로 말투 보여주기 2. 배경 보여주기
 
+        //다음 보상 보여주는 것 1. 리스트뷰로 말투 보여주기 2. 배경 보여주기
+        lvGiftEx = (ListView)findViewById(R.id.lvGiftEx);
+
+
+
+        adapter = new NextGiftAdapter (
+                getApplicationContext(), // 현재 화면의 제어권자
+                R.layout.list_closeness_gift_ex, // 한행을 담당할 Layout
+                al); // 데이터
+
+        lvGiftEx.setAdapter(adapter);
 
         ImageView img = (ImageView) findViewById(R.id.imageView1);
         mImageDrawable = (ClipDrawable) img.getDrawable();
