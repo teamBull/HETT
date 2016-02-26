@@ -63,13 +63,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_FRIEND_TABLE);
         db.execSQL(CREATE_EVENT_COMPLETE_TABLE);
         db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (1,'첫번째메모',1,20160226);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (2,'두번째메모',1,20160226);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (3,'세번째메모',1,20160227);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (4,'네번째메모',1,20160227);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (5,'다섯번째메모',1,20160228);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (6,'여섯번째메모',1,20160228);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (1,'첫번째메모',1,20160226);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (7,'일곱번째메모',1,20160229);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (2,'두번째메모',1,20160226);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (3,'세번째메모',1,20160227);");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (6,'여섯번째메모',1,20160228);");
+
     }
 
     @Override

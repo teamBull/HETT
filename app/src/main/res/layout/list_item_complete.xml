@@ -8,13 +8,17 @@
     android:clickable="false"
     android:focusable="false"
     >
-    <ImageView
+
+    <TextView
         android:id="@+id/border_line"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/completeEventAcitivity_date_textsize"
+        android:textColor="@color/hatt_completed_event_date"
         android:background="@color/hatt_background"
         >
-    </ImageView>
+    </TextView>
 
     <RelativeLayout
         android:layout_below="@id/border_line"
