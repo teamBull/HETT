@@ -52,12 +52,15 @@ public class RepeatEventTableController {
     //delete
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        return db.delete("event_table", "_id = ?", new String[] { id });
+        unRepeatDate(id,db);
+        return db.delete("repeat_table", "_id = ?", new String[] { id });
     }
 
     public void deleteAllData(){
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        db.execSQL("DELETE FROM " + "event_table");
+        //UPDATE
+        unRepeatAllData(db);
+        db.execSQL("DELETE FROM " + "repeat_table");
     }
 
     public Cursor getEventRepeatData(){
@@ -67,10 +70,25 @@ public class RepeatEventTableController {
         Cursor res = db.rawQuery(sql, completeness);
         return res;
     }
-
+    //update
+    public void unRepeatDate(String id){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        db.execSQL("UPDATE event_table set repeat = 0 where _id = " + id);
+    }
+    public void unRepeatDate(String id,SQLiteDatabase db){
+        db.execSQL("UPDATE event_table set repeat = 0 where _id = " + id);
+    }
+    public void unRepeatAllData(){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        db.execSQL("UPDATE event_table set repeat = 0");
+    }
+    public void unRepeatAllData(SQLiteDatabase db){
+        db.execSQL("UPDATE event_table set repeat = 0");
+    }
     public void rearrangeData(String id){
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
         db.execSQL("UPDATE event_table SET _id = (_id - 1) WHERE _id > " + id);
+        db.execSQL("UPDATE repeat_table SET _id = (_id - 1) WHERE _id > " + id);
         db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
     }
 }
