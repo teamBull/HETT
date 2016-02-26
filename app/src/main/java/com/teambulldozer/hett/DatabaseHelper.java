@@ -30,6 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME3 = "event_complete_table";
     public static final String TABLE_NAME4 = "repeat_table";
     public static final String VIEW_NAME = "event_repeat_view";
+    public static final String TABLE_NAME6 = "hatt_setting_table";
+    public static final String TABLE_NAME5="hatt_background_theme_table";
+
 
     private static final String CREATE_EVENT_TABLE =
             "create table " + TABLE_NAME +
@@ -59,6 +62,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "FROM event_table e, repeat_table r " +
                     "WHERE e._id = r._id AND e.repeat = 1";*/
 
+    //기호
+    private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
+    private static final String CREATE_HATT_BACKGROUND_THEME_TABLE = "create table "+TABLE_NAME5+" (background_code integer primary key autoincrement , background_theme_name text not null, is_background_permission integer not null,is_selected integer not null);";
+    //
     private DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
@@ -88,7 +95,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(7,'데이트',1,0,20160211,1,0);");
 
         //complete_table
-        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0);");
+        db.execSQL(CREATE_HATT_SETTING_TABLE);
+        db.execSQL(CREATE_HATT_BACKGROUND_THEME_TABLE);
+
+        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0, 0);");
+
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (4,'네번째메모',1,20160227);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (5,'다섯번째메모',1,20160228);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (1,'첫번째메모',1,20160226);");
@@ -105,6 +116,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(6,'일');" );
         db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(7,'화');" );
 
+        db.execSQL("insert into "+TABLE_NAME6+" values('user1','Hatti',0);");
+
+        db.execSQL("insert into "+TABLE_NAME5+" values(0,'기본 테마',1,1)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(1,'바다',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(2,'나무나무',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(3,'스트라이프',1,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");
+
+
+
     }
 
     @Override
@@ -113,6 +135,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME3);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME4);
         //db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
+        db.execSQL("drop table if exists "+TABLE_NAME6);
+        db.execSQL("drop table if exists "+TABLE_NAME5);
         onCreate(db);
     }
 

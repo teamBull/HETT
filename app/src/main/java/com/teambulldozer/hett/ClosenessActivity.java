@@ -44,7 +44,7 @@ public class ClosenessActivity extends AppCompatActivity {
 
     ListView lvGiftEx;
 
-    float todayPoint;
+    double todayPoint;
     double totalPoint;
 
     // 폰트
@@ -100,14 +100,8 @@ public class ClosenessActivity extends AppCompatActivity {
             }
         });
 
-        if(controller.numOfEntries() == 0){
-            todayPoint = 0;
-        }else {
-            todayPoint = (float) controller.getCompletedDataSize() / controller.numOfEntries();
-        }
-        //datamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
-        totalPoint = dataManager.getTotalPoint()+todayPoint;
-        dataManager.updateTotalPoint(1, totalPoint);
+        todayPoint = dataManager.getTodayPoint();
+        totalPoint = dataManager.getTotalPoint();
 
 
         tvTodayPoint = (TextView)findViewById(R.id.tvTodayPoint);

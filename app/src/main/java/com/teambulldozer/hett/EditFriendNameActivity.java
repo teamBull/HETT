@@ -1,6 +1,7 @@
 package com.teambulldozer.hett;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,16 +31,27 @@ public class EditFriendNameActivity extends AppCompatActivity {
      * 이전 화면으로 넘어가는 액티비티.
      */
     private ImageView editFriendNamePrevPage;
+    private Typeface NanumSquare_B ;
+    private Typeface NanumBarunGothic_R ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_friend_name);
         //초기화 메소드.
         initView();
+        setFont();
         //초기화 된 뷰들의 이벤트를 등록하는 메소드.
         registerListener();
     }
+    public void setFont() {
+        NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
+        NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
+        friendNameEditText.setTypeface(NanumBarunGothic_R);
+        okayBtn.setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.editFriendNameTextView)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.friend_name_description_view)).setTypeface(NanumBarunGothic_R);
 
+    }
     /**
      * 해당 메소드는 해당 액티비티(activity_edit_friend_name) 에서 사용하는 View들의 객체를 xml로 접근해서 초기화 해주는 역할을 한다.
      */

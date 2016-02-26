@@ -9,16 +9,18 @@ public class FriendDto implements Serializable {
     private int id;
     private String friendName;
     private String friendTalkSt;
+    private double todayPoint;
     private double totalPoint;
 
     public FriendDto() {
     }
 
-    public FriendDto(int id, String friendName, String friendTalkSt, float totalPoint) {
+    public FriendDto(int id, String friendName, String friendTalkSt, double todayPoint, double totalPoint) {
         super();
         this.id = id;
         this.friendName = friendName;
         this.friendTalkSt = friendTalkSt;
+        this.todayPoint = todayPoint;
         this.totalPoint = totalPoint;
     }
 
@@ -46,6 +48,14 @@ public class FriendDto implements Serializable {
         this.friendTalkSt = friendTalkSt;
     }
 
+    public double getTodayPoint() {
+        return todayPoint;
+    }
+
+    public void setTodayPoint(double todayPoint) {
+        this.todayPoint = todayPoint;
+    }
+
     public double getTotalPoint() {
         return totalPoint;
     }
@@ -53,4 +63,6 @@ public class FriendDto implements Serializable {
     public void setTotalPoint(double totalPoint) {
         this.totalPoint = totalPoint;
     }
+
+
 }

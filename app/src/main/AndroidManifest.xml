@@ -22,6 +22,7 @@
         </activity>
 
         <receiver android:name=".SelfPushReceiver" />
+        <receiver android:name=".AlarmAMZeroReceiver"/>
 
         <activity android:name=".EditFriendNameActivity" />
         <activity android:name=".SettingBackgroundThemeActivity" />
