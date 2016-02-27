@@ -34,11 +34,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
-<<<<<<< HEAD
-=======
 import java.text.DecimalFormat;
-import java.text.ParseException;
->>>>>>> giho
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

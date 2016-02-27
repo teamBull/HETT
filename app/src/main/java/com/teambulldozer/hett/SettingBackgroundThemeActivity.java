@@ -1,12 +1,15 @@
 package com.teambulldozer.hett;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,15 +21,14 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     private ListView settingBackgroundThemeListView;
     private TextView settingBackgroundThemeOkBtn;
     private BackgroundThemeAdapter backgroundThemeAdapter;
+    private Typeface NanumSquare_B;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settting_background_theme);
-        /*new Thread() { // 너무 느려서 Thread를 일단 사용했습니다. 나중에 DB접근하는 코드가 나와도 됩니다.
-            public void run(){
-                initBackgroundTheme();
-            }
-        }.start();*/
+
+
         initBackgroundTheme();
         settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
         settingBackgroundThemeOkBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,9 +42,17 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
 
             }
         });
+        setFont();
 
     }
+    public void setFont() {
+        NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
 
+
+        ((TextView)findViewById(R.id.settingBackgroundTextView)).setTypeface(NanumSquare_B);
+        settingBackgroundThemeOkBtn.setTypeface(NanumSquare_B);
+
+    }
     public void initBackgroundTheme() {
         ArrayList<BackgroundThemeDTO> arrayList = DrawerTableController.getInstance().searchBackbroundThemeDTOAllData();
         /*ArrayList<String> arrayList = new ArrayList<String>();
