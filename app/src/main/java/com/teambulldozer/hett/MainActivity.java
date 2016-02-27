@@ -36,6 +36,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -826,14 +827,8 @@ public class MainActivity extends AppCompatActivity {
         //드로워의 시간 초기화
         ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
         //getTotalPoint
-        double friendlyStr =  FriendDataManager.get(getApplicationContext()).getTotalPoint() ;
-        String friendlyNo = "";
-        if(friendlyStr >= 10.0 ) {
-            friendlyNo=(friendlyStr+"").substring(0,4);
-        } else {
-            friendlyNo=(friendlyStr+"").substring(0,3);
-        }
-        ((TextView)findViewById(R.id.friendlyNo)).setText(friendlyNo);
+        double friendlyStr = FriendDataManager.get(getApplicationContext()).getTotalPoint() ;
+        ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
 
         setBackgroundTheme.setText(DrawerTableController.getInstance().searchSelectedBackgroundTheme());
 
