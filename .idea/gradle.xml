@@ -10,6 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libs" />
+            <option value="$PROJECT_DIR$/libs/ListViewAnimations" />
+            <option value="$PROJECT_DIR$/libs/drag-sort-listview" />
           </set>
         </option>
       </GradleProjectSettings>

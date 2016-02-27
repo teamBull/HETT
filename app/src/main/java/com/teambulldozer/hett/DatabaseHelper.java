@@ -4,237 +4,141 @@ package com.teambulldozer.hett;
  * Created by flecho on 2016. 2. 7..
  */
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by flecho on 2016. 2. 3..
+ * 아래의 DB에서 Integer 값을 갖는 정보는 IMPORTANCE(중요도), COMPLETENESS(완수여부), DATE(날짜정보),
+ * REPEAT(반복여부), ALARM(알람여부) 이다.
+ *
+ * 이중에서 DATE(날짜정보)만 20160208 과 같은 Integer key값을 갖고
+ * 나머지 값들은 1과 0의 두 가지 값만 갖게 된다. 세팅되어 있을 경우 1을, 세팅되어 있지 않을 경우 0의 값을 갖는다.
+ * ex) 어떤 일정이 IMPORTANCE = 1, COMPLETENESS = 0 의 값을 가질 경우, 이 일정은 노란별 표시가 있는, 아직 완료되지 않은 일정을 뜻한다.
+ *
  */
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "Event.db"; // case-insensitive
+    private static DatabaseHelper mDatabaseHelper;
+    private Context mContext;
+    public static final String DATABASE_NAME = "HATT.db"; // case-insensitive
+    public static final int DATABASE_VERSION = 2;
     public static final String TABLE_NAME = "event_table";
+    public static final String TABLE_NAME2 = "friend_table";
+    public static final String TABLE_NAME3 = "event_complete_table";
+    public static final String TABLE_NAME4 = "repeat_table";
+    public static final String VIEW_NAME = "event_repeat_view";
+    public static final String TABLE_NAME6 = "hatt_setting_table";
+    public static final String TABLE_NAME5="hatt_background_theme_table";
 
-    // There are only two columns
-    public static final String COL_1 = "_id"; // Cursor 는 무조건 _ID가 있어야...
-    public static final String COL_2 = "MEMO";
-    public static final String COL_3 = "IMPORTANCE";
-    public static final String COL_4 = "COMPLETENESS";
 
+    private static final String CREATE_EVENT_TABLE =
+            "create table " + TABLE_NAME +
+                    " (_id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE INTEGER, REPEAT INTEGER, ALARM INTEGER);";
 
-    public DatabaseHelper(Context context){
-        super(context, DATABASE_NAME, null, 1);
+    private static final String CREATE_FRIEND_TABLE =
+            "create table " + TABLE_NAME2 +
+                    "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, today_point double, total_point double);";
+
+    /*private static final String CREATE_EVENT_COMPLETE_TABLE =
+            "create table " + TABLE_NAME3 +
+                    "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER,DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";*/
+    private static final String CREATE_EVENT_COMPLETE_TABLE =
+            "create table " + TABLE_NAME3 +
+                    "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER NOT NULL,DATE INTEGER NOT NULL);";
+    /*private static final String CREATE_EVENT_REPEAT_TABLE=
+            "create table " + TABLE_NAME4 +
+                    "(_id INTEGER, DAY_OF_WEEK TEXT NOT NULL, FOREIGN KEY(_id) REFERENCES event_table(_id))";*/
+
+    private static final String CREATE_EVENT_REPEAT_TABLE=
+            "create table " + TABLE_NAME4 +
+                    "(code INTEGER, DAY_OF_WEEK TEXT NOT NULL)";
+    private static final String CREATE_EVENT_REPREAT_VIEW=
+            "CREATE VIEW " + VIEW_NAME +
+                    " AS " +
+                    " SELECT *" +
+                    " FROM event_table e, repeat_table r" +
+                    " WHERE e._id = r.code AND e.repeat = 1";
+
+    //기호
+    private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
+    private static final String CREATE_HATT_BACKGROUND_THEME_TABLE = "create table "+TABLE_NAME5+" (background_code integer primary key autoincrement , background_theme_name text not null, is_background_permission integer not null,is_selected integer not null);";
+    //
+    private DatabaseHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
+
+    public static DatabaseHelper get(Context context){
+        if(mDatabaseHelper == null){
+            mDatabaseHelper = new DatabaseHelper(context);
+        }
+        return mDatabaseHelper;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        // And, if you want to create a table inside your DB,
-        db.execSQL("create table " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE TEXT, COMPLETENESS TEXT);");
+        db.execSQL(CREATE_EVENT_TABLE);
+        db.execSQL(CREATE_FRIEND_TABLE);
+        db.execSQL(CREATE_EVENT_COMPLETE_TABLE);
+        db.execSQL(CREATE_EVENT_REPEAT_TABLE);
+        db.execSQL(CREATE_EVENT_REPREAT_VIEW);
+        //event_table
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,20160227,1,0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,20160227,1,0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,20160228,1,0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(4,'춤추기',0,0,20160229,1,0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(5,'노래부르기',1,0,20160210,1,0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(6,'잠자기',1,0,20160211,1,0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(7,'데이트',1,0,20160211,1,0);");
+
+        //complete_table
+        db.execSQL(CREATE_HATT_SETTING_TABLE);
+        db.execSQL(CREATE_HATT_BACKGROUND_THEME_TABLE);
+
+        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0, 0);");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (4,'네번째메모',1,20160227);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (5,'다섯번째메모',1,20160228);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (1,'첫번째메모',1,20160226);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (7,'일곱번째메모',1,20160229);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (2,'두번째메모',1,20160226);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (3,'세번째메모',1,20160227);");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (6,'여섯번째메모',1,20160228);");
+        //여기는 임시 REPEAT_TABLE 값
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(1,'월,화,수');" );
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(2,'화,수');" );
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(3,'월,화,수');" );
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(4,'수');" );
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(5,'금');" );
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(6,'일');" );
+        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(7,'화');" );
+
+        db.execSQL("insert into "+TABLE_NAME6+" values('user1','Hatti',0);");
+
+        db.execSQL("insert into "+TABLE_NAME5+" values(0,'기본 테마',1,1)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(1,'바다',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(2,'나무나무',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(3,'스트라이프',1,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");
+
+
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME3);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME4);
+        db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
+        db.execSQL("drop table if exists "+TABLE_NAME6);
+        db.execSQL("drop table if exists "+TABLE_NAME5);
         onCreate(db);
     }
 
-    public boolean insertData(String memo, boolean completeness){
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, memo);
-        contentValues.put(COL_3, "false"); // 입력 단계에서 중요 설정 할 수 없으므로, default 값은 false.
-
-        if(completeness)
-            contentValues.put(COL_4, "1"); // 입력 단계에서 완수여부 마찬가지로 설정할 수 없음.
-        else
-            contentValues.put(COL_4, "0"); // 입력 단계에서 완수여부 마찬가지로 설정할 수 없음.
-
-        long result = db.insert(TABLE_NAME, null, contentValues); // takes 3 arguments..
-        if(result == -1)
-            return false;
-        else
-            return true;
-    }
-
-    public Cursor getCompletenessData(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = { COL_1, COL_4 };
-        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-        return cursor;
-    }
-
-    public boolean isThereCompletedData(){
-        Cursor cursor = getCompletenessData();
-        cursor.moveToFirst();
-
-        try {
-            do {
-                if(cursor.getString(1).equals("1")) // "1" means it is completed.
-                    return true;
-                else
-                    continue;
-            } while (cursor.moveToNext());
-        } finally {
-
-            if(cursor != null)
-                cursor.close();
-
-        }
-        return false;
-    }
-
-    // 커서는 id와 별개로 움직이나?
-    public boolean isCompleted(int position){ // maybe position_sync?
-        Cursor cursor = getCompletenessData();
-        cursor.moveToFirst();
-
-        try {
-            do {
-                if (Integer.toString(position).equals(cursor.getString(0))) {
-                    if(cursor.getString(1).equals("1")) // "1" means it is completed.
-                        return true;
-                    else
-                        return false;
-                }
-
-            } while (cursor.moveToNext());
-
-        } finally {
-            if(cursor != null)
-                cursor.close();
-        }
-
-
-        return false;
-    }
-
-
-    public Cursor getMemoData(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = { COL_1, COL_2 };
-        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-        return cursor;
-    }
-
-    public String getMemoAt(int position){
-        Cursor cursor = getMemoData();
-        cursor.moveToFirst();
-        try{
-            do {
-                if (Integer.toString(position).equals(cursor.getString(0)))
-                    return cursor.getString(1);
-
-            } while (cursor.moveToNext());
-        } finally {
-            if(cursor != null)
-                cursor.close();
-        }
-
-        return "Error";
-    }
-
-    public Cursor getImportanceData(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = { COL_1, COL_3 };
-        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-        return cursor;
-    }
-
-
-    public boolean updateData(String id, String memo, String importance, String completeness){
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues values = new ContentValues();
-        values.put(COL_1, id);
-        //values.put(COL_2, memo);
-        values.put(COL_3, importance);
-        values.put(COL_4, completeness);
-        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
-
-        return true;
-    }
-
-    public Integer deleteData(String id){ // Since id is a primary key
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        return db.delete(TABLE_NAME, "_id = ?", new String[] { id });
-    }
-
-    public void deleteAllData(){
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        db.execSQL("delete from " + TABLE_NAME);
-    }
-
-    public void rearrangeData(String id){
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        db.execSQL("UPDATE " + TABLE_NAME + " SET _id = (_id - 1) WHERE _id > " + id);
-        db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
-    }
-
-    public void moveDataToTop(String memo){
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues values = new ContentValues();
-        values.put(COL_2, memo);
-        values.put(COL_3, "false");
-        values.put(COL_4, "0");
-        db.update(TABLE_NAME, values, " _id = ?", new String[]{"1"});
-    }
-
-
-    public void shiftData(int position){
-
-        for(; position >= 1; position--){
-            shiftData_aux(position);
-        }
-    }
-
-
-    public void shiftData_aux(int position){
-
-        SQLiteDatabase db_read = this.getReadableDatabase();
-        String[] columns = {COL_1, COL_2, COL_3, COL_4};
-        Cursor cursor = db_read.query(TABLE_NAME, columns, null, null, null, null, null);
-        cursor.moveToFirst();
-
-        try {
-
-            do {
-                if (Integer.toString(position).equals(cursor.getString(0))) {
-                    SQLiteDatabase db_write = this.getWritableDatabase();
-                    ContentValues values = new ContentValues();
-                    values.put(COL_2, cursor.getString(1));
-                    values.put(COL_3, cursor.getString(2));
-                    values.put(COL_4, cursor.getString(3));
-                    String id = Integer.toString(position + 1);
-                    db_write.update(TABLE_NAME, values, " _id = ?", new String[]{id});
-
-                }
-
-            } while (cursor.moveToNext());
-        } finally {
-            if(cursor != null)
-                cursor.close(); // Error doesn't occur.
-        }
-
-    }
-
-    public Cursor getAllData(){
-        SQLiteDatabase db = this.getWritableDatabase(); // It is going to create your database and table.
-        Cursor res = db.rawQuery("select rowid _id, * from " + TABLE_NAME, null);
-        // SQLiteDatabase class provides result sets as Cursor instances.
-        return res;
-        // Cursor가 하는 일이 뭐야?
-        // Cursor를 이용하면 우리의 데이터에 접근할 수 있음.
-    }
-
-    public long numOfEntries()
-    {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
-    }
-
-
 }
+

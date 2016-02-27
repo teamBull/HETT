@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_complete"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/hatt_white"
+    android:descendantFocusability="blocksDescendants"
+    android:clickable="false"
+    android:focusable="false"
+    >
+
+    <TextView
+        android:id="@+id/border_line"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/completeEventAcitivity_date_textsize"
+        android:textColor="@color/hatt_completed_event_date"
+        android:background="@color/hatt_background"
+        >
+    </TextView>
+
+    <RelativeLayout
+        android:layout_below="@id/border_line"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/delete_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/delete"
+            />
+
+
+        <TextView
+            android:id="@+id/memo_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
+            android:textSize="14dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/hatt_memocolor"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

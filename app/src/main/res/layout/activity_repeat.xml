@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/repeat_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/hatt_background"
+    >
+    <RelativeLayout
+        android:id="@+id/repeat_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        >
+
+        <ImageView
+            android:id="@+id/repeat_prev_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/prev"
+            android:background="@android:color/transparent"
+            />
+
+        <TextView
+            android:id="@+id/repeat_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:paddingLeft="48dp"
+            android:textColor="@color/hatt_edit"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="반복 일정"
+            />
+
+        <TextView
+            android:id="@+id/repeat_delete_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="15dp"
+            android:layout_marginRight="12dp"
+            android:textColor="@color/hatt_edit"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="삭제"
+            />
+
+        <TextView
+            android:id="@+id/repeat_finish_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="15dp"
+            android:layout_marginRight="12dp"
+            android:textColor="@color/hatt_edit"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:text="완료"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/repeat_layout_line"
+        android:layout_below="@+id/repeat_toolbar_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="0.7dp"
+        android:background="@color/hatt_linecolor"
+        />
+
+    <ListView
+        android:id="@+id/repeat_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_below="@+id/repeat_layout_line"
+        android:smoothScrollbar="true"
+        android:scrollingCache="false"
+        android:animationCache="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="2dp"
+        >
+    </ListView>
+
+    <TextView
+        android:id="@+id/repeat_delete_all_btn"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:text="전체 삭제 하기"
+        android:textSize="16dp"
+        android:textColor="@color/hatt_white"
+        android:background="@color/hatt_cyan"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        />
+</com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout>

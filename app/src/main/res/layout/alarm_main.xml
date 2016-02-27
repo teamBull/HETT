@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/main"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btn_release_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="알람 해제 ___Reset Alarm___"/>
+
+    <include layout="@layout/alarm_top_bar" />
+
+    <!--alarm title bar-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="10dp"
+        android:orientation="vertical">
+
+        <!--alarm icon and text-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/alarm" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="#1bbbbf"
+                android:textSize="15sp"
+                android:text="알람" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/btn_add_alarm_time"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/add" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="#dcdcdc">
+        </LinearLayout>
+
+
+        <!--alarm contents-->
+        <LinearLayout
+            android:id="@+id/alarmContentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+
+
+        <!--repeat title bar-->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:id="@+id/repeatTitle"
+            android:orientation="horizontal"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/repeat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="#1bbbbf"
+                android:textSize="15sp"
+                android:text="반복" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#d0d0d0"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:background="#dcdcdc">
+        </LinearLayout>
+
+
+        <!--repeat contents-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="322.1dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="12dp"
+            android:background="#fbfbfb"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/checkBoxNoRepeat"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="반복없음"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageNoRepeat"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxMon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="월요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageMon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxTue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="화요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageTue"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxWed"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="수요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageWed"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxThu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="목요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageThu"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxFri"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="금요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageFri"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxSat"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="토요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageSat"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--구분선-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="#dcdcdc">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/checkBoxSun"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="onClick">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="일요일"
+                    android:textSize="14sp"
+                    android:textColor="#727272" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:id="@+id/checkImageSun"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/check"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <Button
+            android:id="@+id/btn_set_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="확인"
+            android:textColor="#1bbbbf"
+            android:background="@android:color/transparent"/>
+
+    </LinearLayout>
+
+</LinearLayout>
