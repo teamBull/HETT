@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="오늘 우리 사이는"
+                    android:text="다음 보상까지"
                     android:id="@+id/tvCl1"
                     android:layout_alignParentBottom="true"
                     android:layout_toLeftOf="@+id/tvTodayPoint"
@@ -135,7 +135,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="올라갔어요 :-)"
+                    android:text="남았어요:-)"
                     android:id="@+id/tvCl2"
                     android:layout_alignTop="@+id/tvCl1"
                     android:layout_toRightOf="@+id/tvTodayPoint"
