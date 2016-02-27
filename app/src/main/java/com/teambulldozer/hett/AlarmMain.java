@@ -6,12 +6,14 @@ import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +23,6 @@ import java.util.GregorianCalendar;
 public class AlarmMain extends Activity implements OnClickListener {
 
     private static final String TAG = "MainActivity";
-    private static final String INTENT_ACTION = "android.intent.action.CallResult";
     int year, hour, minute;
     static int alarmHour, alarmMinute;
     boolean importance = false;
@@ -30,7 +31,7 @@ public class AlarmMain extends Activity implements OnClickListener {
 
     // DB Info
     SQLiteDatabase db;
-    EventTableController eventTableController;
+    EventTableController eventTableController = EventTableController.get(this);
 
     // Set buttons
     private Button[] alarmButtons;
@@ -61,6 +62,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         setAlarmButtons();
         setCalenderParam(this);
 
+        initData();
     }
 
     @Override
@@ -152,6 +154,41 @@ public class AlarmMain extends Activity implements OnClickListener {
             default:
                 break;
         }
+    }
+
+    private void initData() {
+        Intent i = getIntent();
+        int position = i.getIntExtra("position", 1);
+
+        Cursor eventTableCursor = eventTableController.getAllData();
+        Log.i("POSITION : ", "at " + position);
+
+        // set pre-Importance, set pre-Todo
+        int preImportance = 0;
+        String preTodo = "";
+        int _id = 0;
+        while(eventTableCursor.moveToNext()) {
+            _id = eventTableCursor.getInt(eventTableCursor.getColumnIndex("_id"));
+
+            preImportance = eventTableCursor.getInt(eventTableCursor.getColumnIndex("IMPORTANCE"));
+            Log.i("IMPORTANCE : ", "_id : " + Integer.toString(_id) + ", Importance : " + Integer.toString(preImportance));
+
+            preTodo = eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
+            Log.i("MEMO : ", "_id : " + Integer.toString(_id) + ", Memo : " + preTodo);
+
+            if(position == _id) break;
+        }
+        if(preImportance == 0) {
+            importance = false;
+        } else {
+            importance = true;
+        }
+
+
+        setImportance();
+
+        EditText et = (EditText) findViewById(R.id.alarm_todo_title);
+        et.setText(preTodo);
     }
 
     private void setImportance() {

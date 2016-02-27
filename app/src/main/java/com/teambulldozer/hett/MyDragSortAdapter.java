@@ -80,7 +80,7 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
         ifClickedDeleteData(holder1, position_sync); // 딜리트버튼을 클릭하면 해당 데이터를 지워준다!
         initializeAllButtons(holder1); // 처음에 모든 버튼을 모두 보이게 해놨다가, 조건에 의해 필요없는 것은 끄는 방식.
         ifIsOnBorder(holder1, position_sync);
-        ifNextButtonClicked(holder1);
+        ifNextButtonClicked(holder1, position_sync);
 
         if(isOnEditMenu){ // 일반적인 상태
             setEditCondition(holder1);  // More general Condition;
@@ -115,13 +115,14 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
 
 
     // 태훈이 합치는 부분.
-    public void ifNextButtonClicked(ViewHolder viewHolder){
+    public void ifNextButtonClicked(ViewHolder viewHolder, final int position_sync){
         viewHolder.nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, AlarmMain.class);
-                mContext.startActivity(i);
+                i.putExtra("position", position_sync);
 
+                mContext.startActivity(i);
             }
         });
 
