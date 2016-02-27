@@ -190,7 +190,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        if(drawerLayout.isEnabled()) {
+            drawerLayout.closeDrawer(drawerView);
+            return;
+        }
+        else if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
         {
             super.onBackPressed();
             return;
