@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,10 @@ public class AlarmMain extends Activity implements OnClickListener {
     boolean importance = false;
     static boolean hasAlarm = false;
     boolean noRepeat, mon, tue, wed, thu, fri, sat, sun = false;
+
+    // DB Info
+    SQLiteDatabase db;
+    EventTableController eventTableController;
 
     // Set buttons
     private Button[] alarmButtons;
