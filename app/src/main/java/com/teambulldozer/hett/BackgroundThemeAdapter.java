@@ -51,20 +51,23 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     @Override
     public View getView(final int position,View covertView,ViewGroup parent) {
         final View itemLayout = layoutInflater.inflate(R.layout.list_setting_background_theme,null);
+        arrayListView.add(itemLayout);
         TextView backgroundThemeName = (TextView)itemLayout.findViewById(R.id.backgroundThemeName); // 백그라운드 테마 객체를 받아옴.
         backgroundThemeName.setText(arrayList.get(position).getBackgroundThemeName()); // 테마 명 set.
         backgroundThemeName.setTypeface(NanumBarunGothic_R);
         ImageView backgroundThemeOpenStatus = (ImageView)itemLayout.findViewById(R.id.backgroundThemeOpenStatus); // status를 표시해 줄 ImageView를 받아옴.
-        if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
-            backgroundThemeOpenStatus.setImageResource(R.drawable.select); // 선택 뿅!
-            setImageByClick(position,itemLayout); // 이미지 클릭메소드 호출!
-        }
+
         if(arrayList.get(position).getIsBackgroundPermission()==1) {
             ImageView imageView = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
             imageView.setImageResource(R.drawable.white_select_image);
         }
+        if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
+            
+            setImageByClick(position, itemLayout); // 이미지 클릭메소드 호출!
+            backgroundThemeOpenStatus.setImageResource(R.drawable.select);
+        }
         isPermission = arrayList.get(position).getIsBackgroundPermission();
-        arrayListView.add(itemLayout);
+
         if(isPermission==1) {
             itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,7 +104,7 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         isSelected=checkInt; //선택된 얘의 번호를 ..ㄱㄱ
         switch (checkInt) {
             case 0 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.white_select_image);
                 selectTheme(itemLayout);
                 break;
             }
@@ -111,12 +114,13 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 break;
             }
             case 2 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.background_theme_stripe);
                 selectTheme(itemLayout);
                 break;
             }
             case 3 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.background_theme_stripe);
+
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
                 selectTheme(itemLayout);
                 break;
             }

@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,10 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     private TextView settingBackgroundThemeOkBtn;
     private BackgroundThemeAdapter backgroundThemeAdapter;
     private Typeface NanumSquare_B;
+    private ImageView prevBtn;
+
+    public SettingBackgroundThemeActivity() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,13 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
 
             }
         });
+        prevBtn = (ImageView)findViewById(R.id.prevBtn);
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         setFont();
 
     }
@@ -55,12 +67,7 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     }
     public void initBackgroundTheme() {
         ArrayList<BackgroundThemeDTO> arrayList = DrawerTableController.getInstance().searchBackbroundThemeDTOAllData();
-        /*ArrayList<String> arrayList = new ArrayList<String>();
-        String []tempString = new String[]{"기본 테마","바다","나무나무","스트라이프","빗방울","눈송이"};
-        for(int i = 0 ; i < 6 ; i++) {
 
-            arrayList.add(tempString[i]);
-        }*/
         backgroundThemeAdapter = new BackgroundThemeAdapter(this.getApplicationContext() , arrayList ) ;
         settingBackgroundThemeListView = (ListView) findViewById( R.id.settingBackgroundThemeListView);
         settingBackgroundThemeListView.setAdapter(backgroundThemeAdapter);
