@@ -34,6 +34,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        if(drawerLayout.isEnabled()) {
+        if( isOpened==2 ) {
             drawerLayout.closeDrawer(drawerView);
             return;
         }
@@ -726,6 +727,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
+    private int isOpened;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
 
@@ -831,9 +833,11 @@ public class MainActivity extends AppCompatActivity {
         //드로워의 시간 초기화
         ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
         //getTotalPoint
-        ((TextView)findViewById(R.id.friendlyNo)).setText(FriendDataManager.get(getApplicationContext()).getTotalPoint() + "");
+        double friendlyStr = FriendDataManager.get(getApplicationContext()).getTotalPoint() ;
+        ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
 
         setBackgroundTheme.setText(DrawerTableController.getInstance().searchSelectedBackgroundTheme());
+
 
     }
     /**
@@ -849,6 +853,7 @@ public class MainActivity extends AppCompatActivity {
         //mainView = (View)findViewById(R.id.main_view); // navigation_drawer에 있는 include속성값을 받아온다.
         DrawerLayout.DrawerListener myDrawerListener = new DrawerLayout.DrawerListener() {
             public void onDrawerClosed(View drawerView) {
+                isOpened=0;
             }
             public void onDrawerOpened(View drawerView) {
 
@@ -863,6 +868,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerStateChanged(int newState) {
                 switch (newState) {
                     case 2 :
+                        isOpened=2;
                         initFriendlyNo();
                         break;
                 }

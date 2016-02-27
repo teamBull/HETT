@@ -178,15 +178,16 @@ public class AlarmMain extends Activity implements OnClickListener {
 
             if(position == _id) break;
         }
+
+        // set star
         if(preImportance == 0) {
             importance = false;
         } else {
             importance = true;
         }
-
-
         setImportance();
 
+        // set text
         EditText et = (EditText) findViewById(R.id.alarm_todo_title);
         et.setText(preTodo);
     }

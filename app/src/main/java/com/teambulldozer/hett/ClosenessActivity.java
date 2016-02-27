@@ -105,7 +105,6 @@ public class ClosenessActivity extends AppCompatActivity {
 
 
         tvTodayPoint = (TextView)findViewById(R.id.tvTodayPoint);
-        tvTodayPoint.setText(String.format("%.1f°", todayPoint));
 
         tvTotalPoint = (TextView)findViewById(R.id.tvTotalPoint);
         tvTotalPoint.setText(String.format("%.1f°", totalPoint));
@@ -136,8 +135,11 @@ public class ClosenessActivity extends AppCompatActivity {
 
         ArrayList al = new ArrayList();
         rlthemeEx = (RelativeLayout)findViewById(R.id.rlthemeEx);
+        double temp=0;
         //gift box 켰다 끄기, 보상 미리보기
-        if(totalPoint <= 0){
+        if(totalPoint <20){
+            temp = 20 - totalPoint;
+
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             tvClGift.setText("말투");
             tvClGiftTitle.setText("연서복");
@@ -145,30 +147,41 @@ public class ClosenessActivity extends AppCompatActivity {
             al.add("어빠가 울 애긔 일 좀 도와줄까~ㅎ");
             al.add("오눌도 히믈내요! 자랄쑤이쏘!");
             al.add("넝담~ㅎ");
-        }else if (totalPoint < 20){
+        }else if (totalPoint < 40){
+            temp = 40 - totalPoint;
+
             tvClGift.setText("배경");
             tvClGiftTitle.setText("나무나무");
             rlthemeEx.setBackground((getResources().getDrawable(R.drawable.bg_pattern_tree)));
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
 
-        }else if (totalPoint < 40){
+        }else if (totalPoint < 60){
+            temp = 60 - totalPoint;
+
             tvClGift.setText("배경");
             tvClGiftTitle.setText("스트라이프");
             rlthemeEx.setBackground((getResources().getDrawable(R.drawable.pattern_bg_stripe)));
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
 
-        }else if (totalPoint < 60){
+        }else if (totalPoint < 80){
+            temp = 80 - totalPoint;
+
             tvClGift.setText("말투");
             tvClGiftTitle.setText("한쿸어 어려훠효");
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             al.add("아뇽하세효");
             al.add("이룬 자라고이찌요?");
             al.add("오눌도 히믈내요! 자랄쑤이쏘!");
             al.add("같치 파이팅!!");
-        }else if (totalPoint < 80){
+        }else if (totalPoint < 100) {
+            temp = 100 - totalPoint;
+
             tvClGift.setText("말투");
             tvClGiftTitle.setText("극존칭");
             al.add("안녕하시옵니까");
@@ -178,22 +191,24 @@ public class ClosenessActivity extends AppCompatActivity {
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+        }else {
+            temp = 0;
 
-        }else if (totalPoint < 100){
+            tvClGift.setText("보상");
+            tvClGiftTitle.setText("업뎃 예정");
+            al.add("업데이트 예정입니다.");
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
-
         }
-
+        tvTodayPoint.setText(String.format("%.1f°", temp));
 
         //다음 보상 보여주는 것 1. 리스트뷰로 말투 보여주기 2. 배경 보여주기
         lvGiftEx = (ListView)findViewById(R.id.lvGiftEx);
-
-
 
         adapter = new NextGiftAdapter (
                 getApplicationContext(), // 현재 화면의 제어권자
