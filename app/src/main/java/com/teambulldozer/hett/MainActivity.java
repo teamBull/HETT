@@ -423,8 +423,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.friend_edit)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.friend_ask_1)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.friend_ask_2)).setTypeface(NanumBarunGothic_R);
-
-
         ((TextView)findViewById(R.id.friendlyNo)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.completeScheduleNo)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.repeatScheduleNo)).setTypeface(NanumSquare_B);
@@ -747,6 +745,7 @@ public class MainActivity extends AppCompatActivity {
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
     private int isOpened;
+    private TextView backgroundTheme;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
 
@@ -774,6 +773,13 @@ public class MainActivity extends AppCompatActivity {
         });
         backgroundThemeRightButton = (ImageView)findViewById(R.id.backgroundThemeRightButton); // 드로워의 배경 테마 변경 버튼이다(버튼이지만 이미지뷰로 구현했음)
         backgroundThemeRightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectBackgroundMenu();
+            }
+        });
+        backgroundTheme = (TextView)findViewById(R.id.backgroundTheme);
+        backgroundTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectBackgroundMenu();

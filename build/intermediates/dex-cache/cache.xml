@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<items version="2" />
-=======
 <items version="2" >
 
     <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
+        jar="C:\Users\GHKwon\AndroidStudioProjects\HETT\app\build\intermediates\exploded-aar\HETT.libs\drag-sort-listview\unspecified\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="ae8e50fca46e9b616b271137e3b7be14ef632000">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_759f033db24de0899d43fe9fc06edad015b86900.jar" />
+        sha1="8cfee64b0ea43372604221165c53501c8fee95f1">
+        <dex dex="C:\Users\GHKwon\AndroidStudioProjects\HETT\app\build\intermediates\pre-dexed\debug\HETT.libs-drag-sort-listview-unspecified_29b7afee997979f86fd4bf49c31de00115c0d692.jar" />
     </item>
 
 </items>
->>>>>>> master
