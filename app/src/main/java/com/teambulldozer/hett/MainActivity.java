@@ -420,9 +420,17 @@ public class MainActivity extends AppCompatActivity {
         finishMenu.setTypeface(NanumSquare_B);
         deleteAllButton.setTypeface(NanumSquare_B);
 
-        ((TextView)findViewById(R.id.friend_edit)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friend_edit)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.friend_ask_1)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.friend_ask_2)).setTypeface(NanumBarunGothic_R);
+
+
+        ((TextView)findViewById(R.id.friendlyNo)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.completeScheduleNo)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.repeatScheduleNo)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.friendNoTextView)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.completeScheduleTextView)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.repeatScheduleNoTextView)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.myFriendNo)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.completeSchedule)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.againSchedule)).setTypeface(NanumBarunGothic_R);
@@ -761,17 +769,14 @@ public class MainActivity extends AppCompatActivity {
         setBackgroundTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(); // 인텐트를 생성
-                intent.setClass(getApplicationContext(), SettingBackgroundThemeActivity.class); // SettingbackgroundActivity로 이동.
-                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
+                selectBackgroundMenu();
             }
         });
         backgroundThemeRightButton = (ImageView)findViewById(R.id.backgroundThemeRightButton); // 드로워의 배경 테마 변경 버튼이다(버튼이지만 이미지뷰로 구현했음)
         backgroundThemeRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
-                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
+                selectBackgroundMenu();
             }
         });
         completeSchedule = (TextView)findViewById(R.id.completeSchedule);
@@ -842,10 +847,14 @@ public class MainActivity extends AppCompatActivity {
         friend_edit = (TextView)findViewById(R.id.friend_edit);
         friend_edit.setText(DrawerTableController.getInstance().searchByFriendName() + "");
         //드로워의 시간 초기화
-        ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
+        //
         //getTotalPoint
         double friendlyStr = FriendDataManager.get(getApplicationContext()).getTotalPoint() ;
-        ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
+
+        if(friendlyStr == 0.0)
+            ((TextView)findViewById(R.id.friendlyNo)).setText("0");
+        else
+            ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
 
         setBackgroundTheme.setText(DrawerTableController.getInstance().searchSelectedBackgroundTheme());
 
@@ -969,8 +978,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
-    
+    private void selectBackgroundMenu() {
+        Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
+        startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
+    }
 }
+//((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
