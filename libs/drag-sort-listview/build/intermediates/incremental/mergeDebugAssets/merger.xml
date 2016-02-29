@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/assets"/></dataSet><dataSet config="debug"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/debug/assets"/></dataSet></merger>
 =======
 <<<<<<< HEAD
@@ -8,3 +9,6 @@
 <merger version="3"><dataSet config="main"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\assets"/></dataSet><dataSet config="debug"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\src\debug\assets"/></dataSet></merger>
 >>>>>>> yunsun
 >>>>>>> 63782f05c7f1d81afcb7d7eca7db2441881e85da
+=======
+<merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/assets"/></dataSet><dataSet config="debug"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/debug/assets"/></dataSet></merger>
+>>>>>>> master

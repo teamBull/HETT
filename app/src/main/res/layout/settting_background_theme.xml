@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp">
         <ImageView
+
             android:layout_centerVertical="true"
             android:id="@+id/prevBtn"
             android:layout_marginTop="12dp"
@@ -53,7 +54,7 @@
     <ListView
         android:id="@+id/settingBackgroundThemeListView"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="284.5dp"
         android:dividerHeight="2dp"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
@@ -62,6 +63,6 @@
         android:background="#FFFFFF"
         >
     </ListView>
-
+    <!--android:layout_height="440dp" 이건 6개일때.-->
 
 </LinearLayout>
