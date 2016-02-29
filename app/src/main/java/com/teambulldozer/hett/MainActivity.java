@@ -65,6 +65,9 @@ import java.util.Locale;
 * 1. 일정 완료 시 선 그어지는 애니메이션 추가
 * 2. 편집 탭과 완료탭에서 할 수 있는 기능 분리.
 *
+* (2016. 3. 1)
+* 1. 패딩을 줘서 터치 미스를 줄임!
+* 2. 토스트에서 친구 이름이 제대로 뜨도록 만듦.
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -181,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
 
         // The following line makes software keyboard disappear until it is clicked again.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        MyDragSortAdapter.isOnEditMenu = true; // onCreate에서
+
 
         /*기호*/
 
@@ -586,9 +591,8 @@ public class MainActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 memoInput.setText("");
 
-
                 requery();
-                toastProperMessage(FriendDataManager.get(getApplicationContext()).getFriendName(), (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                toastProperMessage(DrawerTableController.getInstance().searchByFriendName(), (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
@@ -648,6 +652,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();
+        showDate(); // 시간을 동기화하기 위해!
         Log.d(TAG, "onResume(Bundle) called");
     }
 
