@@ -1,6 +1,7 @@
 package com.teambulldozer.hett;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,9 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     public static ArrayList<View> arrayListView;
     public static int isSelected;
     public int isPermission;
+
+    private static Typeface NanumBarunGothic_R;
+
     public BackgroundThemeAdapter(Context context, ArrayList<BackgroundThemeDTO> arrayList) {
         this.context=context;
         this.arrayList=arrayList;
@@ -31,6 +35,7 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         * 이걸 우리가 하나하나 그려줘야 하기 때문에 inflater를 빌려온다.*/
         this.layoutInflater = LayoutInflater.from(this.context);
         this.arrayListView = new ArrayList<View>();
+        NanumBarunGothic_R = Typeface.createFromAsset(context.getAssets(), "NanumBarunGothic_Regular.ttf");
     }
     @Override
     public int getCount() {
@@ -46,19 +51,23 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     @Override
     public View getView(final int position,View covertView,ViewGroup parent) {
         final View itemLayout = layoutInflater.inflate(R.layout.list_setting_background_theme,null);
+        arrayListView.add(itemLayout);
         TextView backgroundThemeName = (TextView)itemLayout.findViewById(R.id.backgroundThemeName); // 백그라운드 테마 객체를 받아옴.
         backgroundThemeName.setText(arrayList.get(position).getBackgroundThemeName()); // 테마 명 set.
+        backgroundThemeName.setTypeface(NanumBarunGothic_R);
         ImageView backgroundThemeOpenStatus = (ImageView)itemLayout.findViewById(R.id.backgroundThemeOpenStatus); // status를 표시해 줄 ImageView를 받아옴.
-        if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
-            backgroundThemeOpenStatus.setImageResource(R.drawable.select); // 선택 뿅!
-            setImageByClick(position,itemLayout); // 이미지 클릭메소드 호출!
-        }
+
         if(arrayList.get(position).getIsBackgroundPermission()==1) {
             ImageView imageView = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
             imageView.setImageResource(R.drawable.white_select_image);
         }
+        if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
+            
+            setImageByClick(position, itemLayout); // 이미지 클릭메소드 호출!
+            backgroundThemeOpenStatus.setImageResource(R.drawable.select);
+        }
         isPermission = arrayList.get(position).getIsBackgroundPermission();
-        arrayListView.add(itemLayout);
+
         if(isPermission==1) {
             itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,7 +104,7 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         isSelected=checkInt; //선택된 얘의 번호를 ..ㄱㄱ
         switch (checkInt) {
             case 0 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.white_select_image);
                 selectTheme(itemLayout);
                 break;
             }
@@ -105,12 +114,13 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 break;
             }
             case 2 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.background_theme_stripe);
                 selectTheme(itemLayout);
                 break;
             }
             case 3 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.background_theme_stripe);
+
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
                 selectTheme(itemLayout);
                 break;
             }

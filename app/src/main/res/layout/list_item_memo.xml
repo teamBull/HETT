@@ -27,15 +27,17 @@
             android:id="@+id/nextButton"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="2dp"
             android:src="@drawable/next"
             />
 
         <ImageView
             android:id="@+id/deleteButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="2dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/delete"
@@ -45,16 +47,18 @@
         <ImageView
             android:id="@+id/starButton"
             android:layout_centerVertical="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="2dp"
             android:src="@drawable/star_off"
             />
 
         <ImageView
             android:id="@+id/orderButton"
             android:layout_centerVertical="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="2dp"
             android:src="@drawable/order"
             android:visibility="invisible"
             />

@@ -1,8 +1,6 @@
 package com.teambulldozer.hett;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +34,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
-import java.text.ParseException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +65,9 @@ import java.util.Locale;
 * 1. 일정 완료 시 선 그어지는 애니메이션 추가
 * 2. 편집 탭과 완료탭에서 할 수 있는 기능 분리.
 *
+* (2016. 3. 1)
+* 1. 패딩을 줘서 터치 미스를 줄임!
+* 2. 토스트에서 친구 이름이 제대로 뜨도록 만듦.
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -183,18 +184,26 @@ public class MainActivity extends AppCompatActivity {
 
         // The following line makes software keyboard disappear until it is clicked again.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        MyDragSortAdapter.isOnEditMenu = true; // onCreate에서
+
 
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
         new AlarmAMZero(getApplicationContext());
+
     }
 
     @Override
     public void onBackPressed()
     {
-        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+        if( isOpened==2 ) {
+            drawerLayout.closeDrawer(drawerView);
+            return;
+        }
+        else if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
         {
+            isOpened=0;
             super.onBackPressed();
             return;
         }
@@ -485,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
                             deleteAndInsert(rowId);
                             requery();
                         }
-                    }, 80);
+                    }, 70);
                 }
 
                 requery();
@@ -584,9 +593,8 @@ public class MainActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 memoInput.setText("");
 
-
                 requery();
-                toastProperMessage(FriendDataManager.get(getApplicationContext()).getFriendName(), (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                toastProperMessage(DrawerTableController.getInstance().searchByFriendName(), (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
@@ -636,23 +644,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause(){ // 화면이 이동되서 없어질 때.
         super.onPause();
         Log.d(TAG, "onPause(Bundle) called");
+        if(isOpened != 0)
+            overridePendingTransition(R.anim.activity_start_first, R.anim.activity_start_second);// 화면 이동 시 애니메이션.
     }
 
     @Override
-    public void onResume(){
+    public void onResume(){ // 화면이 다지 나타날 때.
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();
+        showDate(); // 시간을 동기화하기 위해!
         Log.d(TAG, "onResume(Bundle) called");
+        overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
     }
 
     @Override
     public void onStop(){
         super.onStop();
         Log.d(TAG, "onStop() called");
+
     }
 
     public void onDestroy(){
@@ -690,6 +703,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView friendBtn;
     private TextView againSchedule;
     private TextView completeSchedule;
+    private TextView repeatSchedule;
     /**
      * NavigationDrawer의 알람 토글 버튼.
      */
@@ -724,6 +738,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
+    private int isOpened;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
 
@@ -764,6 +779,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CompleteActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+        repeatSchedule = (TextView)findViewById(R.id.againSchedule);
+        repeatSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RepeatEventActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -821,9 +844,11 @@ public class MainActivity extends AppCompatActivity {
         //드로워의 시간 초기화
         ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
         //getTotalPoint
-        ((TextView)findViewById(R.id.friendlyNo)).setText(FriendDataManager.get(getApplicationContext()).getTotalPoint() + "");
+        double friendlyStr = FriendDataManager.get(getApplicationContext()).getTotalPoint() ;
+        ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
 
         setBackgroundTheme.setText(DrawerTableController.getInstance().searchSelectedBackgroundTheme());
+
 
     }
     /**
@@ -839,6 +864,7 @@ public class MainActivity extends AppCompatActivity {
         //mainView = (View)findViewById(R.id.main_view); // navigation_drawer에 있는 include속성값을 받아온다.
         DrawerLayout.DrawerListener myDrawerListener = new DrawerLayout.DrawerListener() {
             public void onDrawerClosed(View drawerView) {
+                isOpened=-1;
             }
             public void onDrawerOpened(View drawerView) {
 
@@ -853,6 +879,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerStateChanged(int newState) {
                 switch (newState) {
                     case 2 :
+                        isOpened=2;
                         initFriendlyNo();
                         break;
                 }
@@ -942,5 +969,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
     
 }

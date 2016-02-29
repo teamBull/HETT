@@ -2,17 +2,12 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:interpolator="@android:anim/accelerate_interpolator">
 
-    <alpha
-        android:fromAlpha="0"
-        android:toAlpha="1"
-        android:duration="20">
-    </alpha>
 
     <alpha
         android:startOffset="0"
         android:fromAlpha="1"
         android:toAlpha="0"
-        android:duration="60">
+        android:duration="70">
     </alpha>
 
 </set>

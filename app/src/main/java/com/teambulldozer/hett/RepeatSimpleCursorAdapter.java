@@ -14,8 +14,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
 
 /**
@@ -23,7 +21,7 @@ import java.util.Calendar;
  */
 public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     private Context mContext; // In order to call MainActivity's method
-    RepeatEventTableController repeatEventCtr;
+    RepeatEventController repeatEventCtr;
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
     ViewHolder viewHolder;
@@ -36,7 +34,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     3) c : DB에서 가져온 Data를 가리키는 Cursor.
     4) from : DB 필드 이름
     5) to : DB 필드에 대응되는 component의 id*/
-    public RepeatSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags,RepeatEventTableController repeatEventCtr) {
+    public RepeatSimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags,RepeatEventController repeatEventCtr) {
         super(context, layout, c, from, to, flags);
         this.mContext = context;
         this.repeatEventCtr = repeatEventCtr;
@@ -80,6 +78,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Log.i("Adapter", "bindView");
+        RelativeLayout.LayoutParams relativeLayoutPrams;
         ViewHolder holder = (ViewHolder)view.getTag();
 
         String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("DATE"))));
@@ -91,39 +90,40 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
             holder.dateline.setText(dateInfo);
         }
 
+        holder.startBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
         if(cursor.getInt(cursor.getColumnIndex("IMPORTANCE")) == 1 ){
             holder.startBtn.setImageResource(R.drawable.star_on);
         }else{
             holder.startBtn.setImageResource(R.drawable.star_off);
         }
-
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
-        if(cursor.getInt(cursor.getColumnIndex("REPEAT")) == 1 ){
-            holder.dayOfWeek.setText("반복값 있음");
-            //여기서 다른 테이블에서 가져와야함..
-            //아니면 처음부터 두개 테이블에서 값을 가져와야함..
-        }
-
+        holder.dayOfWeek.setText(cursor.getString(cursor.getColumnIndex("DAY_OF_WEEK")));
         holder.repeatDeleteBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
 
         super.bindView(view, context, cursor);
     }
 
     private void initializeAllButtons(){
+        if(isOnEditMenu){
+            viewHolder.repeatDeleteBtn.setVisibility(View.GONE);//-버튼 삭제
+        }else{
+            viewHolder.repeatDeleteBtn.setVisibility(View.VISIBLE);//-버튼 생성
+        }
         viewHolder.repeatDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
-                //completeEventCtr.deleteData(String.valueOf(v.getTag()));
-                //completeEventCtr.rearrangeData(String.valueOf(v.getTag()));
-                //changeCursor(getCursor());
+                if (!((RepeatEventActivity)mContext).deleteRow(String.valueOf(v.getTag())))
+                    Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
             }
         });
-        if(isOnEditMenu){
-            viewHolder.repeatDeleteBtn.setVisibility(View.INVISIBLE);
-        }else{
-            viewHolder.repeatDeleteBtn.setVisibility(View.VISIBLE);
-        }
+
+        viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!((RepeatEventActivity)mContext).upDateRow(String.valueOf(v.getTag())))
+                    Toast.makeText(mContext, "Data Not updated", Toast.LENGTH_LONG).show();
+            }
+        });
     }
     public String dayConverter(String dateInfo){
         Calendar calendar = Calendar.getInstance();

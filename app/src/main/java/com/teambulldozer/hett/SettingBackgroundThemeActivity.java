@@ -1,12 +1,16 @@
 package com.teambulldozer.hett;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,15 +22,18 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     private ListView settingBackgroundThemeListView;
     private TextView settingBackgroundThemeOkBtn;
     private BackgroundThemeAdapter backgroundThemeAdapter;
+    private Typeface NanumSquare_B;
+    private ImageView prevBtn;
+
+    public SettingBackgroundThemeActivity() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settting_background_theme);
-        /*new Thread() { // 너무 느려서 Thread를 일단 사용했습니다. 나중에 DB접근하는 코드가 나와도 됩니다.
-            public void run(){
-                initBackgroundTheme();
-            }
-        }.start();*/
+
+
         initBackgroundTheme();
         settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
         settingBackgroundThemeOkBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,17 +47,27 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
 
             }
         });
+        prevBtn = (ImageView)findViewById(R.id.prevBtn);
+        prevBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        setFont();
 
     }
+    public void setFont() {
+        NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
 
+
+        ((TextView)findViewById(R.id.settingBackgroundTextView)).setTypeface(NanumSquare_B);
+        settingBackgroundThemeOkBtn.setTypeface(NanumSquare_B);
+
+    }
     public void initBackgroundTheme() {
         ArrayList<BackgroundThemeDTO> arrayList = DrawerTableController.getInstance().searchBackbroundThemeDTOAllData();
-        /*ArrayList<String> arrayList = new ArrayList<String>();
-        String []tempString = new String[]{"기본 테마","바다","나무나무","스트라이프","빗방울","눈송이"};
-        for(int i = 0 ; i < 6 ; i++) {
 
-            arrayList.add(tempString[i]);
-        }*/
         backgroundThemeAdapter = new BackgroundThemeAdapter(this.getApplicationContext() , arrayList ) ;
         settingBackgroundThemeListView = (ListView) findViewById( R.id.settingBackgroundThemeListView);
         settingBackgroundThemeListView.setAdapter(backgroundThemeAdapter);

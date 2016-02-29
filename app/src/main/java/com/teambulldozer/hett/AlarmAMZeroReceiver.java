@@ -33,7 +33,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         totalPoint = friendDataManager.getTotalPoint()+todayPoint;
         friendDataManager.updateTotalPoint(1, totalPoint);
 
-        Log.i("d", totalPoint + "");
+        Log.i("dddd", totalPoint + "");
 
 
     }

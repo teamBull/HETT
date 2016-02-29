@@ -2,67 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-core/3.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="acf66033b1418ccf9e15c8e77750981e4809c4ea">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/com.nhaarman.listviewanimations-lib-core-3.1.0_071da04bc45a60bb88805936aac73577ec2e6041.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_9f8c10ec65abee387a21db01c8e1bff3946abdc2.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_659280fb21850f318a5c5aaa737f9663851a9bb8.jar" />
-    </item>
-    <item
         jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="9b73a59525266cb0e314ea060256a2831b9e0e03">
+        sha1="ae8e50fca46e9b616b271137e3b7be14ef632000">
         <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_759f033db24de0899d43fe9fc06edad015b86900.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/library-2.4.0_48c074eaa71a65682b313d3711be581f0c20964d.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.1_005959409976687cd9f0ead54ed71319fec8c02f.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-core-slh/3.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="49223278ec2ede1d05d00868c5ce3e077b4016f8">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/com.nhaarman.listviewanimations-lib-core-slh-3.1.0_535857b3e6d0206659dfdbca6c74c15e3cc66715.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_b32c70c2b69e294a616de8d7524c70eee408a30b.jar" />
-    </item>
-    <item
-        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-manipulation/3.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="5660e4bf78904137e90e62a5d4cc2e987258f02c">
-        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/com.nhaarman.listviewanimations-lib-manipulation-3.1.0_71c0bb21d9243ad5246d81336c4b70d6817f935d.jar" />
     </item>
 
 </items>

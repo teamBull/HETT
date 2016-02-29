@@ -54,13 +54,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENT_REPEAT_TABLE=
             "create table " + TABLE_NAME4 +
-                    "(_id INTEGER, DAY_OF_WEEK TEXT NOT NULL)";
-    /*private static final String CREATE_EVENT_REPREAT_VIEW_TABLE=
-            "CREATE OR REPLACE VIEW " + VIEW_NAME +
-                    "AS " +
-                    "SELECT E._ID,E.MEMO,E.IMPORTANCE,E.DATE,R.DAY_OF_WEEK " +
-                    "FROM event_table e, repeat_table r " +
-                    "WHERE e._id = r._id AND e.repeat = 1";*/
+                    "(code INTEGER, DAY_OF_WEEK TEXT NOT NULL)";
+    private static final String CREATE_EVENT_REPREAT_VIEW=
+            "CREATE VIEW " + VIEW_NAME +
+                    " AS " +
+                    " SELECT *" +
+                    " FROM event_table e, repeat_table r" +
+                    " WHERE e._id = r.code AND e.repeat = 1";
 
     //기호
     private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_FRIEND_TABLE);
         db.execSQL(CREATE_EVENT_COMPLETE_TABLE);
         db.execSQL(CREATE_EVENT_REPEAT_TABLE);
-        //db.execSQL(CREATE_EVENT_REPREAT_VIEW_TABLE);
+        db.execSQL(CREATE_EVENT_REPREAT_VIEW);
         //event_table
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,20160227,1,0);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,20160227,1,0);");
@@ -119,11 +119,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("insert into "+TABLE_NAME6+" values('user1','Hatti',0);");
 
         db.execSQL("insert into "+TABLE_NAME5+" values(0,'기본 테마',1,1)");
-        db.execSQL("insert into "+TABLE_NAME5+" values(1,'바다',0,0)");
-        db.execSQL("insert into "+TABLE_NAME5+" values(2,'나무나무',0,0)");
-        db.execSQL("insert into "+TABLE_NAME5+" values(3,'스트라이프',1,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(1,'나무나무',1,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(2,'스트라이프',1,0)");
+        /*db.execSQL("insert into "+TABLE_NAME5+" values(1,'바다',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
-        db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
 
 
 
@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME3);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME4);
-        //db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
+        db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
         db.execSQL("drop table if exists "+TABLE_NAME6);
         db.execSQL("drop table if exists "+TABLE_NAME5);
         onCreate(db);

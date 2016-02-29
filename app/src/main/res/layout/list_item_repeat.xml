@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/repeat_list_item"
+    android:id="@+id/list_item_repeat"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/hatt_white"
@@ -30,6 +30,7 @@
         <ImageView
             android:id="@+id/repeat_star_btn"
             android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/star_off"
@@ -52,12 +53,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/delete"
-            android:visibility="gone"
             />
         <TextView
             android:id="@+id/repeat_dayofweek_textview"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="0dp"
+            android:layout_marginRight="24dp"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"

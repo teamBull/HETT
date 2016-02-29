@@ -26,13 +26,11 @@ public class CompleteActivity extends AppCompatActivity{
     private static boolean devMode = false;
     /* 디버그를 위한 개발자 모드 설정. true로 설정되어 있을 시, 오류 발생시 강제로 앱을 종료한다. */
 
-    private static final String TAG = "HETT";
-    private static final int LOADER_ID = 0;
+    private static final String TAG = "CompleteActivity";
 
     CompleteEventTableController completeEventCtr;
     CompleteSimpleCursorAdapter cursorAdapter;
     Cursor cursor;
-    Loader<Cursor> loader;
 
     //activity_complete.xml
     SoftKeyboardLsnedRelativeLayout softRelativeLayout;
@@ -54,7 +52,7 @@ public class CompleteActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (devMode)
+        if (CompleteActivity.devMode)
         {
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectLeakedSqlLiteObjects()
