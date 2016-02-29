@@ -24,6 +24,8 @@ public class EventTableController {
         static final String DATE = "DATE";
         static final String REPEAT = "REPEAT";
         static final String ALARM = "ALARM";
+        static final String ALARMHOUR = "ALARMHOUR";
+        static final String ALARMMINUTE = "ALARMMINUTE";
     }
 
     private EventTableController(Context context){
@@ -218,7 +220,7 @@ public class EventTableController {
 
     public ContentValues getAllContent(int position){
         SQLiteDatabase db_read = myDb.getReadableDatabase();
-        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.REPEAT, Columns.ALARM};
+        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.REPEAT, Columns.ALARM, Columns.ALARMHOUR, Columns.ALARMMINUTE};
         Cursor cursor = db_read.query(TABLE_NAME, columns, null, null, null, null, null);
         cursor.moveToFirst();
 
@@ -234,6 +236,8 @@ public class EventTableController {
                     values.put(Columns.DATE, cursor.getString(4));
                     values.put(Columns.REPEAT, cursor.getString(5));
                     values.put(Columns.ALARM, cursor.getString(6));
+                    values.put(Columns.ALARMHOUR, cursor.getString(7));
+                    values.put(Columns.ALARMMINUTE, cursor.getString(8));
                     break;
                     //ContentValues를 리턴하는 함수를 하나 만들고 업데이트하는 발표
                 }
@@ -271,7 +275,7 @@ public class EventTableController {
     public void shiftDataFromTo(int fromPos, int toPos){
 
         SQLiteDatabase db_read = myDb.getReadableDatabase();
-        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.REPEAT, Columns.ALARM};
+        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.REPEAT, Columns.ALARM, Columns.ALARMHOUR, Columns.ALARMMINUTE};
         Cursor cursor = db_read.query(TABLE_NAME, columns, null, null, null, null, null);
         cursor.moveToFirst();
 
@@ -287,6 +291,8 @@ public class EventTableController {
                     values.put(Columns.DATE, cursor.getString(4));
                     values.put(Columns.REPEAT, cursor.getString(5));
                     values.put(Columns.ALARM, cursor.getString(6));
+                    values.put(Columns.ALARMHOUR, cursor.getString(7));
+                    values.put(Columns.ALARMMINUTE, cursor.getString(8));
                     //ContentValues를 리턴하는 함수를 하나 만들고 업데이트하는 발표
 
                     //String id = Integer.toString(position);

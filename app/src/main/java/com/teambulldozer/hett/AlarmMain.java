@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DialogFragment;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,9 +25,10 @@ public class AlarmMain extends Activity implements OnClickListener {
 
     private static final String TAG = "MainActivity";
     int year, hour, minute;
-    static int alarmHour, alarmMinute;
+    int alarmHour, alarmMinute;
     boolean importance = false;
-    static boolean hasAlarm = false;
+    String todo = "";
+    boolean hasAlarm = false;
     boolean noRepeat, mon, tue, wed, thu, fri, sat, sun = false;
 
     // DB Info
@@ -80,6 +82,10 @@ public class AlarmMain extends Activity implements OnClickListener {
             case R.id.btn_add_alarm_time:
                 addAlarmTime();
                 Toast.makeText(getApplicationContext(), "addAlarm()", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.btn_alarm_prev:
+                onBackButtonPress();
                 break;
 
             case R.id.btn_turned_off_star:
@@ -166,6 +172,9 @@ public class AlarmMain extends Activity implements OnClickListener {
         // set pre-Importance, set pre-Todo
         int preImportance = 0;
         String preTodo = "";
+        int preHasAlarm = 0;
+        int preAlarmHour = 0;
+        int preAlarmMinute = 0;
         int _id = 0;
         while(eventTableCursor.moveToNext()) {
             _id = eventTableCursor.getInt(eventTableCursor.getColumnIndex("_id"));
@@ -175,6 +184,11 @@ public class AlarmMain extends Activity implements OnClickListener {
 
             preTodo = eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
             Log.i("MEMO : ", "_id : " + Integer.toString(_id) + ", Memo : " + preTodo);
+
+            preHasAlarm = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM"));
+            preAlarmHour = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMHOUR"));
+            preAlarmMinute = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMMINUTE"));
+            Log.i("ALARM : ", "_id : " + Integer.toString(_id) + ", HAS ALARM : " + Integer.toString(preHasAlarm) + ", HOUR : " + Integer.toString(preAlarmHour) + ", MINUTE : " + Integer.toString(preAlarmMinute));
 
             if(position == _id) break;
         }
@@ -190,6 +204,13 @@ public class AlarmMain extends Activity implements OnClickListener {
         // set text
         EditText et = (EditText) findViewById(R.id.alarm_todo_title);
         et.setText(preTodo);
+
+        // set Alarm time
+        if(preHasAlarm == 0) {
+            hasAlarm = false;
+        } else {
+            hasAlarm = true;
+        }
     }
 
     private void setImportance() {
@@ -275,10 +296,9 @@ public class AlarmMain extends Activity implements OnClickListener {
     private void addAlarmTime() {
         if(hasAlarm == false) {
             DialogFragment newFragment = new TimePickerFragment();
-            newFragment.show(getFragmentManager(),"TimePicker");
+            newFragment.show(getFragmentManager(), "TimePicker");
             setAlarmButtons();
 
-            hasAlarm = true;
             findViewById(R.id.btn_add_alarm_time).setVisibility(View.INVISIBLE);
         }
     }
@@ -374,5 +394,27 @@ public class AlarmMain extends Activity implements OnClickListener {
         // Set String
         TextView daysTextView = (TextView) findViewById(R.id.days);
         daysTextView.setText(daysText);
+    }
+
+    private void onBackButtonPress() {
+        EditText et = (EditText) findViewById(R.id.alarm_todo_title);
+        todo = et.getText().toString();
+
+        Intent i = getIntent();
+        int position = i.getIntExtra("position", 1);
+        hasAlarm = i.getBooleanExtra("hasAlarm", false);
+        Log.i("hasAlarm", Boolean.toString(hasAlarm));
+        alarmHour = i.getIntExtra("alarmHour", 0);
+        alarmMinute = i.getIntExtra("alarmMinute", 0);
+
+        ContentValues values = new ContentValues();
+        values.put("MEMO", todo);
+        values.put("IMPORTANCE", importance);
+        values.put("ALARM", hasAlarm);
+        values.put("ALARMHOUR", alarmHour);
+        values.put("ALARMMINUTE", alarmMinute);
+        eventTableController.shiftContentValuesTo(values, position);
+
+        super.onBackPressed();
     }
 }

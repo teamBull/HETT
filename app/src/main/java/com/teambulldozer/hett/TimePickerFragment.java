@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +36,11 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     //onTimeSet() callback method
     public void onTimeSet(TimePicker view, int hourOfDay, int minute){
         // 알람시간 넘겨주기
-        passAlarmParam.alarmHour = hourOfDay;
-        passAlarmParam.alarmMinute = minute;
+        Intent i = getActivity().getIntent();
+        i.putExtra("alarmHour", hourOfDay);
+        i.putExtra("alarmMinute", minute);
+        i.putExtra("hasAlarm", true);
+        Log.i("has Alarm in fragment", Boolean.toString(i.getBooleanExtra("hasAlarm", false)));
 
         // 알람추가버튼 초기화
         final Button addAlarmTimeButton = (Button) getActivity().findViewById(R.id.btn_add_alarm_time);
@@ -63,7 +68,12 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
             @Override
             public void onClick(View v) {
                 inflatedLayout.removeAllViews();
-                passAlarmParam.hasAlarm = false;
+
+                Intent alarmData = getActivity().getIntent();
+                alarmData.putExtra("alarmHour", 0);
+                alarmData.putExtra("alarmMinute", 0);
+                alarmData.putExtra("hasAlarm", false);
+
                 addAlarmTimeButton.setVisibility(View.VISIBLE);
             }
         });
