@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="left"
+
     >
+
     <com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout
 
         android:id="@+id/myLayout"
@@ -155,24 +157,24 @@
 
 
 
-    <com.mobeta.android.dslv.DragSortListView
-        android:id="@+id/lv1"
-        android:layout_marginTop="137dp"
-        android:layout_above="@id/rl2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        <com.mobeta.android.dslv.DragSortListView
+            android:id="@+id/lv1"
+            android:layout_marginTop="137dp"
+            android:layout_above="@id/rl2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
 
 
-        android:smoothScrollbar="true"
-        android:scrollingCache="false"
-        android:animationCache="false"
+            android:smoothScrollbar="true"
+            android:scrollingCache="false"
+            android:animationCache="false"
 
-        android:divider="@android:color/transparent"
-        android:dividerHeight="2dp"
-        />
+            android:divider="@android:color/transparent"
+            android:dividerHeight="2dp"
+            />
 
         <TextView
             android:id="@+id/deleteAllButton"
@@ -188,49 +190,46 @@
             />
 
     </com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout>
+
     <RelativeLayout
         android:id="@+id/navigation_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:layout_gravity="left"
+        android:background="#1bbbbf"
+        android:layout_gravity="start"
         >
 
-        <TextView
-            android:id="@+id/currentTimer"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:paddingLeft="24dp"
-            android:paddingTop="24dp"
-            android:background="#1bbbbf"/>
+
         <TextView
             android:id="@+id/friend_edit"
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:text="Hatti"
-            android:paddingLeft="36dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:paddingLeft="12dp"
             android:textSize="19sp"
-            android:background="#1bbbbf"
-            android:layout_below="@id/currentTimer"
+            android:textColor="#202b78"
+            android:background="#1Affffff"
             android:gravity="center_vertical"
+            android:layout_marginTop="26dp"
+
             />
         <ImageView
             android:id="@+id/friend_name_edit_btn"
-            android:layout_width="61dp"
+            android:layout_width="57dp"
             android:layout_height="61dp"
             android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginRight="12dp"
-            android:paddingBottom="25dp"
-            android:layout_below="@id/currentTimer"
+            android:paddingRight="20dp"
+            android:paddingBottom="22.5dp"
+            android:layout_marginTop="26dp"
             android:layout_alignRight="@id/friend_edit"
-
             android:src="@drawable/friend_setting"
             />
         <LinearLayout
             android:id="@+id/friend_ask_layout"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@id/friend_edit"
             android:background="#1bbbbf"
@@ -246,7 +245,7 @@
                 android:paddingBottom="10dp"
                 android:paddingRight="12dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="26dp"
                 android:textColor="#202b78"
                 android:background="#FFFFFF"
                 />
@@ -262,6 +261,8 @@
                 android:paddingRight="12dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginBottom="26dp"
+                android:layout_marginRight="24dp"
                 android:textColor="#202b78"
                 android:background="#FFFFFF"
                 />
@@ -272,8 +273,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/friend_ask_layout"
             android:orientation="horizontal"
-            android:background="#1bbbbf"
-            android:paddingTop="16dp"
+            android:background="#1AFFFFFF"
+            android:paddingTop="11dp"
             >
             <TextView
                 android:id="@+id/friendlyNo"
@@ -281,9 +282,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:text="74"
+                android:text="0"
                 android:textSize="22.5sp"
-                android:textColor="#ededed"
+                android:textColor="#ffffff"
                 />
             <TextView
                 android:id="@+id/completeScheduleNo"
@@ -292,8 +293,8 @@
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
                 android:textSize="22.5sp"
-                android:text="64"
-                android:textColor="#ededed"
+                android:text="0"
+                android:textColor="#ffffff"
                 />
             <TextView
                 android:id="@+id/repeatScheduleNo"
@@ -302,8 +303,8 @@
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
                 android:textSize="22.5sp"
-                android:text="03"
-                android:textColor="#ededed"
+                android:text="0"
+                android:textColor="#ffffff"
                 />
         </LinearLayout>
         <LinearLayout
@@ -312,37 +313,46 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/friendNoLinerLayout"
             android:orientation="horizontal"
-            android:background="#1bbbbf"
-            android:paddingBottom="10dp"
+            android:background="#1AFFFFFF"
             >
             <TextView
+                android:id="@+id/friendNoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
                 android:text="친밀도"
                 android:textSize="11sp"
-                android:textColor="#ededed"
+                android:textColor="#ffffff"
+                android:layout_marginBottom="10dp"
                 />
             <TextView
+                android:id="@+id/completeScheduleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
                 android:text="완료일정"
                 android:textSize="11sp"
-                android:textColor="#ededed"
+                android:textColor="#ffffff"
                 />
             <TextView
+                android:id="@+id/repeatScheduleNoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
                 android:text="반복일정"
                 android:textSize="11sp"
-                android:textColor="#ededed"
+                android:textColor="#ffffff"
                 />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:layout_below="@id/friendNoDescriptionLinearLayout"
+            />
         <TextView
             android:id="@+id/myFriendNo"
             android:layout_width="match_parent"
@@ -350,14 +360,15 @@
             android:text="내 친밀도"
             android:layout_below="@id/friendNoDescriptionLinearLayout"
             android:paddingLeft="24dp"
+            android:textColor="#D9000000"
             android:gravity="center_vertical"
             />
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1px"
+            android:layout_height="1.5px"
             android:background="#DADADA"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_below="@id/myFriendNo"
             />
         <TextView
@@ -368,13 +379,14 @@
             android:layout_below="@id/myFriendNo"
             android:paddingLeft="24dp"
             android:gravity="center_vertical"
+            android:textColor="#D9000000"
             />
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1px"
+            android:layout_height="1.5px"
             android:background="#DADADA"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_below="@id/completeSchedule"
             />
         <TextView
@@ -385,13 +397,14 @@
             android:layout_below="@id/completeSchedule"
             android:paddingLeft="24dp"
             android:gravity="center_vertical"
+            android:textColor="#D9000000"
             />
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1px"
+            android:layout_height="1.5px"
             android:background="#DADADA"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_below="@id/againSchedule"
             />
         <TextView
@@ -402,16 +415,22 @@
             android:layout_below="@id/againSchedule"
             android:paddingLeft="24dp"
             android:gravity="center_vertical"
+            android:textColor="#D9000000"
             />
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1px"
+            android:layout_height="1.5px"
             android:background="#DADADA"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_below="@id/setting"
             />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/setting"
+            android:background="#05000000"
+            />
         <TextView
             android:id="@+id/pushAlarm"
             android:layout_width="match_parent"
@@ -419,30 +438,25 @@
             android:text="푸쉬 알람"
             android:layout_below="@id/setting"
             android:paddingLeft="24dp"
+            android:textColor="#b3000000"
             android:gravity="center_vertical"
-            />
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
             />
         <View
             android:layout_width="fill_parent"
-            android:layout_height="1px"
+            android:layout_height="1.5px"
             android:background="#DADADA"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="12dp"
             android:layout_below="@id/pushAlarm"
             />
         <ToggleButton
             android:id="@+id/isPushAlarm"
-            android:layout_width="39dp"
-            android:layout_height="40dp"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/setting"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="2dp"
             />
         <TextView
             android:id="@+id/backgroundTheme"
@@ -451,22 +465,23 @@
             android:text="배경 테마"
             android:layout_below="@id/pushAlarm"
             android:paddingLeft="24dp"
+            android:textColor="#b3000000"
             android:gravity="center_vertical"/>
-        <View
+        <!--<View
             android:layout_width="fill_parent"
-            android:layout_height="1px"
+            android:layout_height="1.5px"
             android:background="#DADADA"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_below="@id/backgroundTheme"
-            />
+            />-->
 
         <ImageView
             android:id="@+id/backgroundThemeRightButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignTop="@id/backgroundTheme"
-            android:paddingTop="9dp"
+            android:paddingTop="8.5dp"
             android:paddingBottom="9dp"
             android:paddingRight="10dp"
             android:layout_marginTop="2.5dp"
@@ -478,15 +493,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="기본"
+            android:textColor="#b3000000"
             android:textSize="15sp"
             android:layout_alignBaseline="@id/backgroundTheme"
             android:layout_toLeftOf="@id/backgroundThemeRightButton"
-            android:paddingLeft="10dp"
+
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-
-
-
             />
     </RelativeLayout>
 
