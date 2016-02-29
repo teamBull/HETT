@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
         new AlarmAMZero(getApplicationContext());
+
     }
 
     @Override
@@ -197,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
         {
+            isOpened=0;
             super.onBackPressed();
             return;
         }
@@ -638,23 +640,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause(){ // 화면이 이동되서 없어질 때.
         super.onPause();
         Log.d(TAG, "onPause(Bundle) called");
+        if(isOpened != 0)
+            overridePendingTransition(R.anim.activity_start_first, R.anim.activity_start_second);// 화면 이동 시 애니메이션.
     }
 
     @Override
-    public void onResume(){
+    public void onResume(){ // 화면이 다지 나타날 때.
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();
+
         Log.d(TAG, "onResume(Bundle) called");
+        overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
     }
 
     @Override
     public void onStop(){
         super.onStop();
         Log.d(TAG, "onStop() called");
+
     }
 
     public void onDestroy(){
@@ -775,8 +782,8 @@ public class MainActivity extends AppCompatActivity {
         repeatSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),RepeatEventActivity.class);
-                startActivityForResult(intent,0);
+                Intent intent = new Intent(getApplicationContext(), RepeatEventActivity.class);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -853,7 +860,7 @@ public class MainActivity extends AppCompatActivity {
         //mainView = (View)findViewById(R.id.main_view); // navigation_drawer에 있는 include속성값을 받아온다.
         DrawerLayout.DrawerListener myDrawerListener = new DrawerLayout.DrawerListener() {
             public void onDrawerClosed(View drawerView) {
-                isOpened=0;
+                isOpened=-1;
             }
             public void onDrawerOpened(View drawerView) {
 
@@ -958,5 +965,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
     
 }
