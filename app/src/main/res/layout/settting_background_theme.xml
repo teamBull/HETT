@@ -41,7 +41,7 @@
             android:gravity="center_vertical"
             android:textSize="15sp"
             android:layout_alignParentRight="true"
-            android:textColor="#62668F"
+            android:textColor="#CC62668F"
             android:text="확인"
             />
         <View
