@@ -53,13 +53,11 @@ public class FriendDataManager {
         int id = cursor.getInt(0);
         String friend_name = cursor.getString(1);
         String talk_st = cursor.getString(2);
-        double today_point = cursor.getDouble(3);
-        double total_point = cursor.getDouble(4);
+        double total_point = cursor.getDouble(3);
 
         friend.setId(id);
         friend.setFriendName(friend_name);
         friend.setFriendTalkSt(talk_st);
-        friend.setTodayPoint(today_point);
         friend.setTotalPoint(total_point);
 
         cursor.close();
@@ -94,26 +92,13 @@ public class FriendDataManager {
         cursor = db.rawQuery("SELECT * FROM friend_table", null);
         cursor.moveToNext();
 
-        point = cursor.getDouble(4);
-
-        dbHelper.close();
-        cursor.close();
-        return point;
-    }
-
-    public double getTodayPoint(){
-        db = dbHelper.getReadableDatabase();
-        double point;
-
-        cursor = db.rawQuery("SELECT * FROM friend_table", null);
-        cursor.moveToNext();
-
         point = cursor.getDouble(3);
 
         dbHelper.close();
         cursor.close();
         return point;
     }
+
 
     public void updateTodayPoint(int id, double todayPoint){
         db = dbHelper.getWritableDatabase();

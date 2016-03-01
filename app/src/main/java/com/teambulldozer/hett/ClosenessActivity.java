@@ -33,7 +33,6 @@ public class ClosenessActivity extends AppCompatActivity {
     TextView tvTotalPoint;
     TextView tvTodayPoint;
     TextView tvClCloseness;
-    TextView tvBtnClosenessOk;
     TextView tvClDesc;
     TextView tvCl1,tvCl2;
     TextView tvCl0dg, tvCl20dg, tvCl40dg, tvCl60dg, tvCl80dg, tvCl100dg;
@@ -44,7 +43,6 @@ public class ClosenessActivity extends AppCompatActivity {
 
     ListView lvGiftEx;
 
-    double todayPoint;
     double totalPoint;
 
     // 폰트
@@ -100,7 +98,6 @@ public class ClosenessActivity extends AppCompatActivity {
             }
         });
 
-        todayPoint = dataManager.getTodayPoint();
         totalPoint = dataManager.getTotalPoint();
 
 
@@ -111,7 +108,6 @@ public class ClosenessActivity extends AppCompatActivity {
 
         // 폰트 적용을 위해
         tvClCloseness = (TextView)findViewById(R.id.tvClCloseness);
-        tvBtnClosenessOk = (TextView)findViewById(R.id.tvBtnClosenessOk);
         tvClDesc = (TextView)findViewById(R.id.tvClDesc);
         tvCl1 = (TextView)findViewById(R.id.tvCl1);
         tvCl2 = (TextView)findViewById(R.id.tvCl2);
@@ -227,7 +223,6 @@ public class ClosenessActivity extends AppCompatActivity {
 
     public void setFont(){
         tvClCloseness.setTypeface(NanumSquare_B);
-        tvBtnClosenessOk.setTypeface(NanumSquare_B);
         tvClDesc.setTypeface(NanumBarunGothic_R);
         tvTotalPoint.setTypeface(NanumSquare_B);
         tvCl1.setTypeface(NanumSquare_B);
@@ -289,5 +284,6 @@ public class ClosenessActivity extends AppCompatActivity {
             mDownHandler.post(animateDownImage);
         }
     }
+
 
 }

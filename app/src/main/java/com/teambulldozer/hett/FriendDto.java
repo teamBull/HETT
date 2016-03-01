@@ -48,14 +48,6 @@ public class FriendDto implements Serializable {
         this.friendTalkSt = friendTalkSt;
     }
 
-    public double getTodayPoint() {
-        return todayPoint;
-    }
-
-    public void setTodayPoint(double todayPoint) {
-        this.todayPoint = todayPoint;
-    }
-
     public double getTotalPoint() {
         return totalPoint;
     }

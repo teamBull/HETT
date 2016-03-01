@@ -35,18 +35,6 @@
             android:textSize="15dp"
             android:textColor="#525252" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="확인"
-            android:id="@+id/tvBtnClosenessOk"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="12dp"
-            android:textColor="#cc202b78"
-            android:padding="12dp" />
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -412,7 +400,8 @@
                 android:layout_marginTop="13dp"
                 android:layout_marginBottom="13dp"
                 android:dividerHeight="8dp"
-                android:divider="#ffffff" />
+                android:divider="#ffffff"
+                android:scrollbars="none"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
