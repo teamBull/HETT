@@ -30,10 +30,6 @@
         <activity android:name=".EditFriendNameActivity" />
         <activity android:name=".SettingBackgroundThemeActivity" />
         <activity android:name=".ClosenessActivity" />
-<<<<<<< HEAD
-=======
-
->>>>>>> giho
         <activity android:name=".FriendSettingActivity" />
         <activity android:name=".FriendTalkSettingActivity" />
         <activity android:name=".CompleteActivity" />

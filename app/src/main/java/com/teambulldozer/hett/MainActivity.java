@@ -710,7 +710,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){ // 화면이 다지 나타날 때.
+    public void onResume(){ // 화면이 다시 나타날 때.
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();
