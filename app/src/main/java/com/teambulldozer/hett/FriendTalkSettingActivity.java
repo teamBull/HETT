@@ -96,9 +96,9 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         //말투 - 극존칭
         mGroupList.add("극존칭");
 
-        mChildListContent3.add("안녕하시옵니까");
-        mChildListContent3.add("약조들을 잊지 않고 계시온지요?");
-        mChildListContent3.add("통촉하여!!주시옵소서!!");
+        mChildListContent3.add("안녕하십니까");
+        mChildListContent3.add("죄송하지만 혹시 일정을 잃어버리시진 않았을까 걱정됩니다.");
+        mChildListContent3.add("힘내시길 바랍니다!");
 
         mChildList.add(mChildListContent3);
 

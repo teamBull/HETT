@@ -141,7 +141,7 @@ public class ClosenessActivity extends AppCompatActivity {
             tvClGiftTitle.setText("연서복");
             al.add("울 애긔~ㅎ안녕?ㅎ");
             al.add("어빠가 울 애긔 일 좀 도와줄까~ㅎ");
-            al.add("오눌도 히믈내요! 자랄쑤이쏘!");
+            al.add("울 애긔 머하니~?");
             al.add("넝담~ㅎ");
         }else if (totalPoint < 40){
             temp = 40 - totalPoint;
@@ -180,9 +180,9 @@ public class ClosenessActivity extends AppCompatActivity {
 
             tvClGift.setText("말투");
             tvClGiftTitle.setText("극존칭");
-            al.add("안녕하시옵니까");
-            al.add("약조들을 잊지 않고 계시온지요?");
-            al.add("통촉하여!!주시옵소서!!");
+            al.add("안녕하십니까");
+            al.add("죄송하지만 혹시 일정을 잃어버리시진 않았을까 걱정됩니다.");
+            al.add("힘내시길 바랍니다!");
             ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));

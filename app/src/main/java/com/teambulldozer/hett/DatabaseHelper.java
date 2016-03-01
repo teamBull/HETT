@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_HATT_SETTING_TABLE);
         db.execSQL(CREATE_HATT_BACKGROUND_THEME_TABLE);
 
-        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'Hatti', '기본 테마', 0);");
 
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (4,'네번째메모',1,20160227);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (5,'다섯번째메모',1,20160228);");
