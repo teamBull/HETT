@@ -38,6 +38,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /*
@@ -68,6 +69,10 @@ import java.util.Locale;
 * (2016. 3. 1)
 * 1. 패딩을 줘서 터치 미스를 줄임!
 * 2. 토스트에서 친구 이름이 제대로 뜨도록 만듦.
+* 3. 시간 이상하 뜨는 것 고침;; Calendar 클래스의 month는 0부터 시작하기 때문에;;;;; (업데이트 전에는 3월인데, 2월로 나왔음;;)
+* 4. 오후 12시 20분이 0시 20분으로 뜨는 것을 12시 20분으로 뜨게 바꿈.
+*
+*
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -315,11 +320,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void showDate(){
 
-        Calendar rightNow = Calendar.getInstance();
+
+        Calendar rightNow = GregorianCalendar.getInstance();
         // Calendar's getInstance method returns a calendar whose locale is based on system settings
         // and whose time fields have been initialized with the current date and time.
 
-        int monthInfo = rightNow.get(Calendar.MONTH);
+        int monthInfo = rightNow.get(Calendar.MONTH) + 1;
         int dateInfo = rightNow.get(Calendar.DATE);
         int dayInfo = rightNow.get(Calendar.DAY_OF_WEEK);
         int ampmInfo = rightNow.get(Calendar.AM_PM);
@@ -329,7 +335,8 @@ public class MainActivity extends AppCompatActivity {
         String KOR_DAY = dayConverter(dayInfo);
         String KOR_AMPM = ampmConverter(ampmInfo);
         String KOR_MINUTE = minuteConverter(minuteInfo);
-        dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + hourInfo + ":" + KOR_MINUTE);
+        String KOR_HOUR = hourConverter(hourInfo, ampmInfo);
+        dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + KOR_HOUR + ":" + KOR_MINUTE);
         // need to convert Eng-based day to Kor-based day.
 
     }
@@ -337,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
     public int getDate(){
         Calendar rightNow = Calendar.getInstance();
         int year = rightNow.get(Calendar.YEAR);
-        int month = rightNow.get(Calendar.MONTH);
+        int month = rightNow.get(Calendar.MONTH) + 1;
         int date = rightNow.get(Calendar.DATE);
 
         int timeKey = (year * 10000) + (month * 100) + date; // This timeKey is used to give input to database.
@@ -443,6 +450,13 @@ public class MainActivity extends AppCompatActivity {
             return "AM";
         else
             return "PM";
+    }
+
+    public String hourConverter(int hourInfo, int ampmInfo){
+        if(ampmInfo == 1 && hourInfo == 0)
+            return "12";
+        else
+            return Integer.toString(hourInfo);
     }
 
     public String dayConverter(int dayInfo){

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 <<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/debug/jniLibs"/></dataSet></merger>
@@ -12,3 +13,6 @@
 =======
 <merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/debug/jniLibs"/></dataSet></merger>
 >>>>>>> master
+=======
+<merger version="3"><dataSet config="main"><source path="/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/libs/drag-sort-listview/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/libs/drag-sort-listview/src/debug/jniLibs"/></dataSet></merger>
+>>>>>>> Stashed changes
