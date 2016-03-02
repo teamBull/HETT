@@ -46,6 +46,8 @@ public class EventTableController {
         contentValues.put(Columns.MEMO, memo);
         contentValues.put(Columns.IMPORTANCE, 0); // 입력 단계에서 중요 설정 할 수 없으므로, default 값은 false.
         contentValues.put(Columns.DATE, ((MainActivity)mContext).getDate()); // 인풋 시에 날짜가 DB에 기입된다.
+        //
+        /* getDate값은 변하지 않는 값으로 처음에 한 번만 입력되어야 한다. */
 
         if(completeness)
             contentValues.put(Columns.COMPLETENESS, 1); // 입력 단계에서 완수여부 마찬가지로 설정할 수 없음.
@@ -65,6 +67,7 @@ public class EventTableController {
         Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
         return cursor;
     }
+
 
     public boolean isThereCompletedData(){
         Cursor cursor = getCompletenessData();
@@ -180,17 +183,6 @@ public class EventTableController {
         return true;
     }
 
-    public boolean updateData(String id, String memo, int importance, int completeness){
-        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues values = new ContentValues();
-        values.put(Columns.ID, id);
-        //values.put(Columns.MEMO, memo);
-        values.put(Columns.IMPORTANCE, importance);
-        values.put(Columns.COMPLETENESS, completeness);
-        db.update(TABLE_NAME, values, " _id = ?", new String[]{id});
-
-        return true;
-    }
 
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.

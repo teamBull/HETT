@@ -5,10 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,11 +36,8 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -379,6 +373,8 @@ public class MainActivity extends AppCompatActivity {
 
         return Calendar.getInstance().get(Calendar.MINUTE)+1;//final int startInt = Calendar.getInstance().get(Calendar.MINUTE)+1;
     }
+
+/*
     public int getDate(){
         Calendar rightNow = Calendar.getInstance();
         int year = rightNow.get(Calendar.YEAR);
@@ -387,6 +383,34 @@ public class MainActivity extends AppCompatActivity {
 
         int timeKey = (year * 10000) + (month * 100) + date; // This timeKey is used to give input to database.
         return timeKey;
+    }
+    */
+
+    public String getDate(){
+        Calendar rightNow = Calendar.getInstance();
+        int year = rightNow.get(Calendar.YEAR) - 2000;
+        int month = rightNow.get(Calendar.MONTH) + 1;
+        int date = rightNow.get(Calendar.DATE);
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY); // HOUR_OF_DAY -> 24-hour clock.
+        int minute = rightNow.get(Calendar.MINUTE);
+        int second = rightNow.get(Calendar.SECOND);
+
+        String key = Integer.toString(year)
+                + "/"
+                + Integer.toString(month)
+                + "/"
+                + Integer.toString(date)
+                + "/"
+                + Integer.toString(hour)
+                + "/"
+                + Integer.toString(minute)
+                + "/"
+                + Integer.toString(second);
+
+        //Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
+        // For debugging, this key is designed to distinguish different IDs.
+
+        return key;
     }
 
     public void respondToUserInput(){
@@ -599,7 +623,7 @@ public class MainActivity extends AppCompatActivity {
         // 수정 필요
         ContentValues tempData = myEventController.getAllContent(rowId);
         deleteRow(Integer.toString(rowId));
-        myEventController.insertData("", true);
+        myEventController.insertData("", true); // 여기서의 insertData값은 어차피 업데이트 되므로 상관 없음.
         myEventController.moveDataTo((int) myEventController.numOfEntries(), tempData);
         myEventController.updateCompleteness(Integer.toString((int) myEventController.numOfEntries()), 1);
     }
