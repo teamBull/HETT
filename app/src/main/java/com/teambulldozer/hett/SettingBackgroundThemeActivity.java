@@ -33,10 +33,7 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settting_background_theme);
-        /*기호*/
-        //가장 위의 안드로이드 상태바를 없애주는 코드이다.
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        /*끝.*/
+        
 
         initBackgroundTheme();
         settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
