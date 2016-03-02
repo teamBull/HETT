@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENT_REPEAT_TABLE=
             "create table " + TABLE_NAME4 +
-                    "(code INTEGER, DAY_OF_WEEK TEXT NOT NULL)";
+                    "(CODE INTEGER, DAY_OF_WEEK TEXT NOT NULL, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
     private static final String CREATE_EVENT_REPREAT_VIEW=
             "CREATE VIEW " + VIEW_NAME +
                     " AS " +
