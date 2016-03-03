@@ -60,6 +60,7 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         if(arrayList.get(position).getIsBackgroundPermission()==1) {
             ImageView imageView = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
             imageView.setImageResource(R.drawable.white_select_image);
+            backgroundThemeName.setTextColor(context.getResources().getColor(R.color.permissionBackgroundColor));
         }
         if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
             
@@ -73,16 +74,17 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
-                    for (int i = 0; i < arrayList.size(); i++) {
+                    for (int i = 0; i < arrayListView.size(); i++) {
                         View tempView = arrayListView.get(i);
                         ImageView imageView;
                         imageView = (ImageView) tempView.findViewById(R.id.selectedBackgroundTheme);
                         imageView.setVisibility(View.GONE);
-                        if(arrayList.get(i).getIsBackgroundPermission()==1) {
-                            imageView = (ImageView) tempView.findViewById(R.id.backgroundThemeOpenStatus);
-                            imageView.setImageResource(R.drawable.white_select_image);
-                            ((TextView)tempView.findViewById(R.id.backgroundThemeName)).setTextColor(tempView.getResources().getColor(R.color.hatt_gray));
-                        }
+                        if(arrayList.get(i).getIsBackgroundPermission()!=1)
+                            continue;
+                        imageView = (ImageView) tempView.findViewById(R.id.backgroundThemeOpenStatus);
+                        imageView.setImageResource(R.drawable.white_select_image);
+                        ((TextView)tempView.findViewById(R.id.backgroundThemeName)).setTextColor(tempView.getResources().getColor(R.color.hatt_gray));
+
 
                     }
                     int checkInt = arrayList.get(position).getBackgroundCode();
@@ -123,18 +125,17 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 break;
             }
             case 3 : {
-
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.space_dir_width);
                 selectTheme(itemLayout);
                 break;
             }
             case 4 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_snow);
                 selectTheme(itemLayout);
                 break;
             }
-            case 5 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+            /*case 5 : {
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_snow);
                 selectTheme(itemLayout);
                 break;
             }
@@ -142,7 +143,7 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
                 selectTheme(itemLayout);
                 break;
-            }
+            }*/
         }
     }
 }
