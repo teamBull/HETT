@@ -28,12 +28,9 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         }else {
             todayPoint = (float) eventTableControllerr.getCompletedDataSize() / eventTableControllerr.numOfEntries();
         }
-        friendDataManager.updateTodayPoint(1, todayPoint);
         //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
         totalPoint = friendDataManager.getTotalPoint()+todayPoint;
         friendDataManager.updateTotalPoint(1, totalPoint);
-
-        Log.i("dddd", totalPoint + "");
 
 
     }

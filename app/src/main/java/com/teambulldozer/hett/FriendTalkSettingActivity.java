@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -45,7 +46,10 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_talk_style);
-
+        /*기호*/
+        //가장 위의 안드로이드 상태바를 없애주는 코드이다.
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*끝.*/
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
@@ -96,9 +100,9 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         //말투 - 극존칭
         mGroupList.add("극존칭");
 
-        mChildListContent3.add("안녕하시옵니까");
-        mChildListContent3.add("약조들을 잊지 않고 계시온지요?");
-        mChildListContent3.add("통촉하여!!주시옵소서!!");
+        mChildListContent3.add("안녕하십니까");
+        mChildListContent3.add("죄송하지만 혹시 일정을 잃어버리시진 않았을까 걱정됩니다.");
+        mChildListContent3.add("힘내시길 바랍니다!");
 
         mChildList.add(mChildListContent3);
 

@@ -36,11 +36,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENT_TABLE =
             "create table " + TABLE_NAME +
-                    " (_id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE INTEGER, REPEAT INTEGER, ALARM INTEGER, ALARMHOUR INTEGER, ALARMMINUTE INTEGER);";
+                    " (_id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE TEXT, REPEAT INTEGER, ALARM INTEGER, ALARMHOUR INTEGER, ALARMMINUTE INTEGER);";
 
     private static final String CREATE_FRIEND_TABLE =
             "create table " + TABLE_NAME2 +
-                    "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, today_point double, total_point double);";
+                    "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, total_point double);";
 
     /*private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +
@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_HATT_SETTING_TABLE);
         db.execSQL(CREATE_HATT_BACKGROUND_THEME_TABLE);
 
-        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'HATT', '기본 테마', 0, 0);");
+        db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'Hatti', '기본 테마', 0);");
 
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (4,'네번째메모',1,20160227);");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (5,'다섯번째메모',1,20160228);");

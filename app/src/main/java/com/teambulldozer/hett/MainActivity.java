@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -35,10 +36,10 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /*
 * (2016.2.18. 01:00 )
@@ -68,6 +69,10 @@ import java.util.Locale;
 * (2016. 3. 1)
 * 1. 패딩을 줘서 터치 미스를 줄임!
 * 2. 토스트에서 친구 이름이 제대로 뜨도록 만듦.
+* 3. 시간 이상하 뜨는 것 고침;; Calendar 클래스의 month는 0부터 시작하기 때문에;;;;; (업데이트 전에는 3월인데, 2월로 나왔음;;)
+* 4. 오후 12시 20분이 0시 20분으로 뜨는 것을 12시 20분으로 뜨게 바꿈.
+*
+*
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -125,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
+
         Log.d(TAG, "onCreate(Bundle) called");
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
@@ -312,14 +318,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    private Handler handler = new Handler() { // main쓰레드가 아니기 때문에 handler객체를 통하여 main을 modified 해줘야 함.
+        public void handleMessage(Message msg) {
+            setTimeIntervalByDateBar(); //handleMessage객체는 setTimeIntervalByDateDar메소드를 호출함.
+        }
+    };
     public void showDate(){
-
-        Calendar rightNow = Calendar.getInstance();
+        //처음 showDate를 호출할 시 시간을 set해주고, 현재 분을 받아온다.
+        final int startMinute = setTimeIntervalByDateBar();
+        //anonymous한 TimerTask 객체 생성.
+        final TimerTask task = new TimerTask() {
+            public void run() { // 쓰레드를 상속받고 있기 때문에 오버라이딩 해준다.
+                handler.obtainMessage().sendToTarget();// obtainMessage().sendToTarget()메소드를 호출해 줘야 메세지가 정상적으로 전달 됨.
+            }
+        };
+        //해당 쓰레드는 처음 로딩 시 핸드폰 속의 시간과 앱의 시간을 동기화 해주는 쓰레드이다.
+        new Thread(){ // 쓰레드 객체 하나 생성.
+          public void run() { // 오버라이딩.
+              while(true) { // 무한 조건검사.
+                  try {
+                        Thread.sleep(2000); // 처음에는 2초마다 검사를 하고(2초의 오차가 있을 수 있음)
+                      if(startMinute==Calendar.getInstance().get(Calendar.MINUTE)) { //만약에 분이 변경 되었을 시부터
+                          new Timer().schedule(task, 0, 60000); // 1분마다 set해준다.
+                          break; // 설정이 완료 되었으니 10초마다 검사하는 반복문은 필요없지.
+                      }
+                  } catch (Exception ex ){ex.printStackTrace();} //for debug
+              }
+          }
+        }.start();
+        // need to convert Eng-based day to Kor-based day.
+    }
+    public int setTimeIntervalByDateBar() {
+        Calendar rightNow = GregorianCalendar.getInstance();
         // Calendar's getInstance method returns a calendar whose locale is based on system settings
         // and whose time fields have been initialized with the current date and time.
 
-        int monthInfo = rightNow.get(Calendar.MONTH);
+        int monthInfo = rightNow.get(Calendar.MONTH) + 1;
         int dateInfo = rightNow.get(Calendar.DATE);
         int dayInfo = rightNow.get(Calendar.DAY_OF_WEEK);
         int ampmInfo = rightNow.get(Calendar.AM_PM);
@@ -329,19 +363,51 @@ public class MainActivity extends AppCompatActivity {
         String KOR_DAY = dayConverter(dayInfo);
         String KOR_AMPM = ampmConverter(ampmInfo);
         String KOR_MINUTE = minuteConverter(minuteInfo);
-        dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + hourInfo + ":" + KOR_MINUTE);
-        // need to convert Eng-based day to Kor-based day.
+        String KOR_HOUR = hourConverter(hourInfo, ampmInfo);
 
+        /*처음 프로그램 시작 시 system의 시간을 받아온다.*/
+        dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + KOR_HOUR + ":" + KOR_MINUTE);
+
+        return Calendar.getInstance().get(Calendar.MINUTE)+1;//final int startInt = Calendar.getInstance().get(Calendar.MINUTE)+1;
     }
 
+/*
     public int getDate(){
         Calendar rightNow = Calendar.getInstance();
         int year = rightNow.get(Calendar.YEAR);
-        int month = rightNow.get(Calendar.MONTH);
+        int month = rightNow.get(Calendar.MONTH) + 1;
         int date = rightNow.get(Calendar.DATE);
 
         int timeKey = (year * 10000) + (month * 100) + date; // This timeKey is used to give input to database.
         return timeKey;
+    }
+    */
+
+    public String getDate(){
+        Calendar rightNow = Calendar.getInstance();
+        int year = rightNow.get(Calendar.YEAR) - 2000;
+        int month = rightNow.get(Calendar.MONTH) + 1;
+        int date = rightNow.get(Calendar.DATE);
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY); // HOUR_OF_DAY -> 24-hour clock.
+        int minute = rightNow.get(Calendar.MINUTE);
+        int second = rightNow.get(Calendar.SECOND);
+
+        String key = Integer.toString(year)
+                + "/"
+                + Integer.toString(month)
+                + "/"
+                + Integer.toString(date)
+                + "/"
+                + Integer.toString(hour)
+                + "/"
+                + Integer.toString(minute)
+                + "/"
+                + Integer.toString(second);
+
+        //Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
+        // For debugging, this key is designed to distinguish different IDs.
+
+        return key;
     }
 
     public void respondToUserInput(){
@@ -420,9 +486,15 @@ public class MainActivity extends AppCompatActivity {
         finishMenu.setTypeface(NanumSquare_B);
         deleteAllButton.setTypeface(NanumSquare_B);
 
-        ((TextView)findViewById(R.id.friend_edit)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friend_edit)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.friend_ask_1)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.friend_ask_2)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friendlyNo)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.completeScheduleNo)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.repeatScheduleNo)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.friendNoTextView)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.completeScheduleTextView)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.repeatScheduleNoTextView)).setTypeface(NanumSquare_B);
         ((TextView)findViewById(R.id.myFriendNo)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.completeSchedule)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.againSchedule)).setTypeface(NanumBarunGothic_R);
@@ -443,6 +515,13 @@ public class MainActivity extends AppCompatActivity {
             return "AM";
         else
             return "PM";
+    }
+
+    public String hourConverter(int hourInfo, int ampmInfo){
+        if(ampmInfo == 1 && hourInfo == 0)
+            return "12";
+        else
+            return Integer.toString(hourInfo);
     }
 
     public String dayConverter(int dayInfo){
@@ -541,7 +620,7 @@ public class MainActivity extends AppCompatActivity {
         // 수정 필요
         ContentValues tempData = myEventController.getAllContent(rowId);
         deleteRow(Integer.toString(rowId));
-        myEventController.insertData("", true);
+        myEventController.insertData("", true); // 여기서의 insertData값은 어차피 업데이트 되므로 상관 없음.
         myEventController.moveDataTo((int) myEventController.numOfEntries(), tempData);
         myEventController.updateCompleteness(Integer.toString((int) myEventController.numOfEntries()), 1);
     }
@@ -652,7 +731,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){ // 화면이 다지 나타날 때.
+    public void onResume(){ // 화면이 다시 나타날 때.
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();
@@ -739,6 +818,7 @@ public class MainActivity extends AppCompatActivity {
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
     private int isOpened;
+    private TextView backgroundTheme;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
 
@@ -761,17 +841,27 @@ public class MainActivity extends AppCompatActivity {
         setBackgroundTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(); // 인텐트를 생성
-                intent.setClass(getApplicationContext(), SettingBackgroundThemeActivity.class); // SettingbackgroundActivity로 이동.
-                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
+                selectBackgroundMenu();
             }
         });
         backgroundThemeRightButton = (ImageView)findViewById(R.id.backgroundThemeRightButton); // 드로워의 배경 테마 변경 버튼이다(버튼이지만 이미지뷰로 구현했음)
         backgroundThemeRightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
-                startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
+                selectBackgroundMenu();
+                //Ctrl + F -> animation
+                //Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
+                //v.startAnimation(animation);
+                /*ImageView imageView = new ImageView(getApplicationContext());
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.check));
+                imageView.startAnimation(animation);*/
+            }
+        });
+        backgroundTheme = (TextView)findViewById(R.id.backgroundTheme);
+        backgroundTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectBackgroundMenu();
             }
         });
         completeSchedule = (TextView)findViewById(R.id.completeSchedule);
@@ -842,10 +932,14 @@ public class MainActivity extends AppCompatActivity {
         friend_edit = (TextView)findViewById(R.id.friend_edit);
         friend_edit.setText(DrawerTableController.getInstance().searchByFriendName() + "");
         //드로워의 시간 초기화
-        ((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.
+        //
         //getTotalPoint
         double friendlyStr = FriendDataManager.get(getApplicationContext()).getTotalPoint() ;
-        ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
+
+        if(friendlyStr == 0.0)
+            ((TextView)findViewById(R.id.friendlyNo)).setText("0");
+        else
+            ((TextView)findViewById(R.id.friendlyNo)).setText(new DecimalFormat("0.0").format(friendlyStr));
 
         setBackgroundTheme.setText(DrawerTableController.getInstance().searchSelectedBackgroundTheme());
 
@@ -970,7 +1064,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 메뉴의 배경화면 텍스트나, 오른쪽 화살표, 혹은 선택되어 있는 테마의 이름을 선택할 시 이 메소드가 호출이 된다.
+     */
+    private void selectBackgroundMenu() {
+        Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
+        startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
 
 
-    
+    }
+
+
+
 }
+//((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.

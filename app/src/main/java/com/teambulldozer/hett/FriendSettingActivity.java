@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,5 +118,19 @@ public class FriendSettingActivity extends AppCompatActivity {
             }
         }
     }
-
+    private static boolean semaporeByPause=false;
+    @Override
+    public void onResume(){ // 화면이 다시 나타날 때.
+        super.onResume();
+        if(semaporeByPause) {
+            overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
+            semaporeByPause = false;
+        }
+    }
+    @Override
+    public void onPause(){ // 화면이 이동되서 없어질 때.
+        super.onPause();
+        overridePendingTransition(R.anim.activity_start_first, R.anim.activity_start_second);// 화면 이동 시 애니메이션.
+        semaporeByPause=true;
+    }
 }

@@ -74,12 +74,14 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 public void onClick(View v) {
                     //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
                     for (int i = 0; i < arrayList.size(); i++) {
+                        View tempView = arrayListView.get(i);
                         ImageView imageView;
-                        imageView = (ImageView) arrayListView.get(i).findViewById(R.id.selectedBackgroundTheme);
+                        imageView = (ImageView) tempView.findViewById(R.id.selectedBackgroundTheme);
                         imageView.setVisibility(View.GONE);
                         if(arrayList.get(i).getIsBackgroundPermission()==1) {
-                            imageView = (ImageView) arrayListView.get(i).findViewById(R.id.backgroundThemeOpenStatus);
+                            imageView = (ImageView) tempView.findViewById(R.id.backgroundThemeOpenStatus);
                             imageView.setImageResource(R.drawable.white_select_image);
+                            ((TextView)tempView.findViewById(R.id.backgroundThemeName)).setTextColor(tempView.getResources().getColor(R.color.hatt_gray));
                         }
 
                     }
@@ -99,6 +101,8 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         imageView.setVisibility(View.VISIBLE);
         imageView = (ImageView)itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
         imageView.setImageResource(R.drawable.select);
+        TextView backgroundThemeName = (TextView)itemLayout.findViewById(R.id.backgroundThemeName);
+        backgroundThemeName.setTextColor(itemLayout.getResources().getColor(R.color.hatt_cyan));
     }
     public void setImageByClick(int checkInt,View itemLayout) {
         isSelected=checkInt; //선택된 얘의 번호를 ..ㄱㄱ

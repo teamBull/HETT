@@ -51,6 +51,7 @@ public class RepeatEventActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_repeat);
 
+
         /* Call the database constructor */
         this.repeatEventController = RepeatEventController.get(this);
 
