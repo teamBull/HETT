@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alarmOnTrigger"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1bbbbf">
+
+    <!--시간표시-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="64dp"
+        android:paddingBottom="52dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="9dp"
+                android:text="10:30"
+                android:textColor="#ffffff"
+                android:textSize="60sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="am"
+                android:textColor="#ffffff"
+                android:textSize="27sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--구분선-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="24dp"
+        android:background="#ededed" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="김넥터"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignTop="@+id/todo_text_layout"
+                android:layout_alignBottom="@id/todo_text_layout"
+                android:layout_alignLeft="@id/todo_text_layout"
+                android:layout_alignRight="@id/todo_text_layout"
+                android:src="@drawable/textbox_1st"
+                android:scaleType="fitXY" />
+            <LinearLayout
+                android:id="@id/todo_text_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:paddingTop="5dp"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="우리 현정이랑 만나기(3시, 홍대) 잊지 않았지?"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_alignTop="@+id/trigger_text_layout1"
+                android:layout_alignBottom="@id/trigger_text_layout1"
+                android:layout_alignLeft="@id/trigger_text_layout1"
+                android:layout_alignRight="@id/trigger_text_layout1"
+                android:src="@drawable/textbox"
+                android:scaleType="fitXY" />
+            <LinearLayout
+                android:id="@id/trigger_text_layout1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:padding="3dp"
+                    android:src="@drawable/phone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알람왔다 따릉따릉!"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_alignTop="@+id/trigger_text_layout2"
+                android:layout_alignBottom="@id/trigger_text_layout2"
+                android:layout_alignLeft="@id/trigger_text_layout2"
+                android:layout_alignRight="@id/trigger_text_layout2"
+                android:src="@drawable/textbox"
+                android:scaleType="fitXY" />
+            <LinearLayout
+                android:id="@id/trigger_text_layout2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알람왔다 따릉따릉!"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_alignTop="@+id/trigger_text_layout3"
+                android:layout_alignBottom="@id/trigger_text_layout3"
+                android:layout_alignLeft="@id/trigger_text_layout3"
+                android:layout_alignRight="@id/trigger_text_layout3"
+                android:src="@drawable/textbox"
+                android:scaleType="fitXY" />
+            <LinearLayout
+                android:id="@id/trigger_text_layout3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="고맙지?"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_alignTop="@+id/trigger_text_layout4"
+                android:layout_alignBottom="@id/trigger_text_layout4"
+                android:layout_alignLeft="@id/trigger_text_layout4"
+                android:layout_alignRight="@id/trigger_text_layout4"
+                android:src="@drawable/textbox"
+                android:scaleType="fitXY" />
+            <LinearLayout
+                android:id="@id/trigger_text_layout4"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="꼭 할 일을 완수하자!"
+                    android:textSize="13sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="13dp"
+            android:background="#ffffff">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="83dp"
+                android:padding="12dp"
+                android:background="#ededed"
+                android:src="@drawable/answer"
+                android:scaleType="fitXY" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="83dp"
+                android:paddingBottom="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="알겠어!"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

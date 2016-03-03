@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".AlarmMain" />
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan|adjustResize">
@@ -21,9 +21,18 @@
             </intent-filter>
         </activity>
 
+
         <receiver android:name=".SelfPushReceiver" />
         <receiver android:name=".AlarmAMZeroReceiver"/>
+        <receiver android:name=".AlarmReceiver" />
 
+        <activity android:name=".AlarmMain" />
+        <activity android:name=".AlarmOnTrigger">
+            <intent-filter>
+                <action android:name="teambull.com.AlarmOnTrigger"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".EditFriendNameActivity" />
         <activity android:name=".SettingBackgroundThemeActivity" />
         <activity android:name=".ClosenessActivity" />
@@ -31,7 +40,7 @@
         <activity android:name=".FriendSettingActivity" />
         <activity android:name=".FriendTalkSettingActivity" />
         <activity android:name=".CompleteActivity" />
-        <activity android:name=".RepeatEventActivity"></activity>
+        <activity android:name=".RepeatEventActivity" />
     </application>
 
 </manifest>

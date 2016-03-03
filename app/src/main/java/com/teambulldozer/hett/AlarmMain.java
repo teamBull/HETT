@@ -34,6 +34,7 @@ public class AlarmMain extends Activity implements OnClickListener {
     // DB Info
     SQLiteDatabase db;
     EventTableController eventTableController = EventTableController.get(this);
+    RepeatEventController repeatEventTableController = RepeatEventController.get(this);
 
     // Set buttons
     private Button[] alarmButtons;
@@ -235,20 +236,26 @@ public class AlarmMain extends Activity implements OnClickListener {
         alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + second, pIntent);
         */
         // 반복적인 알람 설정에 관한 함수
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        boolean[] week = {noRepeat, sun, mon, tue, wed, thu, fri, sat};
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        boolean[] week = {noRepeat, mon, tue, wed, thu, fri, sat, sun};
+        for(int i = 0; i < 8; i++) {
+            Log.i("alarmSetAlarm", "week[" + Integer.toString(i)+ "] = " + Boolean.toString(week[i]));
+        }
+        Intent i = getIntent();
+        alarmHour = i.getIntExtra("alarmHour", 0);
+        alarmMinute = i.getIntExtra("alarmMinute", 0);
 
-        Intent intent = new Intent(this, AlarmReceiver.class);
+        Intent intent = new Intent(AlarmMain.this, AlarmReceiver.class);
         long triggerTime = 0;
         long intervalTime = 24 * 60 * 60 * 1000; // 24시간(ms)
 
         intent.putExtra("days", week);
-        PendingIntent pending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getBroadcast(AlarmMain.this, 0, intent, Intent.FILL_IN_DATA);
 
         triggerTime = setTriggerTime();
+        Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, intervalTime, pending);
-
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, /*triggerTime for Debugging*/ System.currentTimeMillis()+4000, intervalTime, pending);
     }
 
     private long setTriggerTime() {
@@ -264,7 +271,6 @@ public class AlarmMain extends Activity implements OnClickListener {
         long triggerTime = btime;
         if (atime > btime) {
             triggerTime += 1000 * 60 * 60 * 24;
-
 
             Toast.makeText(getApplicationContext(), Long.toString(alarmHour)+" "+Long.toString(alarmMinute), Toast.LENGTH_SHORT).show();
         }
@@ -403,7 +409,6 @@ public class AlarmMain extends Activity implements OnClickListener {
         Intent i = getIntent();
         int position = i.getIntExtra("position", 1);
         hasAlarm = i.getBooleanExtra("hasAlarm", false);
-        Log.i("hasAlarm", Boolean.toString(hasAlarm));
         alarmHour = i.getIntExtra("alarmHour", 0);
         alarmMinute = i.getIntExtra("alarmMinute", 0);
 
