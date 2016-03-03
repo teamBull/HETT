@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="427894e907f27cb3db0568bdd74054465aefb7a5">
+        <dex dex="/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_6a62c98c18f242ae51b44e5f39ecfedcd1d57be6.jar" />
+    </item>
+
+</items>
