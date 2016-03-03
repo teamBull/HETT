@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="12dp"
-        android:textColor="#585858"
+        android:textColor="@color/notPermissionBackgroundColor"
         android:gravity="center_vertical"
         android:textSize="14sp"
         />

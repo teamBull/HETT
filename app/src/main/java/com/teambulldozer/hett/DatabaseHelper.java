@@ -121,8 +121,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("insert into "+TABLE_NAME5+" values(0,'기본 테마',1,1)");
         db.execSQL("insert into "+TABLE_NAME5+" values(1,'나무나무',1,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(2,'스트라이프',1,0)");
-        /*db.execSQL("insert into "+TABLE_NAME5+" values(1,'바다',0,0)");
-        db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(3,'내 우주는 전부 너야',1,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(4,'on the snow',0,0)");
+        /*db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
 
 
