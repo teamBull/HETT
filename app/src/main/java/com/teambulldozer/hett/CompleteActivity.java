@@ -65,7 +65,11 @@ public class CompleteActivity extends AppCompatActivity{
         Log.d(TAG, "onCreate(Bundle) called");
 
         setContentView(R.layout.activity_complete);
-
+        /**
+         * 기호
+         * 배경화면 setting부분.
+         */
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.complete_layout));
         /* Call the database constructor */
         completeEventCtr = CompleteEventTableController.get(this);
 

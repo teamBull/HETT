@@ -50,7 +50,11 @@ public class RepeatEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_repeat);
-
+        /*
+        기호부분.
+        배경화면 setting.
+         */
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.repeat_layout));
 
         /* Call the database constructor */
         this.repeatEventController = RepeatEventController.get(this);

@@ -137,6 +137,17 @@ public class DrawerTableController {
         }
         return friendName;
     }
+    public int searchByBackgroundThemeCodeNo() {
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from hatt_background_theme_table where is_selected=1;";
+
+        int selectedBackgroundCode=0;
+        Cursor cursor = sqLiteDatabase.rawQuery(sql,null);
+        if(cursor.moveToNext())
+            selectedBackgroundCode = cursor.getInt(cursor.getColumnIndex("background_code"));
+        cursor.close();
+        return selectedBackgroundCode;
+    }
 
     public boolean updatePushMode(boolean isPushMode) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();

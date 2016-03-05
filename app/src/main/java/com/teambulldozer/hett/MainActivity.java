@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
+
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -502,6 +503,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.pushAlarm)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.backgroundTheme)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.setBackgroundTheme)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.bellMode)).setTypeface(NanumBarunGothic_R);
 
     }
 
@@ -738,6 +740,7 @@ public class MainActivity extends AppCompatActivity {
         showDate(); // 시간을 동기화하기 위해!
         Log.d(TAG, "onResume(Bundle) called");
         overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout));
     }
 
     @Override
@@ -791,6 +794,7 @@ public class MainActivity extends AppCompatActivity {
      * 메세지 모드 토글버튼.
      */
     private ToggleButton isPushAlarm;
+
     /**
      * 배경테마 글씨를 저장하는 텍스트뷰.
      */
@@ -835,6 +839,8 @@ public class MainActivity extends AppCompatActivity {
         // 토글 버튼 객체 받아오고 이벤트 등록.
         isPushAlarm = (ToggleButton) findViewById(R.id.isPushAlarm);
         registerTogggleButtonByPushalarm(isPushAlarm);
+        isBellMode = (ToggleButton) findViewById(R.id.isBellMode);
+        registerToggleButtonByBellMode(isBellMode);
         //배경화면 세팅 하는 TextView.
         setBackgroundTheme = (TextView)findViewById(R.id.setBackgroundTheme);
         //만얀 배경화면 세팅 화면을 선택했을 경우.
@@ -887,6 +893,40 @@ public class MainActivity extends AppCompatActivity {
      * @param toggleButton 푸쉬알람 객체.
      */
     private void registerTogggleButtonByPushalarm(final ToggleButton toggleButton) {
+        toggleButton.setText(null);
+        toggleButton.setTextOn(null);
+        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
+        //DB에 접근해서 pushMode가 true인지 false인지 체크한다.
+        boolean isPushMode = DrawerTableController.getInstance().searchPushMode();
+        if(isPushMode) {
+            toggleButton.setSelected(true);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+        } else {
+            toggleButton.setSelected(false);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+        }
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toggleButton.isChecked()) {
+                    toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(true);
+                    DrawerTableController.getInstance().updatePushMode(true);
+                } else {
+                    toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
+                    DrawerTableController.getInstance().updatePushMode(false);
+                }
+            }
+        });
+    }
+
+    /**
+     * 무음모드 토글 버튼을 클릭했을 시 작동되는 동작.
+     * 푸쉬 알람이나 기타 등등 무음모드를 자체적으로 설정할 수 있게끔 해달라 했다.
+     * @param toggleButton
+     */
+    private void registerToggleButtonByBellMode(final ToggleButton toggleButton )  {
         toggleButton.setText(null);
         toggleButton.setTextOn(null);
         toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
