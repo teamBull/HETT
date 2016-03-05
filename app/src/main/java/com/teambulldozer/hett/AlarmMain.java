@@ -459,9 +459,14 @@ public class AlarmMain extends Activity implements OnClickListener {
 
         Intent i = getIntent();
         int position = i.getIntExtra("position", 1);
-        hasAlarm = i.getBooleanExtra("hasAlarm", false);
-        alarmHour = i.getIntExtra("alarmHour", 0);
-        alarmMinute = i.getIntExtra("alarmMinute", 0);
+        // If TimePickerFragment is not clicked
+        if((i.getIntExtra("alarmHour", -1) == -1) && (i.getIntExtra("alarmMinute", -1) == -1)) {
+            // Do not change values of alarm hour, minute, hasAlarm.
+        } else {
+            hasAlarm = i.getBooleanExtra("hasAlarm", false);
+            alarmHour = i.getIntExtra("alarmHour", -1);
+            alarmMinute = i.getIntExtra("alarmMinute", -1);
+        }
 
         ContentValues values = new ContentValues();
         values.put("MEMO", todo);
