@@ -55,7 +55,7 @@ public class BackgroundThemeManager {
         view.setBackground(context.getResources().getDrawable(R.drawable.space));
         if(view.findViewById(R.id.myLayout)!=null)
             changeTextColorByLightByMainActivity(view);
-
+        view=null;
     }
     public void snow(View view) {
         view.setBackground(context.getResources().getDrawable(R.drawable.bg_pattern_snow));
