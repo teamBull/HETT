@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +39,12 @@ public class EditFriendNameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_friend_name);
+        /*
+        배경화면 setting 부분.
+         */
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.editFriendNameActivity));
 
-        //가장 위의 안드로이드 상태바를 없애주는 코드이다.
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         //초기화 메소드.
         initView();

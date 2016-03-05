@@ -83,6 +83,10 @@ public class PushAlarmReservation {
         hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
         return true;
     }
+    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
+        hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody,repeat));
+        return true;
+    }
     /**
      * 저장할 해쉬맵의 크기.
      * @return 사용할 해쉬맵의 key.
@@ -97,7 +101,7 @@ public class PushAlarmReservation {
     /**
      * 푸쉬 알람의 정보를 저장하는 AlarmInfomation.
      */
-    private class AlarmInfomation {
+    public class AlarmInfomation {
         public Context context;
         public int hour;
         public int min;
@@ -125,12 +129,21 @@ public class PushAlarmReservation {
             this.second=second;
             this.pushAlarmTitle=pushAlarmTitle;
             this.pushAlarmBody=pushAlarmBody;
-            registerAlarm();
+            registerAlarm(false);
+        }
+        public AlarmInfomation(Context context , int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
+            this.context=context;
+            this.hour=hour;
+            this.min=min;
+            this.second=second;
+            this.pushAlarmTitle=pushAlarmTitle;
+            this.pushAlarmBody=pushAlarmBody;
+            registerAlarm(repeat);
         }
         /**
          * 알람 등록하는 메소드.
          */
-        private void registerAlarm() {
+        private void registerAlarm(boolean isRepeat) {
             AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, SelfPushReceiver.class);
             intent.putExtra("pushAlarmTitle",pushAlarmTitle);
@@ -143,8 +156,12 @@ public class PushAlarmReservation {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), hour, min, second);
 
             //알람 예약
-            am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+            if(isRepeat)
+                am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+            else
+                am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
         }
+
     }
     /*public void changePushAlarmMode(boolean isBoolean){
         this.isPushAlarm=isBoolean;

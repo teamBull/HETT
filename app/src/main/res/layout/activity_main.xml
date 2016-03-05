@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/hatt_background"
+
         >
 
 
@@ -356,7 +356,7 @@
         <TextView
             android:id="@+id/myFriendNo"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:text="내 친밀도"
             android:textSize="15dp"
             android:layout_below="@id/friendNoDescriptionLinearLayout"
@@ -375,7 +375,7 @@
         <TextView
             android:id="@+id/completeSchedule"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:text="완료 일정"
             android:textSize="15dp"
             android:layout_below="@id/myFriendNo"
@@ -394,7 +394,7 @@
         <TextView
             android:id="@+id/againSchedule"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:text="반복 일정"
             android:textSize="15dp"
             android:layout_below="@id/completeSchedule"
@@ -413,7 +413,7 @@
         <TextView
             android:id="@+id/setting"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:text="설정"
             android:textSize="15dp"
             android:layout_below="@id/againSchedule"
@@ -436,11 +436,39 @@
             android:background="#05000000"
             />
         <TextView
+            android:id="@+id/bellMode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="무음 모드"
+            android:layout_below="@id/setting"
+            android:paddingLeft="24dp"
+            android:textSize="15dp"
+            android:textColor="#b3000000"
+            android:gravity="center_vertical"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.5px"
+            android:background="#DADADA"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="12dp"
+            android:layout_below="@id/bellMode"
+            />
+        <ToggleButton
+            android:id="@+id/isBellMode"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/setting"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="2dp"
+            />
+        <TextView
             android:id="@+id/pushAlarm"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:text="푸쉬 알람"
-            android:layout_below="@id/setting"
+            android:layout_below="@id/bellMode"
             android:paddingLeft="24dp"
             android:textSize="15dp"
             android:textColor="#b3000000"
@@ -459,14 +487,14 @@
             android:layout_width="49dp"
             android:layout_height="49dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/setting"
+            android:layout_below="@+id/bellMode"
             android:layout_marginRight="12dp"
             android:layout_marginTop="2dp"
             />
         <TextView
             android:id="@+id/backgroundTheme"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="50dp"
             android:text="배경 테마"
             android:layout_below="@id/pushAlarm"
             android:paddingLeft="24dp"

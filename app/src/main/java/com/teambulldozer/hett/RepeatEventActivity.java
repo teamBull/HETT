@@ -50,11 +50,12 @@ public class RepeatEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_repeat);
+        /*
+        기호부분.
+        배경화면 setting.
+         */
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.repeat_layout));
 
-        /*기호*/
-        //가장 위의 안드로이드 상태바를 없애주는 코드이다.
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        /*끝.*/
         /* Call the database constructor */
         this.repeatEventController = RepeatEventController.get(this);
 
