@@ -23,7 +23,8 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<BackgroundThemeDTO> arrayList;
     private LayoutInflater layoutInflater;
-    public static ArrayList<View> arrayListView;
+    public ArrayList<View> arrayListView;
+    public ViewHolder disableTargetViewHolder;
     public static int isSelected;
     public int isPermission;
 
@@ -53,7 +54,7 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         TextView backgroundThemeName;
         ImageView backgroundThemeOpenStatus;
         ImageView selectedBackgroundTheme;
-        int isPermission=0;
+        boolean isReapeat=false;
     }
     @Override
     public View getView(final int position,View covertView,ViewGroup parent) {
@@ -66,57 +67,46 @@ public class BackgroundThemeAdapter extends BaseAdapter{
             viewHolder.backgroundThemeName = (TextView) itemLayout.findViewById(R.id.backgroundThemeName); // 백그라운드 테마 객체를 받아옴.
             viewHolder.backgroundThemeOpenStatus = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus); // status를 표시해 줄 ImageView를 받아옴.
             viewHolder.selectedBackgroundTheme = (ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme);
-
             covertView = layoutInflater.inflate(R.layout.list_setting_background_theme,parent,false);
             covertView.setTag(viewHolder);
         } else {
             viewHolder=(ViewHolder)covertView.getTag();
         }
-            //TextView backgroundThemeName =
-            viewHolder.backgroundThemeName.setText(arrayList.get(position).getBackgroundThemeName()); // 테마 명 set.
-            viewHolder.backgroundThemeName.setTypeface(NanumBarunGothic_R);
+        //TextView backgroundThemeName =
+        viewHolder.backgroundThemeName.setText(arrayList.get(position).getBackgroundThemeName()); // 테마 명 set.
+        viewHolder.backgroundThemeName.setTypeface(NanumBarunGothic_R);
 
-            if(arrayList.get(position).getIsBackgroundPermission()==1) {
-                viewHolder.backgroundThemeOpenStatus = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
-                viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.white_select_image);
-                viewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.permissionBackgroundColor));
+        if(arrayList.get(position).getIsBackgroundPermission()==1) {
+            viewHolder.backgroundThemeOpenStatus = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
+            viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.white_select_image);
+            viewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.permissionBackgroundColor));
+        }
+        if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
+            disableTargetViewHolder=viewHolder;
+            setImageByClick(position, viewHolder); // 이미지 클릭메소드 호출!
+            viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.select);
+        }
+        isPermission = arrayList.get(position).getIsBackgroundPermission();
 
-            }
-            if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
-
-                setImageByClick(position, viewHolder); // 이미지 클릭메소드 호출!
-                viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.select);
-            }
-            isPermission = arrayList.get(position).getIsBackgroundPermission();
-
-            if(isPermission==1) {
-                itemLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
-                        for (int i = 0; i < arrayListView.size(); i++) {
-                            View tempView = arrayListView.get(i);
-                            ImageView imageView;
-                            imageView = (ImageView) tempView.findViewById(R.id.selectedBackgroundTheme);
-
-                            imageView.setVisibility(View.GONE);
-                            if(arrayList.get(i).getIsBackgroundPermission()!=1)
-                                continue;
-                            imageView = (ImageView) tempView.findViewById(R.id.backgroundThemeOpenStatus);
-                            imageView.setImageResource(R.drawable.white_select_image);
-                            ((TextView)tempView.findViewById(R.id.backgroundThemeName)).setTextColor(tempView.getResources().getColor(R.color.hatt_gray));
+        if(isPermission==1) {
+            itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
+                    final int checkInt = position;//arrayList.get(position).getBackgroundCode();
+                    Handler handler = new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            setImageByClick(checkInt, viewHolder);
                         }
-                        final int checkInt = arrayList.get(position).getBackgroundCode();
-                        Handler handler = new Handler() {
-                            @Override
-                            public void handleMessage(Message msg) {
-                                setImageByClick(checkInt, viewHolder);
-                            }
-                        };
-                        handler.obtainMessage().sendToTarget();
-                    }
-                });//리스너 종료.
-            }
+                    };
+                    handler.obtainMessage().sendToTarget();
+                    isEnabled(isSelected);
+                    isSelected=checkInt;
+                    disableTargetViewHolder=viewHolder; // isEnable에서 enable할 애.
+                }
+            });//리스너 종료.
+        }
         return itemLayout;
     }
     public void selectTheme(ViewHolder viewHolder){
@@ -128,28 +118,38 @@ public class BackgroundThemeAdapter extends BaseAdapter{
         isSelected=checkInt; //선택된 얘의 번호를 ..ㄱㄱ
         switch (checkInt) {
             case 0 : {
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
                 viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.white_select_image);
-                selectTheme(viewHolder);
                 break;
             }
             case 1 : {
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
                 viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.bg_pattern_tree_01);
-                selectTheme(viewHolder);
                 break;
             }
             case 2 : {
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
                 viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.background_theme_stripe);
-                selectTheme(viewHolder);
                 break;
             }
             case 3 : {
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
                 viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.space_dir_width);
-                selectTheme(viewHolder);
                 break;
             }
             case 4 : {
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
                 viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.bg_pattern_snow);
-                selectTheme(viewHolder);
                 break;
             }
             /*case 5 : {
@@ -163,5 +163,14 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 break;
             }*/
         }
+        selectTheme(viewHolder);
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        disableTargetViewHolder.selectedBackgroundTheme.setVisibility(View.GONE);
+        disableTargetViewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.white_select_image);
+        disableTargetViewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.hatt_gray));
+        return super.isEnabled(position);
     }
 }

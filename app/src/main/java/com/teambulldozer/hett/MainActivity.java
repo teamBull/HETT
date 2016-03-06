@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
 
+
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -819,7 +820,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
-    private int isOpened;
+    private int isOpened=0;
     private TextView backgroundTheme;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
