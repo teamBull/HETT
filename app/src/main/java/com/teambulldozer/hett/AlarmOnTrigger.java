@@ -53,6 +53,12 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        stopClicked();
+    }
+
     private void initPage() {
         //
         mVibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);

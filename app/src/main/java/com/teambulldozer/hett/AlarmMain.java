@@ -168,6 +168,12 @@ public class AlarmMain extends Activity implements OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onBackButtonPress();
+    }
+
     private void initData() {
         Intent i = getIntent();
         int position = i.getIntExtra("position", 1);
@@ -304,7 +310,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         triggerTime = setTriggerTime();
         Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, /*triggerTime for Debugging*/ System.currentTimeMillis()+400, intervalTime, pending);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, /* triggerTime for Debugging */System.currentTimeMillis()+400, intervalTime, pending);
     }
 
     private long setTriggerTime() {
