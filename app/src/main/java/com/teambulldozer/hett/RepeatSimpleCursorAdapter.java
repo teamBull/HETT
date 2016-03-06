@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 /**
  * Created by SEONGBONG on 2016-02-26.
@@ -77,13 +78,11 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     }
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Log.i("Adapter", "bindView");
         RelativeLayout.LayoutParams relativeLayoutPrams;
         ViewHolder holder = (ViewHolder)view.getTag();
 
-        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("DATE"))));
+        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
         if(maxDate == null || !maxDate.equals(dateInfo)){
-            Log.d("date Info", "maxDate" + maxDate + "dateInfo" + dateInfo);
             maxDate = dateInfo;
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, mContext.getResources().getDisplayMetrics());
             holder.dateline.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
@@ -120,17 +119,23 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((RepeatEventActivity)mContext).upDateRow(String.valueOf(v.getTag())))
+                if (!((RepeatEventActivity)mContext).updateRow(String.valueOf(v.getTag())))
                     Toast.makeText(mContext, "Data Not updated", Toast.LENGTH_LONG).show();
             }
         });
     }
     public String dayConverter(String dateInfo){
         Calendar calendar = Calendar.getInstance();
-
-        String year = dateInfo.substring(0, 4);
-        String month = dateInfo.substring(4,6);
-        String date = dateInfo.substring(6,8);
+        String year = null,month = null, date = null,hour=null,min=null,sec=null;
+        StringTokenizer st = new StringTokenizer(dateInfo,"/");
+        while(st.hasMoreElements()){
+            year = st.nextElement().toString();
+            month = st.nextElement().toString();
+            date = st.nextElement().toString();
+            hour = st.nextElement().toString();
+            min = st.nextElement().toString();
+            sec = st.nextElement().toString();
+        }
 
         calendar.set(Calendar.YEAR,Integer.parseInt(year));
         calendar.set(Calendar.MONTH,Integer.parseInt(month));

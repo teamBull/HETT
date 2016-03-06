@@ -56,26 +56,25 @@ public class RepeatEventController {
     //delete
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        unRepeatDate(id, db);
+       // unRepeatDate(id, db);
         return db.delete(TABLE, "code = ?", new String[] { id });
     }
 
     public void deleteAllData(){
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-        unRepeatAllData(db);
         db.execSQL("DELETE FROM " + TABLE);
     }
     //select
     public Cursor getEventRepeatData(){
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-        String sql = "SELECT * FROM "+TABLE+" ORDER BY _id ASC";
+        String sql = "SELECT * FROM "+ TABLE +" ORDER BY _id ASC";
         Cursor res = db.rawQuery(sql, null);
         return res;
     }
 
     public int getEventImportance(String id){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-        String sql = "SELECT * from event_table where _id = ?";
+        String sql = "SELECT * from " + TABLE + " where _id = ?";
         String[] searchId = {id};
         Cursor cursor = db.rawQuery(sql,searchId);
         cursor.moveToFirst();
@@ -91,20 +90,12 @@ public class RepeatEventController {
         }else{
             values.put(Columns.IMPORTANCE, 1);
         }
-        return db.update(TABLE, values, " _id = ?", new String[] { id });
+        return db.update(TABLE, values, " _id = ?", new String[]{id});
     }
-    public void unRepeatDate(String id){
+
+    //태훈아 이메소드 쓰면 됭
+    public int updateRepeatTable(String id, ContentValues contentValues){
         SQLiteDatabase db = dbhelper.getWritableDatabase();
-        db.execSQL("UPDATE event_table set repeat = 0 where _id = " + id);
-    }
-    public void unRepeatDate(String id,SQLiteDatabase db){
-        db.execSQL("UPDATE event_table set repeat = 0 where _id = " + id);
-    }
-    public void unRepeatAllData(){
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
-        db.execSQL("UPDATE event_table set repeat = 0");
-    }
-    public void unRepeatAllData(SQLiteDatabase db){
-        db.execSQL("UPDATE event_table set repeat = 0");
+        return db.update(TABLE,contentValues," _id = ?",new String[]{id});
     }
 }

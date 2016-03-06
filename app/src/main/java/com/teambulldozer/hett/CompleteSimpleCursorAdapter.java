@@ -73,12 +73,10 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Log.i("Adapter", "bindView");
         ViewHolder holder = (ViewHolder)view.getTag();
 
         String dateInfo = dayConverter(cursor.getString(cursor.getColumnIndex("_id")));
         if(maxDate == null || !maxDate.equals(dateInfo)){
-            Log.d("date Info", "maxDate" + maxDate + "dateInfo" + dateInfo);
             maxDate = dateInfo;
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,35, mContext.getResources().getDisplayMetrics());
             holder.borderline.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
@@ -86,7 +84,6 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         }
 
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
-        Log.d("_id 확인 : ",cursor.getString(cursor.getColumnIndex("_id")));
         holder.deleteButton.setTag(cursor.getString(cursor.getColumnIndex("_id")));
         super.bindView(view, context, cursor);
     }
@@ -118,7 +115,6 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
     public String dayConverter(String dateInfo){
         Calendar calendar = Calendar.getInstance();
         String year = null,month = null, date = null,hour=null,min=null,sec=null;
-        Log.d("dateInfo값: ", dateInfo );
         StringTokenizer st = new StringTokenizer(dateInfo,"/");
         while(st.hasMoreElements()){
             year = st.nextElement().toString();
