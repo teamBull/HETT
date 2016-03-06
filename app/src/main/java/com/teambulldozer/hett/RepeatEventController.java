@@ -16,7 +16,6 @@ public class RepeatEventController {
 
     static class Columns {
         static final String ID = "_id"; // CursorAdapter에서 id명은 반드시 _id. 수정하면 안된다.
-        static final String DATE = "DATE";
         static final String MEMO = "MEMO";
         static final String IMPORTANCE = "IMPORTANCE";
         static final String DAY_OF_WEEK = "DAY_OF_WEEK";
@@ -34,11 +33,10 @@ public class RepeatEventController {
         return mRepeatEventController;
     }
     //insert
-    public boolean insertToRepeatTable(String id, String date, String memo, int importance, String dayOfWeek,int alarm, int alarmHour,int alarmMinute){
+    public boolean insertToRepeatTable(String id, String memo, int importance, String dayOfWeek,int alarm, int alarmHour,int alarmMinute){
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.ID,id);
-        contentValues.put(Columns.DATE, date);
         contentValues.put(Columns.MEMO, memo);
         contentValues.put(Columns.IMPORTANCE,importance);
         contentValues.put(Columns.DAY_OF_WEEK, dayOfWeek);
@@ -56,8 +54,7 @@ public class RepeatEventController {
     //delete
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
-       // unRepeatDate(id, db);
-        return db.delete(TABLE, "code = ?", new String[] { id });
+        return db.delete(TABLE, "_id = ?", new String[] { id });
     }
 
     public void deleteAllData(){
@@ -72,6 +69,13 @@ public class RepeatEventController {
         return res;
     }
 
+    //준상이는 이 메소드 쓰면 됨
+    public Cursor getTodoRepeatData(String dayOfWeek){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        String sql = "SELECT * FROM "+ TABLE +" WHERE DAY_OF_WEEK like '%"+dayOfWeek+"%' ORDER BY _id ASC";
+        Cursor res = db.rawQuery(sql, null);
+        return res;
+    }
     public int getEventImportance(String id){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         String sql = "SELECT * from " + TABLE + " where _id = ?";
@@ -80,6 +84,7 @@ public class RepeatEventController {
         cursor.moveToFirst();
         return cursor.getInt(cursor.getColumnIndex("IMPORTANCE"));
     }
+
     //update
     public int updateImportances(String id,int importance){
         Log.d("importance값:", String.valueOf(importance));

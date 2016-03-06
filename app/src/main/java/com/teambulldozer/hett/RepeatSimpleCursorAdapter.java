@@ -81,7 +81,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         RelativeLayout.LayoutParams relativeLayoutPrams;
         ViewHolder holder = (ViewHolder)view.getTag();
 
-        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
+        String dateInfo = dayConverter(cursor.getString(cursor.getColumnIndex("_id")));
         if(maxDate == null || !maxDate.equals(dateInfo)){
             maxDate = dateInfo;
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, mContext.getResources().getDisplayMetrics());
@@ -97,7 +97,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         }
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
         holder.dayOfWeek.setText(cursor.getString(cursor.getColumnIndex("DAY_OF_WEEK")));
-        holder.repeatDeleteBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
+        holder.repeatDeleteBtn.setTag(cursor.getString(cursor.getColumnIndex("_id")));
 
         super.bindView(view, context, cursor);
     }

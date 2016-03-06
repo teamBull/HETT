@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "(_id TEXT primary key, MEMO TEXT NOT NULL);";//,FOREIGN KEY(_id) REFERENCES event_table(_id)
     private static final String CREATE_REPEAT_TABLE=
             "create table " + TABLE_NAME4 +
-                    "(_id TEXT primary key, DATE TEXT, MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL,ALARM INTEGER, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
+                    "(_id TEXT primary key,MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL,ALARM INTEGER, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
 
     //기호
     private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
