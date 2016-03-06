@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME2 = "friend_table";
     public static final String TABLE_NAME3 = "event_complete_table";
     public static final String TABLE_NAME4 = "repeat_table";
-    public static final String VIEW_NAME = "event_repeat_view";
+    //public static final String VIEW_NAME = "event_repeat_view";
     public static final String TABLE_NAME6 = "hatt_setting_table";
     public static final String TABLE_NAME5="hatt_background_theme_table";
 
@@ -42,29 +42,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "create table " + TABLE_NAME2 +
                     "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, total_point double);";
 
-    /*private static final String CREATE_EVENT_COMPLETE_TABLE =
-            "create table " + TABLE_NAME3 +
-                    "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER,DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";*/
     private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +
-                    "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER NOT NULL,DATE INTEGER NOT NULL);";
-    /*private static final String CREATE_EVENT_REPEAT_TABLE=
-            "create table " + TABLE_NAME4 +
-                    "(_id INTEGER, DAY_OF_WEEK TEXT NOT NULL, FOREIGN KEY(_id) REFERENCES event_table(_id))";*/
-
+                    "(CODE TEXT primary key, DATE TEXT, MEMO TEXT NOT NULL);";//,FOREIGN KEY(_id) REFERENCES event_table(_id)
     private static final String CREATE_EVENT_REPEAT_TABLE=
             "create table " + TABLE_NAME4 +
-                    "(code INTEGER, DAY_OF_WEEK TEXT NOT NULL)";
-    private static final String CREATE_EVENT_REPREAT_VIEW=
-            "CREATE VIEW " + VIEW_NAME +
-                    " AS " +
-                    " SELECT *" +
-                    " FROM event_table e, repeat_table r" +
-                    " WHERE e._id = r.code AND e.repeat = 1";
+                    "(CODE TEXT primary key, DATE TEXT, MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
 
     //기호
     private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
     private static final String CREATE_HATT_BACKGROUND_THEME_TABLE = "create table "+TABLE_NAME5+" (background_code integer primary key autoincrement , background_theme_name text not null, is_background_permission integer not null,is_selected integer not null);";
+
+    /*private static final String CREATE_EVENT_REPREAT_VIEW=
+            "CREATE VIEW " + VIEW_NAME +
+                    " AS " +
+                    " SELECT *" +
+                    " FROM event_table e, repeat_table r" +
+                    " WHERE e._id = r.code AND e.repeat = 1";*/
     //
     private DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -84,37 +78,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_FRIEND_TABLE);
         db.execSQL(CREATE_EVENT_COMPLETE_TABLE);
         db.execSQL(CREATE_EVENT_REPEAT_TABLE);
-        db.execSQL(CREATE_EVENT_REPREAT_VIEW);
-        //event_table
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,20160227,1,0,-1,-1);");
+        //db.execSQL(CREATE_EVENT_REPREAT_VIEW);
+        //event_table _id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE TEXT, REPEAT INTEGER, ALARM INTEGER, ALARMHOUR
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,20160227,1,1,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,20160227,1,0,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,20160228,1,0,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,20160228,1,1,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(4,'춤추기',0,0,20160229,1,0,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(5,'노래부르기',1,0,20160210,1,0,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(6,'잠자기',1,0,20160211,1,0,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(7,'데이트',1,0,20160211,1,0,-1,-1);");
 
-        //complete_table
+
         db.execSQL(CREATE_HATT_SETTING_TABLE);
         db.execSQL(CREATE_HATT_BACKGROUND_THEME_TABLE);
 
         db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'Hatti', '기본 테마', 0);");
 
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (4,'네번째메모',1,20160227);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (5,'다섯번째메모',1,20160228);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (1,'첫번째메모',1,20160226);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (7,'일곱번째메모',1,20160229);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (2,'두번째메모',1,20160226);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (3,'세번째메모',1,20160227);");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES (6,'여섯번째메모',1,20160228);");
-        //여기는 임시 REPEAT_TABLE 값
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(1,'월,화,수');" );
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(2,'화,수');" );
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(3,'월,화,수');" );
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(4,'수');" );
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(5,'금');" );
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(6,'일');" );
-        db.execSQL("INSERT INTO " + TABLE_NAME4 + " VALUES(7,'화');" );
+        //임시 complete_tb : complete_table CODE TEXT, MEMO TEXT NOT NULL
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160206153152','20160206','네번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160206162013','20160206','다섯번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160207082836','20160207','첫번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160209094528','20160209','일곱번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160210132942','20160210','두번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160210103258','20160210','세번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160211092020','20160211','여섯번째메모');");
+
+        //임시 repeat_tb : CODE INTEGER, MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE
+
 
         db.execSQL("insert into "+TABLE_NAME6+" values('user1','Hatti',0);");
 
@@ -126,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
 
-
+        new AlarmAMZero(mContext);
 
     }
 
@@ -135,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME3);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME4);
-        db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
+        //db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
         db.execSQL("drop table if exists "+TABLE_NAME6);
         db.execSQL("drop table if exists "+TABLE_NAME5);
         onCreate(db);

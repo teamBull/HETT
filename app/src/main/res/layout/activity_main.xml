@@ -9,12 +9,10 @@
     >
 
     <com.teambulldozer.hett.SoftKeyboardLsnedRelativeLayout
-
         android:id="@+id/myLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         >
 
 

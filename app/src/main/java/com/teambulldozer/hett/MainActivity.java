@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
 
+
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -324,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
             setTimeIntervalByDateBar(); //handleMessage객체는 setTimeIntervalByDateDar메소드를 호출함.
         }
     };
+
     public void showDate(){
         //처음 showDate를 호출할 시 시간을 set해주고, 현재 분을 받아온다.
         final int startMinute = setTimeIntervalByDateBar();
@@ -633,10 +635,7 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String memo = memoInput.getText().toString();
-
                 if (memo.isEmpty()) {
                     return;
                     /* If a user does not type any word, then, memo is not to be added to the list. */
@@ -821,7 +820,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
-    private int isOpened;
+    private int isOpened=0;
     private TextView backgroundTheme;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());

@@ -31,7 +31,9 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
         totalPoint = friendDataManager.getTotalPoint()+todayPoint;
         friendDataManager.updateTotalPoint(1, totalPoint);
+        PushAlarmReservation.getInstance().registerAlarm(context, 9, 0, 0, DrawerTableController.getInstance(context).searchByFriendName(), "오늘도 잘 일어났냐?");
 
+        PushAlarmReservation.getInstance().registerAlarm(context,2,0,0,DrawerTableController.getInstance(context).searchByFriendName(),"얼렁 자라 ㅋㅋㅋㅋ");
 
     }
 }
