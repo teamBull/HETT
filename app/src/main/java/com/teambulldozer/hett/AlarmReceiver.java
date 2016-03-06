@@ -41,11 +41,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             } catch (PendingIntent.CanceledException e) {
                 e.printStackTrace();
             }
-
-            // 진동
-            Log.i("alarmOnReceive", "진동");
-            //Vibrator mVibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            //mVibe.vibrate(2000);
         } else {
             Log.i("alarmOnReceive", "null extra");
         }

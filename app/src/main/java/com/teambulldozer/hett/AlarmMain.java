@@ -36,7 +36,9 @@ public class AlarmMain extends Activity implements OnClickListener {
     boolean[] week = {noRepeat, mon, tue, wed, thu, fri, sat, sun};
 
     // DB Info
+    String syncID = null; // Date is syncID for event and repeat table.
     EventTableController eventTableController = EventTableController.get(this);
+    DatabaseHelper repeatEventDBHelper;
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
 
     // Set buttons
@@ -197,6 +199,7 @@ public class AlarmMain extends Activity implements OnClickListener {
             Log.i("ALARM : ", "_id : " + Integer.toString(_id) + ", HAS ALARM : " + Integer.toString(preHasAlarm) + ", HOUR : " + Integer.toString(preAlarmHour) + ", MINUTE : " + Integer.toString(preAlarmMinute));
 
             preDate = eventTableCursor.getString(eventTableCursor.getColumnIndex("DATE"));
+            syncID = preDate;
             Log.i("DATE : ", "_id : " + Integer.toString(_id) + ", DATE : " + preDate);
             while(repeatEventTableCursor.moveToNext()) {
                 String repeatEventTableDate = eventTableCursor.getString(repeatEventTableCursor.getColumnIndex("DATE"));
@@ -301,7 +304,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         triggerTime = setTriggerTime();
         Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /* for Debugging System.currentTimeMillis()+400*/, intervalTime, pending);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, /*triggerTime for Debugging*/ System.currentTimeMillis()+400, intervalTime, pending);
     }
 
     private long setTriggerTime() {
@@ -454,6 +457,8 @@ public class AlarmMain extends Activity implements OnClickListener {
     }
 
     private void onBackButtonPress() {
+        // SQLiteDatabase repeatEventDB = repeatEventDBHelper.getWritableDatabase();
+
         EditText et = (EditText) findViewById(R.id.alarm_todo_title);
         todo = et.getText().toString();
 
@@ -477,6 +482,9 @@ public class AlarmMain extends Activity implements OnClickListener {
         eventTableController.shiftContentValuesTo(values, position);
 
         if(repeatDays != null) {
+            values.put("ID", syncID);
+            values.put("DATE", syncID);
+            values.put("REPEAT", 1);
             values.put("DAY_OF_WEEK", repeatDays);
         }
         super.onBackPressed();
