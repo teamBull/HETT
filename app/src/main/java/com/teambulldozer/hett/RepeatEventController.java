@@ -12,17 +12,17 @@ import android.util.Log;
 public class RepeatEventController {
     private static RepeatEventController mRepeatEventController;
     DatabaseHelper dbhelper;
+    static final String TABLE = "repeat_table";
 
     static class Columns {
         static final String ID = "_id"; // CursorAdapter에서 id명은 반드시 _id. 수정하면 안된다.
+        static final String DATE = "DATE";
         static final String MEMO = "MEMO";
         static final String IMPORTANCE = "IMPORTANCE";
-        static final String COMPLETENESS = "COMPLETENESS";
-        static final String DATE = "DATE";
-        static final String REPEAT = "REPEAT";
-        static final String ALARM = "ALARM";
-        static final String CODE = "code";
         static final String DAY_OF_WEEK = "DAY_OF_WEEK";
+        static final String ALARM = "ALARM";
+        static final String ALARMHOUR = "ALARMHOUR";
+        static final String ALARMMINUTE = "ALARMMINUTE";
     }
     private RepeatEventController(Context context){
         dbhelper = DatabaseHelper.get(context);
@@ -34,18 +34,19 @@ public class RepeatEventController {
         return mRepeatEventController;
     }
     //insert
-    public boolean insertToEventTable(int id, String memo, int importance, int completeness,int date,int repeat,int alarm){
+    public boolean insertToRepeatTable(String id, String date, String memo, int importance, String dayOfWeek,int alarm, int alarmHour,int alarmMinute){
         SQLiteDatabase sqLiteDatabase = dbhelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.ID,id);
+        contentValues.put(Columns.DATE, date);
         contentValues.put(Columns.MEMO, memo);
         contentValues.put(Columns.IMPORTANCE,importance);
-        contentValues.put(Columns.COMPLETENESS,completeness);
-        contentValues.put(Columns.DATE, date);
-        contentValues.put(Columns.REPEAT,repeat);
+        contentValues.put(Columns.DAY_OF_WEEK, dayOfWeek);
         contentValues.put(Columns.ALARM, alarm);
+        contentValues.put(Columns.ALARMHOUR, alarmHour);
+        contentValues.put(Columns.ALARMMINUTE, alarmMinute);
 
-        long result = sqLiteDatabase.insert("event_table", null, contentValues);
+        long result = sqLiteDatabase.insert(TABLE, null, contentValues);
         if(result == -1)
             return false;
         else
@@ -56,23 +57,22 @@ public class RepeatEventController {
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
         unRepeatDate(id, db);
-        return db.delete("repeat_table", "code = ?", new String[] { id });
+        return db.delete(TABLE, "code = ?", new String[] { id });
     }
 
     public void deleteAllData(){
         SQLiteDatabase db = dbhelper.getWritableDatabase(); // It is going to create your database and table.
         unRepeatAllData(db);
-        db.execSQL("DELETE FROM " + "repeat_table");
-    }
-
-    public Cursor getEventRepeatData(){
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
-        String sql = "SELECT * FROM event_repeat_view WHERE REPEAT = ? ORDER BY DATE ASC";
-        String[] repeat = {"1"};
-        Cursor res = db.rawQuery(sql, repeat);
-        return res;
+        db.execSQL("DELETE FROM " + TABLE);
     }
     //select
+    public Cursor getEventRepeatData(){
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        String sql = "SELECT * FROM "+TABLE+" ORDER BY _id ASC";
+        Cursor res = db.rawQuery(sql, null);
+        return res;
+    }
+
     public int getEventImportance(String id){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         String sql = "SELECT * from event_table where _id = ?";
@@ -91,7 +91,7 @@ public class RepeatEventController {
         }else{
             values.put(Columns.IMPORTANCE, 1);
         }
-        return db.update("event_table", values, " _id = ?", new String[] { id });
+        return db.update(TABLE, values, " _id = ?", new String[] { id });
     }
     public void unRepeatDate(String id){
         SQLiteDatabase db = dbhelper.getWritableDatabase();
