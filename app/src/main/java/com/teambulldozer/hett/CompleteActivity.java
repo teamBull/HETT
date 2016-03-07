@@ -158,11 +158,10 @@ public class CompleteActivity extends AppCompatActivity{
     private void populateListView() {
         this.cursor = completeEventCtr.getEventTableCompleteData();
         this.cursor.moveToFirst();
-        /*String[] fromFieldNames = new String[] {CompleteEventTableController.Columns.MEMO};
+        String[] fromFieldNames = new String[] {CompleteEventTableController.Columns.MEMO};
         int[] toViewIDS = new int[] { R.id.memo_content};
         cursorAdapter = new CompleteSimpleCursorAdapter(this,R.layout.list_item_complete,this.cursor,fromFieldNames,toViewIDS,0,completeEventCtr);
         this.listView.setAdapter(cursorAdapter);
-*/
     }
     public void setFont(){
         this.editMenuBtn.setTypeface(NanumSquare_B);
@@ -170,7 +169,6 @@ public class CompleteActivity extends AppCompatActivity{
     }
     public boolean deleteRow(String rowId){
         Integer deletedRows = completeEventCtr.deleteData(rowId);
-        completeEventCtr.rearrangeData(rowId);
         requery();
         return deletedRows != 0;
     }

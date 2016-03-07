@@ -44,10 +44,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +
-                    "(CODE TEXT primary key, DATE TEXT, MEMO TEXT NOT NULL);";//,FOREIGN KEY(_id) REFERENCES event_table(_id)
-    private static final String CREATE_EVENT_REPEAT_TABLE=
+                    "(_id TEXT primary key, MEMO TEXT NOT NULL);";//,FOREIGN KEY(_id) REFERENCES event_table(_id)
+    private static final String CREATE_REPEAT_TABLE=
             "create table " + TABLE_NAME4 +
-                    "(CODE TEXT primary key, DATE TEXT, MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
+                    "(_id TEXT primary key,MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL,ALARM INTEGER, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
 
     //기호
     private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
@@ -77,16 +77,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_EVENT_TABLE);
         db.execSQL(CREATE_FRIEND_TABLE);
         db.execSQL(CREATE_EVENT_COMPLETE_TABLE);
-        db.execSQL(CREATE_EVENT_REPEAT_TABLE);
+        db.execSQL(CREATE_REPEAT_TABLE);
         //db.execSQL(CREATE_EVENT_REPREAT_VIEW);
         //event_table _id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE TEXT, REPEAT INTEGER, ALARM INTEGER, ALARMHOUR
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,20160227,1,1,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,20160227,1,0,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,20160228,1,1,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(4,'춤추기',0,0,20160229,1,0,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(5,'노래부르기',1,0,20160210,1,0,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(6,'잠자기',1,0,20160211,1,0,-1,-1);");
-        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(7,'데이트',1,0,20160211,1,0,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,'16/02/27',0,1,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,'16/02/27',0,0,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,'16/02/28',0,1,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(4,'춤추기',0,0,'16/02/29',0,0,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(5,'노래부르기',1,0,'16/02/10',0,0,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(6,'잠자기',1,0,'16/02/11',0,0,-1,-1);");
+        db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(7,'데이트',1,0,'16/02/11',0,0,-1,-1);");
 
 
         db.execSQL(CREATE_HATT_SETTING_TABLE);
@@ -95,13 +95,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'Hatti', '기본 테마', 0);");
 
         //임시 complete_tb : complete_table CODE TEXT, MEMO TEXT NOT NULL
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160206153152','20160206','네번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160206162013','20160206','다섯번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160207082836','20160207','첫번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160209094528','20160209','일곱번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160210132942','20160210','두번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160210103258','20160210','세번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('20160211092020','20160211','여섯번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/15/31/52','네번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/16/20/13','다섯번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/09/09/45/28','일곱번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/10/13/29/42','두번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/10/10/32/58','세번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/07/08/28/36','첫번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/11/09/20/20','여섯번째메모');");
 
         //임시 repeat_tb : CODE INTEGER, MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE
 

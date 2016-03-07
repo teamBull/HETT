@@ -21,6 +21,7 @@ import com.teambulldozer.hett.R;
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 /**
  * Created by SEONGBONG on 2016-02-23.
@@ -72,12 +73,10 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Log.i("Adapter", "bindView");
         ViewHolder holder = (ViewHolder)view.getTag();
 
-        String dateInfo = dayConverter(String.valueOf(cursor.getInt(cursor.getColumnIndex("DATE"))));
+        String dateInfo = dayConverter(cursor.getString(cursor.getColumnIndex("_id")));
         if(maxDate == null || !maxDate.equals(dateInfo)){
-            Log.d("date Info", "maxDate" + maxDate + "dateInfo" + dateInfo);
             maxDate = dateInfo;
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,35, mContext.getResources().getDisplayMetrics());
             holder.borderline.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
@@ -85,7 +84,7 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         }
 
         holder.memoContent.setText(cursor.getString(cursor.getColumnIndex("MEMO")));
-        holder.deleteButton.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
+        holder.deleteButton.setTag(cursor.getString(cursor.getColumnIndex("_id")));
         super.bindView(view, context, cursor);
     }
 
@@ -115,10 +114,19 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
     }
     public String dayConverter(String dateInfo){
         Calendar calendar = Calendar.getInstance();
-
-        String year = dateInfo.substring(0, 4);
-        String month = dateInfo.substring(4,6);
-        String date = dateInfo.substring(6,8);
+        String year = null,month = null, date = null,hour=null,min=null,sec=null;
+        StringTokenizer st = new StringTokenizer(dateInfo,"/");
+        while(st.hasMoreElements()){
+            year = st.nextElement().toString();
+            month = st.nextElement().toString();
+            date = st.nextElement().toString();
+            hour = st.nextElement().toString();
+            min = st.nextElement().toString();
+            sec = st.nextElement().toString();
+        }
+        /*String year = dateInfo.substring(0,2);
+        String month = dateInfo.substring(2,4);
+        String date = dateInfo.substring(4,6);*/
 
         calendar.set(Calendar.YEAR,Integer.parseInt(year));
         calendar.set(Calendar.MONTH,Integer.parseInt(month));

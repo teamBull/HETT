@@ -1,5 +1,6 @@
 package com.teambulldozer.hett;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.StrictMode;
@@ -58,6 +59,14 @@ public class RepeatEventActivity extends AppCompatActivity {
 
         /* Call the database constructor */
         this.repeatEventController = RepeatEventController.get(this);
+        /*repeatEventController.insertToRepeatTable("16/03/07/01/13/50", "반복일정", 1, "월,화", 0, 0, 0);
+        repeatEventController.insertToRepeatTable("16/03/05/01/13/50", "반복일정", 0, "수,목", 0, 0, 0);
+        repeatEventController.insertToRepeatTable("16/03/09/01/13/50", "반복일정", 1, "월,일", 0, 0, 0);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MEMO","바뀐반복일정");
+        contentValues.put("IMPORTANCE",1);
+        contentValues.put("DAY_OF_WEEK","금");
+        repeatEventController.updateRepeatTable("16/03/05/01/13/50",contentValues);*/
 
         /* Connecting XML widgets and JAVA code. */
         this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout)findViewById(R.id.repeat_layout);
@@ -155,8 +164,7 @@ public class RepeatEventActivity extends AppCompatActivity {
         requery();
         return deletedRows != 0;
     }
-    public boolean upDateRow(String rowId){
-
+    public boolean updateRow(String rowId){
         Integer updateRows = repeatEventController.updateImportances(rowId,repeatEventController.getEventImportance(rowId));
         requery();
         return updateRows != 0;
