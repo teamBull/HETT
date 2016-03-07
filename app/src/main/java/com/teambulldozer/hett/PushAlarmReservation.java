@@ -60,8 +60,8 @@ public class PushAlarmReservation {
      * @param pushAlarmBody 알람 울릴 내용.
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
-    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmBody) {
-        return registerAlarm(context, hour, min, second, PUSH_ALARM_TITLE_HATT, pushAlarmBody);
+    public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmBody) {
+        return registerAlarm(context,position, hour, min, second, PUSH_ALARM_TITLE_HATT, pushAlarmBody);
     }
     /**
      * 알람을 등록하는 메소드. 푸쉬 알람의 제목이 앱 이름으로 등록되어 있다.
@@ -79,12 +79,12 @@ public class PushAlarmReservation {
      * @param pushAlarmBody
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
-    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody) {
-        hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
+    public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody) {
+        hashMap.put(position, new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
         return true;
     }
-    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
-        hashMap.put(checkHashMapSize(), new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody,repeat));
+    public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
+        hashMap.put(position, new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody, repeat));
         return true;
     }
     /**

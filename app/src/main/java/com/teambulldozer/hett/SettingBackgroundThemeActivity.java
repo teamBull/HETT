@@ -76,7 +76,6 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     }
     public void initBackgroundTheme() {
         ArrayList<BackgroundThemeDTO> arrayList = DrawerTableController.getInstance().searchBackbroundThemeDTOAllData();
-
         backgroundThemeAdapter = new BackgroundThemeAdapter(this.getApplicationContext() , arrayList ) ;
         settingBackgroundThemeListView = (ListView) findViewById( R.id.settingBackgroundThemeListView);
         settingBackgroundThemeListView.setAdapter(backgroundThemeAdapter);
