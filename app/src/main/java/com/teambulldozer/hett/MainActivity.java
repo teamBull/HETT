@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
-        new AlarmAMZero(getApplicationContext());
+        //new AlarmAMZero(getApplicationContext());
 
 
 

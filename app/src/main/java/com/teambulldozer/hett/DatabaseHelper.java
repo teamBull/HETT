@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("insert into "+TABLE_NAME5+" values(4,'on the snow',1,0)");
         /*db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
-
+        new AlarmAMZero(mContext);
 
     }
 
