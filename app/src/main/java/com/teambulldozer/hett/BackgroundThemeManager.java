@@ -1,9 +1,13 @@
 package com.teambulldozer.hett;
 
 import android.content.Context;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,10 +59,9 @@ public class BackgroundThemeManager {
         view.setBackground(context.getResources().getDrawable(R.drawable.space));
         if(view.findViewById(R.id.myLayout)!=null)
             changeTextColorByLightByMainActivity(view);
-        view=null;
     }
     public void snow(View view) {
-        view.setBackground(context.getResources().getDrawable(R.drawable.bg_pattern_snow));
+        view.setBackground(context.getResources().getDrawable(R.drawable.snow_1));
         if(view.findViewById(R.id.myLayout)!=null)
             changeOwnTextColorByMainActivity(view);
     }
