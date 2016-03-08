@@ -30,6 +30,7 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
 
     private Context mContext; // In order to call MainActivity's method
     EventTableController myEventController;
+    RepeatEventController myRepeatController;
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
     //int currentBorderline;
@@ -41,6 +42,7 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
         super(context, layout, c, from, to, 0);
         mContext = context;
         myEventController = controller;
+        myRepeatController = RepeatEventController.get(context);
         NanumSquare_B = Typeface.createFromAsset(context.getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(context.getAssets(), "NanumBarunGothic_Regular.ttf");
     }
@@ -142,10 +144,12 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
                             if (cursor.getString(1).equals("1")) {
                                 viewHolder.starButton.setImageResource(R.drawable.star_off); // 이 라인 지우면 안돼;
                                 myEventController.updateImportance(Integer.toString(position_sync), 0);
+                                myRepeatController.updateImportances(myEventController.getRepeatTableIDAt(position_sync), 0);
                                 break; // In order to avoid unnecessary loop.
                             } else {
                                 viewHolder.starButton.setImageResource(R.drawable.star_on);
                                 myEventController.updateImportance(Integer.toString(position_sync), 1);
+                                myRepeatController.updateImportances(myEventController.getRepeatTableIDAt(position_sync), 1);
                                 break;
                             }
                         }

@@ -3,6 +3,7 @@ package com.teambulldozer.hett;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -71,11 +72,12 @@ public class RepeatEventController {
 
     //준상이는 이 메소드 쓰면 됨
     public Cursor getTodoRepeatData(String dayOfWeek){
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
         String sql = "SELECT * FROM "+ TABLE +" WHERE DAY_OF_WEEK like '%"+dayOfWeek+"%' ORDER BY _id ASC";
         Cursor res = db.rawQuery(sql, null);
         return res;
     }
+
     public int getEventImportance(String id){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         String sql = "SELECT * from " + TABLE + " where _id = ?";
@@ -102,5 +104,11 @@ public class RepeatEventController {
     public int updateRepeatTable(String id, ContentValues contentValues){
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         return db.update(TABLE,contentValues," _id = ?",new String[]{id});
+    }
+
+    public int numOfEntries() // int
+    {
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        return (int)DatabaseUtils.queryNumEntries(db, TABLE);
     }
 }
