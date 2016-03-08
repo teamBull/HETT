@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class ClosenessActivity extends AppCompatActivity {
 
     NextGiftAdapter adapter;
-    ArrayList al;
     RelativeLayout rlthemeEx;
 
     Button btnPrevCloseness;
