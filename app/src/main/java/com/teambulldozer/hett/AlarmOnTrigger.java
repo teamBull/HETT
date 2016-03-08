@@ -65,7 +65,7 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         // 상태바 없애기, 진동울리기
         Log.i("alarmOnTrigger", "상태바 없애기, 진동");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //mVibe.vibrate(100000);
+        mVibe.vibrate(100000);
 
         // intialize informations
         Calendar c = Calendar.getInstance();
