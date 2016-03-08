@@ -3,6 +3,7 @@ package com.teambulldozer.hett;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -71,22 +72,25 @@ public class RepeatEventController {
 
     //준상이는 이 메소드 쓰면 됨
     public Cursor getTodoRepeatData(String dayOfWeek){
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
         String sql = "SELECT * FROM "+ TABLE +" WHERE DAY_OF_WEEK like '%"+dayOfWeek+"%' ORDER BY _id ASC";
         Cursor res = db.rawQuery(sql, null);
         return res;
     }
+
     public int getEventImportance(String id){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
         String sql = "SELECT * from " + TABLE + " where _id = ?";
         String[] searchId = {id};
         Cursor cursor = db.rawQuery(sql,searchId);
         cursor.moveToFirst();
+
         return cursor.getInt(cursor.getColumnIndex("IMPORTANCE"));
     }
 
     //update
-    public int updateImportances(String id,int importance){
+    public int updateImportances(String id, int importance){
+
         Log.d("importance값:", String.valueOf(importance));
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -98,9 +102,26 @@ public class RepeatEventController {
         return db.update(TABLE, values, " _id = ?", new String[]{id});
     }
 
+    // Joonsang method.
+    public int updateImportance(String id, int importance){
+
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Columns.IMPORTANCE, importance);
+
+        return db.update(TABLE, values, " _id = ?", new String[]{id});
+    }
+
+
     //태훈아 이메소드 쓰면 됭
     public int updateRepeatTable(String id, ContentValues contentValues){
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         return db.update(TABLE,contentValues," _id = ?",new String[]{id});
+    }
+
+    public int numOfEntries() // int
+    {
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        return (int)DatabaseUtils.queryNumEntries(db, TABLE);
     }
 }

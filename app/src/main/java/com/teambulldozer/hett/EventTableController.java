@@ -22,6 +22,7 @@ public class EventTableController {
         static final String IMPORTANCE = "IMPORTANCE";
         static final String COMPLETENESS = "COMPLETENESS";
         static final String DATE = "DATE";
+        static final String TODAY = "TODAY";
         static final String REPEAT = "REPEAT";
         static final String ALARM = "ALARM";
         static final String ALARMHOUR = "ALARMHOUR";
@@ -45,7 +46,11 @@ public class EventTableController {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.MEMO, memo);
         contentValues.put(Columns.IMPORTANCE, 0); // 입력 단계에서 중요 설정 할 수 없으므로, default 값은 false.
-        contentValues.put(Columns.DATE, ((MainActivity)mContext).getDate()); // 인풋 시에 날짜가 DB에 기입된다.
+        contentValues.put(Columns.DATE, ((MainActivity)mContext).getDate()); // 인풋 시에 날짜가 DB에 기입된다. 그리고 이게 repeat_table의 ID로 사용된다.
+        contentValues.put(Columns.TODAY, ((MainActivity)mContext).getDate().substring(3, 8)); // 인풋 시에 해당 날짜가 TODAY column에 기록된다.
+        contentValues.put(Columns.ALARM, 0);
+        contentValues.put(Columns.ALARMHOUR, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
+        contentValues.put(Columns.ALARMMINUTE, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
         //
         /* getDate값은 변하지 않는 값으로 처음에 한 번만 입력되어야 한다. */
 
@@ -120,7 +125,7 @@ public class EventTableController {
 
     public int getBorderlinePos(){
 
-        for(int position = 1; position <= (int)numOfEntries(); position++) {
+        for(int position = 1; position <= numOfEntries(); position++) {
             if ((!isCompleted(position)) && isCompleted(position + 1)) {
                 return (position + 1);
             }
@@ -152,6 +157,57 @@ public class EventTableController {
 
         return "Error";
     }
+
+    public Cursor getTodayData(){
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        String[] columns = { Columns.ID, Columns.TODAY };
+        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+        return cursor;
+    }
+
+    public String getTodayAt(int position){ // 날짜만 리턴
+        Cursor cursor = getTodayData();
+        cursor.moveToFirst();
+        try{
+            do {
+                if (Integer.toString(position).equals(cursor.getString(0)))
+                    return cursor.getString(1);
+
+            } while (cursor.moveToNext());
+        } finally {
+            if(cursor != null)
+                cursor.close();
+        }
+
+        return "Error";
+    }
+
+
+    public Cursor getRepeatTableID(){
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        String[] columns = { Columns.ID, Columns.DATE };
+        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+        return cursor;
+    }
+
+    public String getRepeatTableIDAt(int position){ // 날짜만 리턴
+        Cursor cursor = getRepeatTableID();
+        cursor.moveToFirst();
+        try{
+            do {
+                if (Integer.toString(position).equals(cursor.getString(0)))
+                    return cursor.getString(1);
+
+            } while (cursor.moveToNext());
+        } finally {
+            if(cursor != null)
+                cursor.close();
+        }
+
+        return "Error";
+    }
+
+
 
     public Cursor getImportanceData(){
         SQLiteDatabase db = myDb.getReadableDatabase();
@@ -187,10 +243,24 @@ public class EventTableController {
         return true;
     }
 
+    public boolean updateToday(String id, String today){ // 일정의 날짜만 업데이트한다.
+        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
+        ContentValues values = new ContentValues();
+        values.put(Columns.TODAY, today);
+        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
+
+        return true;
+    }
+
 
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
         return db.delete(TABLE_NAME, "_id = ?", new String[] { id });
+    }
+
+    public void deleteDataFrom(String id){
+        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
+        db.delete(TABLE_NAME, "_id >= ?", new String[] { id });
     }
 
     public void deleteAllData(){
@@ -213,7 +283,7 @@ public class EventTableController {
 
     public ContentValues getAllContent(int position){
         SQLiteDatabase db_read = myDb.getReadableDatabase();
-        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.REPEAT, Columns.ALARM, Columns.ALARMHOUR, Columns.ALARMMINUTE};
+        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.TODAY, Columns.REPEAT, Columns.ALARM, Columns.ALARMHOUR, Columns.ALARMMINUTE};
         Cursor cursor = db_read.query(TABLE_NAME, columns, null, null, null, null, null);
         cursor.moveToFirst();
 
@@ -227,10 +297,11 @@ public class EventTableController {
                     values.put(Columns.IMPORTANCE, cursor.getString(2));
                     values.put(Columns.COMPLETENESS, cursor.getString(3));
                     values.put(Columns.DATE, cursor.getString(4));
-                    values.put(Columns.REPEAT, cursor.getString(5));
-                    values.put(Columns.ALARM, cursor.getString(6));
-                    values.put(Columns.ALARMHOUR, cursor.getString(7));
-                    values.put(Columns.ALARMMINUTE, cursor.getString(8));
+                    values.put(Columns.TODAY, cursor.getString(5));
+                    values.put(Columns.REPEAT, cursor.getString(6));
+                    values.put(Columns.ALARM, cursor.getString(7));
+                    values.put(Columns.ALARMHOUR, cursor.getString(8));
+                    values.put(Columns.ALARMMINUTE, cursor.getString(9));
                     break;
                     //ContentValues를 리턴하는 함수를 하나 만들고 업데이트하는 발표
                 }
@@ -268,7 +339,7 @@ public class EventTableController {
     public void shiftDataFromTo(int fromPos, int toPos){
 
         SQLiteDatabase db_read = myDb.getReadableDatabase();
-        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.REPEAT, Columns.ALARM, Columns.ALARMHOUR, Columns.ALARMMINUTE};
+        String[] columns = {Columns.ID, Columns.MEMO, Columns.IMPORTANCE, Columns.COMPLETENESS, Columns.DATE, Columns.TODAY, Columns.REPEAT, Columns.ALARM, Columns.ALARMHOUR, Columns.ALARMMINUTE};
         Cursor cursor = db_read.query(TABLE_NAME, columns, null, null, null, null, null);
         cursor.moveToFirst();
 
@@ -282,10 +353,11 @@ public class EventTableController {
                     values.put(Columns.IMPORTANCE, cursor.getString(2));
                     values.put(Columns.COMPLETENESS, cursor.getString(3));
                     values.put(Columns.DATE, cursor.getString(4));
-                    values.put(Columns.REPEAT, cursor.getString(5));
-                    values.put(Columns.ALARM, cursor.getString(6));
-                    values.put(Columns.ALARMHOUR, cursor.getString(7));
-                    values.put(Columns.ALARMMINUTE, cursor.getString(8));
+                    values.put(Columns.TODAY, cursor.getString(5));
+                    values.put(Columns.REPEAT, cursor.getString(6));
+                    values.put(Columns.ALARM, cursor.getString(7));
+                    values.put(Columns.ALARMHOUR, cursor.getString(8));
+                    values.put(Columns.ALARMMINUTE, cursor.getString(9));
                     //ContentValues를 리턴하는 함수를 하나 만들고 업데이트하는 발표
 
                     //String id = Integer.toString(position);
@@ -316,14 +388,12 @@ public class EventTableController {
         Cursor res = db.rawQuery("select rowid _id, * from " + TABLE_NAME, null);
         // SQLiteDatabase class provides result sets as Cursor instances.
         return res;
-        // Cursor가 하는 일이 뭐야?
-        // Cursor를 이용하면 우리의 데이터에 접근할 수 있음.
     }
 
-    public long numOfEntries() // int
+    public int numOfEntries() // int
     {
         SQLiteDatabase db = myDb.getReadableDatabase();
-        return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+        return (int)DatabaseUtils.queryNumEntries(db, TABLE_NAME);
     }
 
     public int getCompletedDataSize(){

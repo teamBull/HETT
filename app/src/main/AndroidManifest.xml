@@ -4,7 +4,8 @@
 
     <uses-permission android:name="ANDROID.PERMISSION.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +29,13 @@
         <receiver android:name=".SelfPushReceiver" />
         <receiver android:name=".AlarmAMZeroReceiver"/>
         <receiver android:name=".AlarmReceiver" />
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".AlarmMain" />
         <activity android:name=".AlarmOnTrigger">
@@ -43,6 +51,8 @@
         <activity android:name=".FriendTalkSettingActivity" />
         <activity android:name=".CompleteActivity" />
         <activity android:name=".RepeatEventActivity" />
+
+        <service android:name=".AlarmOnBoot" />
     </application>
 
 </manifest>

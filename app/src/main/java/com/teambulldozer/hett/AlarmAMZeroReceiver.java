@@ -1,19 +1,15 @@
 package com.teambulldozer.hett;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by GHKwon on 2016-02-27.
  */
 public class AlarmAMZeroReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
         //여따가 12시 되면 해야될 것들 작성해라.
@@ -25,6 +21,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
         eventTableControllerr = EventTableController.get(context);
         friendDataManager = FriendDataManager.get(context);
+
 
         if (eventTableControllerr.numOfEntries() == 0) {
             todayPoint = 0;
@@ -41,6 +38,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         EventTableController eventCtr = EventTableController.get(context);
 
 
+<<<<<<< HEAD
         //1. event_table에서 complete 인 것들만 가져온다.
         Log.d("AlarmAMZeroReceiver","시작");
         cursor = eventCtr.getCompletenessDataAll();
@@ -66,5 +64,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
                 cursor.close();
             }
         }
+=======
+>>>>>>> c81ca45ff5371051fb2dc9da15df09e9de6a7146
     }
 }
