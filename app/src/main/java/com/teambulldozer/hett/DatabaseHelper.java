@@ -89,11 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_REPEAT_TABLE);
         //db.execSQL(CREATE_EVENT_REPREAT_VIEW);
         //event_table _id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE TEXT, REPEAT INTEGER, ALARM INTEGER, ALARMHOUR
-<<<<<<< HEAD
-        /*db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,'16/02/27',0,1,-1,-1);");
-=======
        /* db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,'16/02/27',0,1,-1,-1);");
->>>>>>> c9a4c6265d6e85d4d9d05d7537328ef4fa4bc041
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,'16/02/27',0,0,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,'16/02/28',0,1,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(4,'춤추기',0,0,'16/02/29',0,0,-1,-1);");

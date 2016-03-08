@@ -36,17 +36,9 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         friendDataManager.updateTotalPoint(1, totalPoint);
         PushAlarmReservation.getInstance().registerAlarm(context, 0, 9, 0, 0, DrawerTableController.getInstance(context).searchByFriendName(), "오늘도 잘 일어났냐?");
 
-<<<<<<< HEAD
-        PushAlarmReservation.getInstance().registerAlarm(context, 2, 0, 0, DrawerTableController.getInstance(context).searchByFriendName(), "얼렁 자라 ㅋㅋㅋㅋ");
-
-        CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
-        EventTableController eventCtr = EventTableController.get(context);
-
-=======
         PushAlarmReservation.getInstance().registerAlarm(context,1,2,0,0,DrawerTableController.getInstance(context).searchByFriendName(),"얼렁 자라 ㅋㅋㅋㅋ");
         CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
         EventTableController eventCtr = EventTableController.get(context);
->>>>>>> c9a4c6265d6e85d4d9d05d7537328ef4fa4bc041
 
 
         //1. event_table에서 complete 인 것들만 가져온다.
