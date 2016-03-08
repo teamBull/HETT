@@ -32,8 +32,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public static final String VIEW_NAME = "event_repeat_view";
     public static final String TABLE_NAME6 = "hatt_setting_table";
     public static final String TABLE_NAME5="hatt_background_theme_table";
+<<<<<<< HEAD
     public static final String TABLE_NAME7 = "talk_detail_talble";
 
+=======
+    public static final String TABLE_NAME7 = "talk_detail_table";
+>>>>>>> yunsun
 
     private static final String CREATE_EVENT_TABLE =
             "create table " + TABLE_NAME +
@@ -43,11 +47,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "create table " + TABLE_NAME2 +
                     "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, total_point double);";
 
+<<<<<<< HEAD
     private static final String CREATE_TALK_DETAIL_TABLE =
             "create table " + TABLE_NAME7 +
                     "(_id integer primary key autoincrement, talk_title TEXT, detail_1 TEXT, detail_2 TEXT, detail_3 TEXT" +
                     ", detail_4 TEXT, detail_5 TEXT, detail_6 TEXT, detail_7 TEXT);";
 
+=======
+    
+>>>>>>> yunsun
     /*private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +
                     "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER,DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";*/
@@ -139,7 +147,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
 
+<<<<<<< HEAD
         new AlarmAMZero(mContext);
+=======
+>>>>>>> yunsun
         // 말투
         db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '기본 말투', '안녕 :-)', '오늘도 우리 열심히 해보자', '화이팅!', " +
                 "'힘내~', '일정은 다 완료했어?', '기운내!', '오늘 하루 즐거운 마음으로 보내~')");
@@ -168,6 +179,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "'전~~하~~~~!!통~촉하여!!주시옵~소서~~!!', '수라는 드셨사옵니까? 수라를 내오라 할까요?', " + "'전~~하! 힘을 내십시오! 백성들이 지켜보고 있사옵니다!',"
                 + " '만세!만세!만만세! 천세!천세!천천세!', '더 이상 일정으로 인해 고통받지 마시옵소서..')");
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> yunsun
 
 
     }
