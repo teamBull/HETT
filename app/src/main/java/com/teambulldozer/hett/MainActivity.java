@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,8 @@ import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /*
 * (2016.2.18. 01:00 )
@@ -127,9 +130,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
+
         Log.d(TAG, "onCreate(Bundle) called");
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
+
+
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -314,10 +320,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private Handler handler = new Handler() { // main쓰레드가 아니기 때문에 handler객체를 통하여 main을 modified 해줘야 함.
+        public void handleMessage(Message msg) {
+            setTimeIntervalByDateBar(); //handleMessage객체는 setTimeIntervalByDateDar메소드를 호출함.
+        }
+    };
 
     public void showDate(){
-
-
+        //처음 showDate를 호출할 시 시간을 set해주고, 현재 분을 받아온다.
+        final int startMinute = setTimeIntervalByDateBar();
+        //anonymous한 TimerTask 객체 생성.
+        final TimerTask task = new TimerTask() {
+            public void run() { // 쓰레드를 상속받고 있기 때문에 오버라이딩 해준다.
+                handler.obtainMessage().sendToTarget();// obtainMessage().sendToTarget()메소드를 호출해 줘야 메세지가 정상적으로 전달 됨.
+            }
+        };
+        //해당 쓰레드는 처음 로딩 시 핸드폰 속의 시간과 앱의 시간을 동기화 해주는 쓰레드이다.
+        new Thread(){ // 쓰레드 객체 하나 생성.
+          public void run() { // 오버라이딩.
+              while(true) { // 무한 조건검사.
+                  try {
+                        Thread.sleep(2000); // 처음에는 2초마다 검사를 하고(2초의 오차가 있을 수 있음)
+                      if(startMinute==Calendar.getInstance().get(Calendar.MINUTE)) { //만약에 분이 변경 되었을 시부터
+                          new Timer().schedule(task, 0, 60000); // 1분마다 set해준다.
+                          break; // 설정이 완료 되었으니 10초마다 검사하는 반복문은 필요없지.
+                      }
+                  } catch (Exception ex ){ex.printStackTrace();} //for debug
+              }
+          }
+        }.start();
+        // need to convert Eng-based day to Kor-based day.
+    }
+    public int setTimeIntervalByDateBar() {
         Calendar rightNow = GregorianCalendar.getInstance();
         // Calendar's getInstance method returns a calendar whose locale is based on system settings
         // and whose time fields have been initialized with the current date and time.
@@ -333,11 +367,14 @@ public class MainActivity extends AppCompatActivity {
         String KOR_AMPM = ampmConverter(ampmInfo);
         String KOR_MINUTE = minuteConverter(minuteInfo);
         String KOR_HOUR = hourConverter(hourInfo, ampmInfo);
-        dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + KOR_HOUR + ":" + KOR_MINUTE);
-        // need to convert Eng-based day to Kor-based day.
 
+        /*처음 프로그램 시작 시 system의 시간을 받아온다.*/
+        dateBar.setText(monthInfo + "월 " + dateInfo + "일 " + KOR_DAY + " " + KOR_AMPM + " " + KOR_HOUR + ":" + KOR_MINUTE);
+
+        return Calendar.getInstance().get(Calendar.MINUTE)+1;//final int startInt = Calendar.getInstance().get(Calendar.MINUTE)+1;
     }
 
+/*
     public int getDate(){
         Calendar rightNow = Calendar.getInstance();
         int year = rightNow.get(Calendar.YEAR);
@@ -346,6 +383,34 @@ public class MainActivity extends AppCompatActivity {
 
         int timeKey = (year * 10000) + (month * 100) + date; // This timeKey is used to give input to database.
         return timeKey;
+    }
+    */
+
+    public String getDate(){
+        Calendar rightNow = Calendar.getInstance();
+        int year = rightNow.get(Calendar.YEAR) - 2000;
+        int month = rightNow.get(Calendar.MONTH) + 1;
+        int date = rightNow.get(Calendar.DATE);
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY); // HOUR_OF_DAY -> 24-hour clock.
+        int minute = rightNow.get(Calendar.MINUTE);
+        int second = rightNow.get(Calendar.SECOND);
+
+        String key = Integer.toString(year)
+                + "/"
+                + Integer.toString(month)
+                + "/"
+                + Integer.toString(date)
+                + "/"
+                + Integer.toString(hour)
+                + "/"
+                + Integer.toString(minute)
+                + "/"
+                + Integer.toString(second);
+
+        //Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
+        // For debugging, this key is designed to distinguish different IDs.
+
+        return key;
     }
 
     public void respondToUserInput(){
@@ -440,6 +505,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.pushAlarm)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.backgroundTheme)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.setBackgroundTheme)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.bellMode)).setTypeface(NanumBarunGothic_R);
 
     }
 
@@ -558,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
         // 수정 필요
         ContentValues tempData = myEventController.getAllContent(rowId);
         deleteRow(Integer.toString(rowId));
-        myEventController.insertData("", true);
+        myEventController.insertData("", true); // 여기서의 insertData값은 어차피 업데이트 되므로 상관 없음.
         myEventController.moveDataTo((int) myEventController.numOfEntries(), tempData);
         myEventController.updateCompleteness(Integer.toString((int) myEventController.numOfEntries()), 1);
     }
@@ -569,10 +635,7 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String memo = memoInput.getText().toString();
-
                 if (memo.isEmpty()) {
                     return;
                     /* If a user does not type any word, then, memo is not to be added to the list. */
@@ -669,13 +732,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){ // 화면이 다지 나타날 때.
+    public void onResume(){ // 화면이 다시 나타날 때.
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();
         showDate(); // 시간을 동기화하기 위해!
         Log.d(TAG, "onResume(Bundle) called");
         overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout));
     }
 
     @Override
@@ -729,6 +793,7 @@ public class MainActivity extends AppCompatActivity {
      * 메세지 모드 토글버튼.
      */
     private ToggleButton isPushAlarm;
+
     /**
      * 배경테마 글씨를 저장하는 텍스트뷰.
      */
@@ -755,7 +820,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * NavigationDrawer를 초기화하는 메소드를 호출하는 메소드.
      */
-    private int isOpened;
+    private int isOpened=0;
     private TextView backgroundTheme;
     private void initNavigationDrawer(){
         DrawerTableController.getInstance(getApplicationContext());
@@ -773,6 +838,8 @@ public class MainActivity extends AppCompatActivity {
         // 토글 버튼 객체 받아오고 이벤트 등록.
         isPushAlarm = (ToggleButton) findViewById(R.id.isPushAlarm);
         registerTogggleButtonByPushalarm(isPushAlarm);
+        isBellMode = (ToggleButton) findViewById(R.id.isBellMode);
+        registerToggleButtonByBellMode(isBellMode);
         //배경화면 세팅 하는 TextView.
         setBackgroundTheme = (TextView)findViewById(R.id.setBackgroundTheme);
         //만얀 배경화면 세팅 화면을 선택했을 경우.
@@ -787,6 +854,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectBackgroundMenu();
+                //Ctrl + F -> animation
+                //Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
+                //v.startAnimation(animation);
+                /*ImageView imageView = new ImageView(getApplicationContext());
+                imageView.setImageDrawable(getResources().getDrawable(R.drawable.check));
+                imageView.startAnimation(animation);*/
             }
         });
         backgroundTheme = (TextView)findViewById(R.id.backgroundTheme);
@@ -819,6 +892,40 @@ public class MainActivity extends AppCompatActivity {
      * @param toggleButton 푸쉬알람 객체.
      */
     private void registerTogggleButtonByPushalarm(final ToggleButton toggleButton) {
+        toggleButton.setText(null);
+        toggleButton.setTextOn(null);
+        toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
+        //DB에 접근해서 pushMode가 true인지 false인지 체크한다.
+        boolean isPushMode = DrawerTableController.getInstance().searchPushMode();
+        if(isPushMode) {
+            toggleButton.setSelected(true);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+        } else {
+            toggleButton.setSelected(false);
+            toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+        }
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toggleButton.isChecked()) {
+                    toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(true);
+                    DrawerTableController.getInstance().updatePushMode(true);
+                } else {
+                    toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+                    //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
+                    DrawerTableController.getInstance().updatePushMode(false);
+                }
+            }
+        });
+    }
+
+    /**
+     * 무음모드 토글 버튼을 클릭했을 시 작동되는 동작.
+     * 푸쉬 알람이나 기타 등등 무음모드를 자체적으로 설정할 수 있게끔 해달라 했다.
+     * @param toggleButton
+     */
+    private void registerToggleButtonByBellMode(final ToggleButton toggleButton )  {
         toggleButton.setText(null);
         toggleButton.setTextOn(null);
         toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
@@ -995,9 +1102,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * 메뉴의 배경화면 텍스트나, 오른쪽 화살표, 혹은 선택되어 있는 테마의 이름을 선택할 시 이 메소드가 호출이 된다.
+     */
     private void selectBackgroundMenu() {
         Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
         startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
+
+
     }
+
+
+
 }
 //((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.

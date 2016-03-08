@@ -5,8 +5,11 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,13 +35,21 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settting_background_theme);
-
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (LinearLayout) findViewById(R.id.settingBackgroundThemeActivity));
+        settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
+        prevBtn = (ImageView)findViewById(R.id.prevBtn);
 
         initBackgroundTheme();
-        settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
+        registerListener();
+        setFont();
+
+    }
+    public void registerListener() {
+
         settingBackgroundThemeOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //BackgroundThemeManager.getInstance().selectedBackgroundThemeCodeNo=BackgroundThemeAdapter.isSelected;
                 DrawerTableController.getInstance().updateSelectedBackgroundTheme(BackgroundThemeAdapter.isSelected);
                 Bundle bundle = new Bundle();
                 bundle.putString("background_theme_name", DrawerTableController.getInstance().searchSelectedBackgroundTheme());
@@ -47,15 +58,13 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
 
             }
         });
-        prevBtn = (ImageView)findViewById(R.id.prevBtn);
+
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        setFont();
-
     }
     public void setFont() {
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");

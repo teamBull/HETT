@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 public class ClosenessActivity extends AppCompatActivity {
 
     NextGiftAdapter adapter;
-    ArrayList al;
     RelativeLayout rlthemeEx;
 
     Button btnPrevCloseness;
@@ -82,6 +82,10 @@ public class ClosenessActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_closeness);
+
+        /*기호부분. 배경화면 setting.*/
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.closenessActivity));
+        /*완료데스네*/
 
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");

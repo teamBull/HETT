@@ -2,18 +2,19 @@ package com.teambulldozer.hett;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.media.Image;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+
 
 /**
  * Created by GHKwon on 2016-02-17.
@@ -22,7 +23,8 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<BackgroundThemeDTO> arrayList;
     private LayoutInflater layoutInflater;
-    public static ArrayList<View> arrayListView;
+    public ArrayList<View> arrayListView;
+    public ViewHolder disableTargetViewHolder;
     public static int isSelected;
     public int isPermission;
 
@@ -48,23 +50,41 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     public long getItemId(int position){
         return position;
     }
+    private class ViewHolder {
+        TextView backgroundThemeName;
+        ImageView backgroundThemeOpenStatus;
+        ImageView selectedBackgroundTheme;
+        boolean isReapeat=false;
+    }
     @Override
     public View getView(final int position,View covertView,ViewGroup parent) {
-        final View itemLayout = layoutInflater.inflate(R.layout.list_setting_background_theme,null);
-        arrayListView.add(itemLayout);
-        TextView backgroundThemeName = (TextView)itemLayout.findViewById(R.id.backgroundThemeName); // 백그라운드 테마 객체를 받아옴.
-        backgroundThemeName.setText(arrayList.get(position).getBackgroundThemeName()); // 테마 명 set.
-        backgroundThemeName.setTypeface(NanumBarunGothic_R);
-        ImageView backgroundThemeOpenStatus = (ImageView)itemLayout.findViewById(R.id.backgroundThemeOpenStatus); // status를 표시해 줄 ImageView를 받아옴.
+
+        final ViewHolder viewHolder;
+        final View itemLayout = layoutInflater.inflate(R.layout.list_setting_background_theme, null);
+        if(covertView==null) {
+            viewHolder = new ViewHolder();
+            arrayListView.add(itemLayout);//error가 나면 이 코드를 위로 올릴 것.
+            viewHolder.backgroundThemeName = (TextView) itemLayout.findViewById(R.id.backgroundThemeName); // 백그라운드 테마 객체를 받아옴.
+            viewHolder.backgroundThemeOpenStatus = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus); // status를 표시해 줄 ImageView를 받아옴.
+            viewHolder.selectedBackgroundTheme = (ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme);
+            covertView = layoutInflater.inflate(R.layout.list_setting_background_theme,parent,false);
+            covertView.setTag(viewHolder);
+        } else {
+            viewHolder=(ViewHolder)covertView.getTag();
+        }
+        //TextView backgroundThemeName =
+        viewHolder.backgroundThemeName.setText(arrayList.get(position).getBackgroundThemeName()); // 테마 명 set.
+        viewHolder.backgroundThemeName.setTypeface(NanumBarunGothic_R);
 
         if(arrayList.get(position).getIsBackgroundPermission()==1) {
-            ImageView imageView = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
-            imageView.setImageResource(R.drawable.white_select_image);
+            viewHolder.backgroundThemeOpenStatus = (ImageView) itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
+            viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.white_select_image);
+            viewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.permissionBackgroundColor));
         }
         if(arrayList.get(position).getIsSelected()==1) { //선택된 애라면
-            
-            setImageByClick(position, itemLayout); // 이미지 클릭메소드 호출!
-            backgroundThemeOpenStatus.setImageResource(R.drawable.select);
+            disableTargetViewHolder=viewHolder;
+            setImageByClick(position, viewHolder); // 이미지 클릭메소드 호출!
+            viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.select);
         }
         isPermission = arrayList.get(position).getIsBackgroundPermission();
 
@@ -73,64 +93,67 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        ImageView imageView;
-                        imageView = (ImageView) arrayListView.get(i).findViewById(R.id.selectedBackgroundTheme);
-                        imageView.setVisibility(View.GONE);
-                        if(arrayList.get(i).getIsBackgroundPermission()==1) {
-                            imageView = (ImageView) arrayListView.get(i).findViewById(R.id.backgroundThemeOpenStatus);
-                            imageView.setImageResource(R.drawable.white_select_image);
+                    final int checkInt = position;//arrayList.get(position).getBackgroundCode();
+                    Handler handler = new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            setImageByClick(checkInt, viewHolder);
                         }
-
-                    }
-                    int checkInt = arrayList.get(position).getBackgroundCode();
-                    setImageByClick(checkInt, itemLayout);
+                    };
+                    handler.obtainMessage().sendToTarget();
+                    isEnabled(isSelected);
+                    isSelected=checkInt;
+                    disableTargetViewHolder=viewHolder; // isEnable에서 enable할 애.
                 }
             });//리스너 종료.
-
         }
-
-
         return itemLayout;
     }
-    public void selectTheme(View itemLayout){
-        ImageView imageView ;
-        imageView = (ImageView)itemLayout.findViewById(R.id.selectedBackgroundTheme);
-        imageView.setVisibility(View.VISIBLE);
-        imageView = (ImageView)itemLayout.findViewById(R.id.backgroundThemeOpenStatus);
-        imageView.setImageResource(R.drawable.select);
+    public void selectTheme(ViewHolder viewHolder){
+        viewHolder.selectedBackgroundTheme.setVisibility(View.VISIBLE);
+        viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.select);
+        viewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.hatt_cyan));
     }
-    public void setImageByClick(int checkInt,View itemLayout) {
+    public void setImageByClick(int checkInt,ViewHolder viewHolder) {
         isSelected=checkInt; //선택된 얘의 번호를 ..ㄱㄱ
         switch (checkInt) {
             case 0 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.white_select_image);
-                selectTheme(itemLayout);
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
+                viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.white_select_image);
                 break;
             }
             case 1 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
-                selectTheme(itemLayout);
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
+                viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.bg_pattern_tree_01);
                 break;
             }
             case 2 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.background_theme_stripe);
-                selectTheme(itemLayout);
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
+                viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.background_theme_stripe);
                 break;
             }
             case 3 : {
-
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
-                selectTheme(itemLayout);
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
+                viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.space_dir_width);
                 break;
             }
             case 4 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
-                selectTheme(itemLayout);
+                if(viewHolder.isReapeat)
+                    break;
+                viewHolder.isReapeat=true;
+                viewHolder.selectedBackgroundTheme.setImageResource(R.drawable.bg_pattern_snow);
                 break;
             }
-            case 5 : {
-                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
+            /*case 5 : {
+                ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_snow);
                 selectTheme(itemLayout);
                 break;
             }
@@ -138,7 +161,16 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 ((ImageView) itemLayout.findViewById(R.id.selectedBackgroundTheme)).setImageResource(R.drawable.bg_pattern_tree_01);
                 selectTheme(itemLayout);
                 break;
-            }
+            }*/
         }
+        selectTheme(viewHolder);
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        disableTargetViewHolder.selectedBackgroundTheme.setVisibility(View.GONE);
+        disableTargetViewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.white_select_image);
+        disableTargetViewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.hatt_gray));
+        return super.isEnabled(position);
     }
 }

@@ -65,7 +65,11 @@ public class CompleteActivity extends AppCompatActivity{
         Log.d(TAG, "onCreate(Bundle) called");
 
         setContentView(R.layout.activity_complete);
-
+        /**
+         * 기호
+         * 배경화면 setting부분.
+         */
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.complete_layout));
         /* Call the database constructor */
         completeEventCtr = CompleteEventTableController.get(this);
 
@@ -158,7 +162,6 @@ public class CompleteActivity extends AppCompatActivity{
         int[] toViewIDS = new int[] { R.id.memo_content};
         cursorAdapter = new CompleteSimpleCursorAdapter(this,R.layout.list_item_complete,this.cursor,fromFieldNames,toViewIDS,0,completeEventCtr);
         this.listView.setAdapter(cursorAdapter);
-
     }
     public void setFont(){
         this.editMenuBtn.setTypeface(NanumSquare_B);
@@ -166,7 +169,6 @@ public class CompleteActivity extends AppCompatActivity{
     }
     public boolean deleteRow(String rowId){
         Integer deletedRows = completeEventCtr.deleteData(rowId);
-        completeEventCtr.rearrangeData(rowId);
         requery();
         return deletedRows != 0;
     }
