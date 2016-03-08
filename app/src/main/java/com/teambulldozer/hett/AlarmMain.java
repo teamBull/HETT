@@ -567,7 +567,7 @@ public class AlarmMain extends Activity implements OnClickListener {
 
     private void onBackButtonPress() {
         Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
-        repeatEventTableCursor.moveToFirst();
+        repeatEventTableCursor.move(-1);
 
         EditText et = (EditText) findViewById(R.id.alarm_todo_title);
         todo = et.getText().toString();
