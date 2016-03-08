@@ -198,7 +198,11 @@ public class MainActivity extends AppCompatActivity {
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
-        new AlarmAMZero(getApplicationContext());
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
+        //v.startAnimation(animation);
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
+        imageView.startAnimation(animation);
 
     }
 

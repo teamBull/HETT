@@ -5,9 +5,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,8 +48,9 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_talk_style);
         /*기호*/
         //가장 위의 안드로이드 상태바를 없애주는 코드이다.
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         /*끝.*/
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendTalkStyleActivity));
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
