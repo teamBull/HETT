@@ -119,12 +119,12 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
                 Log.i("AlarmOnTrigger", "System time is " + Integer.toString(curHour) + ":" + Integer.toString(curMinute));
                 if(/*(curHour == alarmHour) && (curMinute == alarmMinute)*/ true) {
                     if(todo == null) {
-                        todo = eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
+                        todo = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO"));
                     } else {
-                        if(todo.contains(eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO")))) {
+                        if(todo.contains(repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO")))) {
                             continue;
                         } else {
-                            todo += ", " + eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
+                            todo += ", " + repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO"));
                         }
                     }
                 }
