@@ -220,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Ctrl + F -> 눈 / snow
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
+        //v.startAnimation(animation);
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
+        imageView.startAnimation(animation);
 
     }
 
@@ -234,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         else
 
         */
-        // 첫번째 일정이 아니라, DB에 저장된 걸로 해야 ...
+        // 아직 불완전한 버전..
         if(isDateChanged()) {
             // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
             moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
