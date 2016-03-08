@@ -21,7 +21,7 @@ public class RepeatEventActivity extends AppCompatActivity {
     private static final String TAG = "RepeatEventActivity";
 
     private RepeatEventController repeatEventController;
-    private RepeatSimpleCursorAdapter repeatSimpleCursorAdapter;
+    private RepeatSimpleCursorAdapter cursorAdapter;
     private Cursor cursor;
 
     //activity_repeat.xml
@@ -104,6 +104,7 @@ public class RepeatEventActivity extends AppCompatActivity {
                 finishMenuBtn.setVisibility(View.VISIBLE);
 
                 RepeatSimpleCursorAdapter.isOnEditMenu = false;
+                cursorAdapter.setMaxDate(null);
                 populateListView();
 
                 deleteAllBtn.setVisibility(View.VISIBLE);
@@ -120,6 +121,7 @@ public class RepeatEventActivity extends AppCompatActivity {
                 finishMenuBtn.setVisibility(View.INVISIBLE);
 
                 RepeatSimpleCursorAdapter.isOnEditMenu = true;
+                cursorAdapter.setMaxDate(null);
                 populateListView();
 
                 deleteAllBtn.setVisibility(View.INVISIBLE);
@@ -131,7 +133,7 @@ public class RepeatEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"Asdf",Toast.LENGTH_SHORT).show();
-                RepeatSimpleCursorAdapter.isOnEditMenu = true;
+                cursorAdapter.isOnEditMenu = true;
                 finish();
             }
         });
@@ -151,26 +153,12 @@ public class RepeatEventActivity extends AppCompatActivity {
         this.cursor.moveToFirst();
         String[] fromFieldNames = new String[] {RepeatEventController.Columns.MEMO};
         int[] toViewIDS = new int[] { R.id.repeat_memo_content};
-        repeatSimpleCursorAdapter = new RepeatSimpleCursorAdapter(this,R.layout.list_item_repeat,this.cursor,fromFieldNames,toViewIDS,0, repeatEventController);
-        this.listView.setAdapter(repeatSimpleCursorAdapter);
+        cursorAdapter = new RepeatSimpleCursorAdapter(this,R.layout.list_item_repeat,this.cursor,fromFieldNames,toViewIDS,0, repeatEventController);
+        this.listView.setAdapter(cursorAdapter);
 
     }
     public void setFont(){
         this.deleteMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
-    }
-    public boolean deleteRow(String rowId){
-        Integer deletedRows = repeatEventController.deleteData(rowId);
-        requery();
-        return deletedRows != 0;
-    }
-    public boolean updateRow(String rowId){
-        Integer updateRows = repeatEventController.updateImportances(rowId,repeatEventController.getEventImportance(rowId));
-        requery();
-        return updateRows != 0;
-    }
-    public void requery(){
-        Cursor cursor = repeatEventController.getEventRepeatData();
-        repeatSimpleCursorAdapter.changeCursor(cursor);
     }
 }

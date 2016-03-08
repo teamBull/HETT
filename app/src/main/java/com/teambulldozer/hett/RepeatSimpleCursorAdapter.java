@@ -44,7 +44,6 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
     }
     private static class ViewHolder {
         public RelativeLayout repeatlistItem;
-        public TextView dateline;
         public ImageView startBtn;
         public TextView memoContent;
         public TextView dayOfWeek;
@@ -57,9 +56,6 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         View view = li.inflate(R.layout.list_item_repeat, parent, false);
 
         viewHolder.repeatlistItem = (RelativeLayout)view.findViewById(R.id.list_item_repeat);
-
-        viewHolder.dateline = (TextView) view.findViewById(R.id.repeat_date_line);
-        viewHolder.dateline.setTypeface(NanumSquare_B);
 
         viewHolder.startBtn = (ImageView)view.findViewById(R.id.repeat_star_btn);
 
@@ -81,15 +77,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         RelativeLayout.LayoutParams relativeLayoutPrams;
         ViewHolder holder = (ViewHolder)view.getTag();
 
-        String dateInfo = dayConverter(cursor.getString(cursor.getColumnIndex("_id")));
-        if(maxDate == null || !maxDate.equals(dateInfo)){
-            maxDate = dateInfo;
-            int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, mContext.getResources().getDisplayMetrics());
-            holder.dateline.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
-            holder.dateline.setText(dateInfo);
-        }
-
-        holder.startBtn.setTag(cursor.getInt(cursor.getColumnIndex("_id")));
+        holder.startBtn.setTag(cursor.getString(cursor.getColumnIndex("_id")));
         if(cursor.getInt(cursor.getColumnIndex("IMPORTANCE")) == 1 ){
             holder.startBtn.setImageResource(R.drawable.star_on);
         }else{
@@ -104,23 +92,43 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
 
     private void initializeAllButtons(){
         if(isOnEditMenu){
+
+            viewHolder.dayOfWeek.setVisibility(View.VISIBLE);
             viewHolder.repeatDeleteBtn.setVisibility(View.GONE);//-버튼 삭제
         }else{
+            int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,330, mContext.getResources().getDisplayMetrics());
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.CENTER_VERTICAL);
+            params.addRule(RelativeLayout.RIGHT_OF,R.id.repeat_star_btn);
+            params.addRule(RelativeLayout.LEFT_OF,R.id.repeat_delete_Btn);
+            viewHolder.memoContent.setLayoutParams(params);
+            viewHolder.dayOfWeek.setVisibility(View.GONE);
             viewHolder.repeatDeleteBtn.setVisibility(View.VISIBLE);//-버튼 생성
         }
         viewHolder.repeatDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((RepeatEventActivity)mContext).deleteRow(String.valueOf(v.getTag())))
+                if (repeatEventCtr.deleteData(String.valueOf(v.getTag())) == 1) {
+                    swapCursor(repeatEventCtr.getEventRepeatData());
+                    notifyDataSetChanged();
+                    maxDate = null;
+                } else {
                     Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!((RepeatEventActivity)mContext).updateRow(String.valueOf(v.getTag())))
-                    Toast.makeText(mContext, "Data Not updated", Toast.LENGTH_LONG).show();
+                Log.d("id값", String.valueOf(v.getTag()));
+                if (repeatEventCtr.updateImportances(String.valueOf(v.getTag()),repeatEventCtr.getEventImportance(String.valueOf(v.getTag()))) == 1) {
+                    swapCursor(repeatEventCtr.getEventRepeatData());
+                    notifyDataSetChanged();
+                    maxDate = null;
+                } else {
+                    Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -168,5 +176,7 @@ public class RepeatSimpleCursorAdapter extends SimpleCursorAdapter{
         }
         return month + "월 " + date + "일 " + "(" + dayOfWeek + ")";
     }
-
+    public static void setMaxDate(String maxDate) {
+        RepeatSimpleCursorAdapter.maxDate = maxDate;
+    }
 }

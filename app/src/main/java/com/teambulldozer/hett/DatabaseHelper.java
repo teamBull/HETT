@@ -115,12 +115,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO " + TABLE_NAME2 + " VALUES (null, 'Hatti', '기본 말투', 0);");
 
-        /*
+
         //임시 complete_tb : complete_table CODE TEXT, MEMO TEXT NOT NULL
-       /* db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/15/31/52','네번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/16/20/13','다섯번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/09/09/45/28','일곱번째메모');");
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/10/13/29/42','두번째메모');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/15/31/52','네번째메모으라아랑ㄴ림능리ㅏㅁ능라뮤자듀룾ㄷ,르ㅜㅈㅂ다러뷰ㅑㄷㅈ류바젇ㄹㄷ');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/16/20/13','다섯번째메모ㅏ히히ㅓㅗ하ㅓ허ㅗ허ㅗ허ㅗ허ㅗ허ㅗ허ㅗ허ㅗ허ㅏㅗ허ㅏㅗ허ㅏㅗ허ㅗㅎ');");
+        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/04/09/45/28','일곱번째메모');");
+        /*db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/10/13/29/42','두번째메모');");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/10/10/32/58','세번째메모');");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/07/08/28/36','첫번째메모');");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/11/09/20/20','여섯번째메모');");*/
