@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String VIEW_NAME = "event_repeat_view";
     public static final String TABLE_NAME6 = "hatt_setting_table";
     public static final String TABLE_NAME5="hatt_background_theme_table";
-
+    public static final String TABLE_NAME7 = "talk_detail_table";
 
     private static final String CREATE_EVENT_TABLE =
             "create table " + TABLE_NAME +
@@ -42,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "create table " + TABLE_NAME2 +
                     "(_id integer primary key autoincrement, friend_name TEXT, talk_st TEXT, total_point double);";
 
+    
     /*private static final String CREATE_EVENT_COMPLETE_TABLE =
             "create table " + TABLE_NAME3 +
                     "(_id INTEGER, MEMO TEXT NOT NULL, COMPLETENESS INTEGER,DATE INTEGER NOT NULL,FOREIGN KEY(_id) REFERENCES event_table(_id));";*/
@@ -124,6 +125,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         /*db.execSQL("insert into "+TABLE_NAME5+" values(1,'바다',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
+
+        // 말투
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '기본 말투', '안녕 :-)', '오늘도 우리 열심히 해보자', '화이팅!', " +
+                "'힘내~', '일정은 다 완료했어?', '기운내!', '오늘 하루 즐거운 마음으로 보내~')");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '연서복', '울 애긔~ㅎ안녕?ㅎ', '어빠가 울 애긔 일 좀 도와줄까~ㅎ', '울 애긔 머하니~?', " +
+                "'어빠랑 밥 먹고 일정 완료 하자~ㅎ 울애긔가 사주는 거지?ㅎ 넝담~ㅎ', " +
+                "'울 애긔 일정 다 완료 못하면 어빠랑 사귀는거다~?ㅎ', '울 애긔 어빠 생각하느냐고 일정 다 못하면 어쩌지~?ㅎ'," +
+                " '울 애긔 밀.당.하는군하?ㅎ 어빠는 다 알아~ㅎㅎ')");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '외국인', '아뇽하세효', '이룬 자라고이쩌요?', '오눌도 히믈내요! 자랄쑤이쏘!', '우리둘 모두 파이팅!!', "
+                + "'할 릴 안하구 코골구 게신거 아니죠오?', " + "'읻다가 하지 말구 지굼해요!!'," + " '오눌 헹복하게 보네세요!!!')");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '극존칭', '안녕하십니까!!!', '죄송하지만 혹시 일정을 잊어버리시진 않으셨지요?', " +
+                "'진지는 잡수셨는지요?', '오늘 하루도 힘내십시오!', " + "'일정을 모두 완료하셨으면 편히 쉬셔도 됩니다!',"
+                + " '오늘 하루는 어떠셨습니까?', '화이팅하십시요^^!')");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '새오체', '안녕하새오?', '밥은 먹었어오? 지금 먹은 밥은 니 뱃살이 될거애오.', " +
+                "'오늘도 채선을 다해서 힘내새오!', '오늘 하루 똑바로 사새오!!', " + "'일정 다 완료 못하면 디지새오!^.<',"
+                + " '화이팅 하새오!', '두 손 꼭 잡아주깨오 가치 버텨바오!')");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '연하남', '누나~ 뭐해요?', '누나 지금 할 일 얼른하고 나랑 놀아요~', " +
+                "'누나 밥은 먹었어요? 밥 꼭 챙겨먹어요!', '누나 오늘 일정 완료하면 이뻐해줄게요~!', " + "'누나 왜 이렇게 귀여워요?',"
+                + " '야', '누나 힘내요! 누나한테 내가 있잖아요!')");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME7 + "values(null, '신하', '옥체강령하시옵니까?', '아뢰옵기 황공하오나, 약조를 잊지 않고 계시온지요?', " +
+                "'전~~하~~~~!!통~촉하여!!주시옵~소서~~!!', '수라는 드셨사옵니까? 수라를 내오라 할까요?', " + "'전~~하! 힘을 내십시오! 백성들이 지켜보고 있사옵니다!',"
+                + " '만세!만세!만만세! 천세!천세!천천세!', '더 이상 일정으로 인해 고통받지 마시옵소서..')");
+
+
 
 
 
