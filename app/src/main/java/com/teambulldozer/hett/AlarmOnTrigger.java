@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-/**
+/*
  * Created by yoon on 16. 3. 3..
  */
 public class AlarmOnTrigger extends Activity implements View.OnClickListener {
@@ -65,16 +65,19 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         // 상태바 없애기, 진동울리기
         Log.i("alarmOnTrigger", "상태바 없애기, 진동");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        mVibe.vibrate(100000);
+        //mVibe.vibrate(100000);
 
         // intialize informations
         Calendar c = Calendar.getInstance();
+        int curDay = c.get(Calendar.DAY_OF_WEEK);
         int curHour = c.get(Calendar.HOUR_OF_DAY);
         int curMinute = c.get(Calendar.MINUTE);
         int curAMPM = c.get(Calendar.AM_PM);
         int hasAlarm;
         int alarmHour, alarmMinute;
         String todo = null;
+        String alarmDay = null;
+        String curStrDay = intDayToStr(curDay);
 
         // 알람 시간 표시
         TextView timeTv = (TextView) findViewById(R.id.curTimeOnTrigger);
@@ -87,7 +90,7 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         Cursor eventTableCursor = eventTableController.getAllData();
         Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
 
-        eventTableCursor.moveToFirst();
+        eventTableCursor.move(-1);
         while(eventTableCursor.moveToNext()) {
             hasAlarm = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM"));
             if(hasAlarm == 0) {
@@ -95,9 +98,9 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
             } else {
                 alarmHour = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMHOUR"));
                 alarmMinute = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMMINUTE"));
-                Log.i("AlarmOnTrigger", "Saved alarm is " + Integer.toString(alarmHour) + ":" + Integer.toString(alarmMinute));
-                Log.i("AlarmOnTrigger", "System time is " + Integer.toString(curHour) + ":" + Integer.toString(curMinute));
-                if(/*(curHour == alarmHour) && (curMinute == alarmMinute)*/ true) {
+                Log.i("AlarmOnTrigger", "Saved alarm vs System time " + Integer.toString(alarmHour) + ":" + Integer.toString(alarmMinute)
+                        + " vs " + Integer.toString(curHour) + ":" + Integer.toString(curMinute));
+                if((curHour == alarmHour) && (curMinute == alarmMinute)) {
                     if(todo == null) {
                         todo = eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
                     } else {
@@ -107,17 +110,19 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
             }
         }
 
-        repeatEventTableCursor.moveToFirst();
+        repeatEventTableCursor.move(-1);
         while(repeatEventTableCursor.moveToNext()) {
             hasAlarm = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM"));
             if(hasAlarm == 0) {
                 continue;
             } else {
+                alarmDay = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("DAY_OF_WEEK"));
                 alarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
                 alarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
-                Log.i("AlarmOnTrigger", "Saved alarm is " + Integer.toString(alarmHour) + ":" + Integer.toString(alarmMinute));
-                Log.i("AlarmOnTrigger", "System time is " + Integer.toString(curHour) + ":" + Integer.toString(curMinute));
-                if(/*(curHour == alarmHour) && (curMinute == alarmMinute)*/ true) {
+                Log.i("AlarmOnTrigger", "Memo : " + repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO")) +
+                        "\nSaved alarm vs System time " + Integer.toString(alarmHour) + ":" + Integer.toString(alarmMinute)
+                        + " vs " + Integer.toString(curHour) + ":" + Integer.toString(curMinute));
+                if((curHour == alarmHour) && (curMinute == alarmMinute) && (alarmDay.contains(curStrDay))) {
                     if(todo == null) {
                         todo = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO"));
                     } else {
@@ -181,6 +186,39 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         }
 
         return hour + ":" + minute;
+    }
+
+    private String intDayToStr(int intDay) {
+        String dayStr = null;
+
+        switch(intDay) {
+            case 0:
+                dayStr = "반복없음";
+                break;
+            case 1:
+                dayStr = "일";
+                break;
+            case 2:
+                dayStr = "월";
+                break;
+            case 3:
+                dayStr = "화";
+                break;
+            case 4:
+                dayStr = "수";
+                break;
+            case 5:
+                dayStr = "목";
+                break;
+            case 6:
+                dayStr = "금";
+                break;
+            case 7:
+                dayStr = "토";
+                break;
+        }
+
+        return dayStr;
     }
 
     private String makeAM_PMStr(int am_pm) {

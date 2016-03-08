@@ -183,7 +183,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         String preDate = null;
         String preDays = null;
 
-        eventTableCursor.moveToFirst();
+        eventTableCursor.move(-1);
         while(eventTableCursor.moveToNext()) {
             _id = eventTableCursor.getInt(eventTableCursor.getColumnIndex("_id"));
 
@@ -201,22 +201,23 @@ public class AlarmMain extends Activity implements OnClickListener {
 
             if(position == _id) break;
         }
-
-        repeatEventTableCursor.moveToFirst();
-        while(repeatEventTableCursor.moveToNext()) {
-            String repeatEventTableDate = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"));
-            Log.i(TAG, syncID + "vs" + repeatEventTableDate);
-            if(preDate.equals(repeatEventTableDate)) {
-                Log.i(TAG, "found match in repeat event table");
-                preImportance = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("IMPORTANCE"));
-                preTodo = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO"));
-                preHasAlarm = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM"));
-                preAlarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
-                preAlarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
-                preDays = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("DAY_OF_WEEK"));
-                break;
+        if(preDate !=  null) {
+            repeatEventTableCursor.move(-1);
+            while (repeatEventTableCursor.moveToNext()) {
+                String repeatEventTableDate = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"));
+                Log.i(TAG, syncID + "vs" + repeatEventTableDate);
+                if (preDate.equals(repeatEventTableDate)) {
+                    Log.i(TAG, "found match in repeat event table");
+                    preImportance = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("IMPORTANCE"));
+                    preTodo = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO"));
+                    preHasAlarm = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM"));
+                    preAlarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
+                    preAlarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
+                    preDays = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("DAY_OF_WEEK"));
+                    break;
+                }
+                Log.i(TAG, "Not found in repeat event table");
             }
-            Log.i(TAG, "Not found in repeat event table");
         }
 
         // set star
@@ -327,7 +328,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         triggerTime = setTriggerTime();
         Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, /* triggerTime for Debugging */System.currentTimeMillis()+400, intervalTime, pending);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending);
     }
 
     private long setTriggerTime() {
@@ -343,8 +344,6 @@ public class AlarmMain extends Activity implements OnClickListener {
         long triggerTime = btime;
         if (atime > btime) {
             triggerTime += 1000 * 60 * 60 * 24;
-
-            Toast.makeText(getApplicationContext(), Long.toString(alarmHour)+" "+Long.toString(alarmMinute), Toast.LENGTH_SHORT).show();
         }
         return triggerTime;
     }
