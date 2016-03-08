@@ -33,5 +33,6 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         friendDataManager.updateTotalPoint(1, totalPoint);
 
 
+
     }
 }
