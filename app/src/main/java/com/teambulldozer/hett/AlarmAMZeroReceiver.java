@@ -38,9 +38,9 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         EventTableController eventCtr = EventTableController.get(context);
 
 
-<<<<<<< HEAD
+
         //1. event_table에서 complete 인 것들만 가져온다.
-        Log.d("AlarmAMZeroReceiver","시작");
+        /*Log.d("AlarmAMZeroReceiver","시작");
         cursor = eventCtr.getCompletenessDataAll();
 
         try {
@@ -63,8 +63,6 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
             if (cursor != null) {
                 cursor.close();
             }
-        }
-=======
->>>>>>> c81ca45ff5371051fb2dc9da15df09e9de6a7146
+        }*/
     }
 }
