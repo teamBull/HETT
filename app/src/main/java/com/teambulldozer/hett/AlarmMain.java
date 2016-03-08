@@ -20,56 +20,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class AlarmMain extends Activity implements OnClickListener {
 
-    private static final String TAG = "MainActivity";
-    int year, hour, minute;
-    int alarmHour, alarmMinute;
-    String repeatDays = null;
-    boolean importance = false;
+    // Log TAG
+    private static final String TAG = "AlarmMain";
+
+    // Values for internal settings
     String todo = "";
+    boolean importance = false;
     boolean hasAlarm = false;
+    int alarmHour, alarmMinute;
     boolean noRepeat = true;
     boolean mon, tue, wed, thu, fri, sat, sun = false;
+
+    // Button components
+    private Button[] alarmButtons;
+
+    // Values for outer
     boolean[] week = {noRepeat, mon, tue, wed, thu, fri, sat, sun};
 
     // DB Info
     String syncID = null; // Date is syncID for event and repeat table.
     EventTableController eventTableController = EventTableController.get(this);
-    DatabaseHelper repeatEventDBHelper;
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
-
-    // Set buttons
-    private Button[] alarmButtons;
-    private void setAlarmButtons(){
-        alarmButtons = new Button[]{
-                (Button) findViewById(R.id.btn_set_alarm),
-                (Button) findViewById(R.id.btn_release_alarm),
-                (Button) findViewById(R.id.btn_add_alarm_time),
-                (Button) findViewById(R.id.btn_alarm_prev),
-                (Button) findViewById(R.id.btn_turned_off_star),
-                (Button) findViewById(R.id.btn_turned_on_star)
-        };
-        for(Button b : alarmButtons) {b.setOnClickListener(this);}
-    }
-
-    private void setCalenderParam(Context context) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        year = calendar.get(Calendar.YEAR);
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
-    }
+    String repeatDays = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_main);
 
-        setAlarmButtons();
-        setCalenderParam(this);
-
+        setAlarmButtons(); // set button components
         initData();
     }
 
@@ -77,17 +59,15 @@ public class AlarmMain extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_set_alarm:
-                setAlarm(this, 10000);
+                setAlarm();
                 break;
 
             case R.id.btn_release_alarm:
                 releaseAlarm(this);
-                Toast.makeText(getApplicationContext(), "releaseAlarm()", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.btn_add_alarm_time:
                 addAlarmTime();
-                Toast.makeText(getApplicationContext(), "addAlarm()", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.btn_alarm_prev:
@@ -174,13 +154,24 @@ public class AlarmMain extends Activity implements OnClickListener {
         onBackButtonPress();
     }
 
+    private void setAlarmButtons(){
+        alarmButtons = new Button[]{
+                (Button) findViewById(R.id.btn_set_alarm),
+                (Button) findViewById(R.id.btn_release_alarm),
+                (Button) findViewById(R.id.btn_add_alarm_time),
+                (Button) findViewById(R.id.btn_alarm_prev),
+                (Button) findViewById(R.id.btn_turned_off_star),
+                (Button) findViewById(R.id.btn_turned_on_star)
+        };
+        for(Button b : alarmButtons) {b.setOnClickListener(this);}
+    }
+
     private void initData() {
         Intent i = getIntent();
         int position = i.getIntExtra("position", 1);
 
         Cursor eventTableCursor = eventTableController.getAllData();
         Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
-        Log.i("POSITION : ", "at " + position);
 
         // set pre-Importance, set pre-Todo
         int preImportance = 0;
@@ -190,31 +181,42 @@ public class AlarmMain extends Activity implements OnClickListener {
         int preAlarmHour = -1;
         int preAlarmMinute = -1;
         String preDate = null;
+        String preDays = null;
+
+        eventTableCursor.moveToFirst();
         while(eventTableCursor.moveToNext()) {
             _id = eventTableCursor.getInt(eventTableCursor.getColumnIndex("_id"));
 
             preImportance = eventTableCursor.getInt(eventTableCursor.getColumnIndex("IMPORTANCE"));
-            Log.i("IMPORTANCE : ", "_id : " + Integer.toString(_id) + ", Importance : " + Integer.toString(preImportance));
-
             preTodo = eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
-            Log.i("MEMO : ", "_id : " + Integer.toString(_id) + ", Memo : " + preTodo);
-
             preHasAlarm = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM"));
             preAlarmHour = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMHOUR"));
             preAlarmMinute = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMMINUTE"));
-            Log.i("ALARM : ", "_id : " + Integer.toString(_id) + ", HAS ALARM : " + Integer.toString(preHasAlarm) + ", HOUR : " + Integer.toString(preAlarmHour) + ", MINUTE : " + Integer.toString(preAlarmMinute));
-
             preDate = eventTableCursor.getString(eventTableCursor.getColumnIndex("DATE"));
+
+            Log.i(TAG, "_id : " + Integer.toString(_id) + ", Memo : " + preTodo + ", Importance : " + Integer.toString(preImportance)
+                    + ", HAS ALARM : " + Integer.toString(preHasAlarm) + ", HOUR : " + Integer.toString(preAlarmHour) + ", MINUTE : " + Integer.toString(preAlarmMinute)
+                    + ", DATE : " + preDate);
             syncID = preDate;
-            Log.i("DATE : ", "_id : " + Integer.toString(_id) + ", DATE : " + preDate);
-            while(repeatEventTableCursor.moveToNext()) {
-                String repeatEventTableDate = eventTableCursor.getString(repeatEventTableCursor.getColumnIndex("DATE"));
-                if(preDate == repeatEventTableDate) {
-                    break;
-                }
-            }
 
             if(position == _id) break;
+        }
+
+        repeatEventTableCursor.moveToFirst();
+        while(repeatEventTableCursor.moveToNext()) {
+            String repeatEventTableDate = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"));
+            Log.i(TAG, syncID + "vs" + repeatEventTableDate);
+            if(preDate.equals(repeatEventTableDate)) {
+                Log.i(TAG, "found match in repeat event table");
+                preImportance = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("IMPORTANCE"));
+                preTodo = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("MEMO"));
+                preHasAlarm = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM"));
+                preAlarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
+                preAlarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
+                preDays = repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("DAY_OF_WEEK"));
+                break;
+            }
+            Log.i(TAG, "Not found in repeat event table");
         }
 
         // set star
@@ -266,6 +268,21 @@ public class AlarmMain extends Activity implements OnClickListener {
                 }
             });
         }
+
+        // set Repeat days
+        if(preDays == null) {
+            noRepeat = true;
+        } else {
+            noRepeat = false;
+            if(preDays.contains("월")) {mon = true;}
+            if(preDays.contains("화")) {tue = true;}
+            if(preDays.contains("수")) {wed = true;}
+            if(preDays.contains("목")) {thu = true;}
+            if(preDays.contains("금")) {fri = true;}
+            if(preDays.contains("토")) {sat = true;}
+            if(preDays.contains("일")) {sun = true;}
+        }
+        printCheckedDays();
     }
 
     private void setImportance() {
@@ -279,7 +296,7 @@ public class AlarmMain extends Activity implements OnClickListener {
     }
 
     // 알람 등록
-    private void setAlarm(Context context, long second) {
+    private void setAlarm() {
         Log.i(TAG, "setAlarm()");
         /* 지정한 시간 이후에 알람이 울리게 함(for practice)
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -459,11 +476,14 @@ public class AlarmMain extends Activity implements OnClickListener {
         // Make String for repeatEventTable
         if(daysText != "") {
             repeatDays = daysText.replaceAll("\\s", "");
+        } else {
+            repeatDays = null;
         }
     }
 
     private void onBackButtonPress() {
-        // SQLiteDatabase repeatEventDB = repeatEventDBHelper.getWritableDatabase();
+        Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
+        repeatEventTableCursor.moveToFirst();
 
         EditText et = (EditText) findViewById(R.id.alarm_todo_title);
         todo = et.getText().toString();
@@ -478,21 +498,61 @@ public class AlarmMain extends Activity implements OnClickListener {
             alarmHour = i.getIntExtra("alarmHour", -1);
             alarmMinute = i.getIntExtra("alarmMinute", -1);
         }
+        int putHasAlarm = 0;
+        int putImportance = 0;
+        if(hasAlarm == true) {
+            putHasAlarm = 1;
+        } else {
+            releaseAlarm(getBaseContext());
+        }
+        if(importance == true) {
+            putImportance = 1;
+        }
 
+        /*
+        Update tables
+         */
         ContentValues values = new ContentValues();
         values.put("MEMO", todo);
-        values.put("IMPORTANCE", importance);
-        values.put("ALARM", hasAlarm);
+        values.put("IMPORTANCE", putImportance);
+        values.put("ALARM", putHasAlarm);
         values.put("ALARMHOUR", alarmHour);
         values.put("ALARMMINUTE", alarmMinute);
-        eventTableController.shiftContentValuesTo(values, position);
+        eventTableController.shiftContentValuesTo(values, position); // Update event table
 
+        // repeat table에서 아이디값을 찾아본 후 있으면 update 그렇지 않으면 insert
         if(repeatDays != null) {
-            values.put("ID", syncID);
-            values.put("DATE", syncID);
-            values.put("REPEAT", 1);
-            values.put("DAY_OF_WEEK", repeatDays);
+            ContentValues rValues = new ContentValues();
+            rValues.put("MEMO", todo);
+            rValues.put("IMPORTANCE", putImportance);
+            rValues.put("ALARM", putHasAlarm);
+            rValues.put("ALARMHOUR", alarmHour);
+            rValues.put("ALARMMINUTE", alarmMinute);
+            rValues.put("_id", syncID);
+            rValues.put("DAY_OF_WEEK", repeatDays);
+
+            while(repeatEventTableCursor.moveToNext()) {
+                if(repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id")).equals(syncID)) {
+                    repeatEventTableController.updateRepeatTable(syncID, rValues);
+                    Log.i(TAG, "Update repeat Table");
+                    super.onBackPressed();
+                    return;
+                }
+            }
+
+            repeatEventTableController.insertToRepeatTable(syncID, todo, putImportance, repeatDays, putHasAlarm, alarmHour, alarmMinute);
+            Log.i(TAG, "Insert repeat Table");
+        } else {
+
+            while(repeatEventTableCursor.moveToNext()) {
+                if (repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id")).equals(syncID)) {
+                    repeatEventTableController.deleteData(syncID);
+                    Log.i(TAG, "Delete repeat Table");
+                }
+            }
+
         }
+
         super.onBackPressed();
     }
 }

@@ -24,7 +24,6 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
     // DB Info
     String syncID = null; // Date is syncID for event and repeat table.
     EventTableController eventTableController = EventTableController.get(this);
-    DatabaseHelper repeatEventDBHelper;
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
 
     @Override
@@ -86,8 +85,9 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         // 메모내용 표시 -> DB로부터 해당알람정보 끌어오기(알람시간이 같은 정보가 있으면 끌어온다.)
         TextView todoTv = (TextView) findViewById(R.id.todoOnTrigger);
         Cursor eventTableCursor = eventTableController.getAllData();
-        // Todo -> 반복 일정에서도 정보를 찾아봐야함
+        Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
 
+        eventTableCursor.moveToFirst();
         while(eventTableCursor.moveToNext()) {
             hasAlarm = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM"));
             if(hasAlarm == 0) {
@@ -106,6 +106,31 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
                 }
             }
         }
+
+        repeatEventTableCursor.moveToFirst();
+        while(repeatEventTableCursor.moveToNext()) {
+            hasAlarm = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM"));
+            if(hasAlarm == 0) {
+                continue;
+            } else {
+                alarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
+                alarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
+                Log.i("AlarmOnTrigger", "Saved alarm is " + Integer.toString(alarmHour) + ":" + Integer.toString(alarmMinute));
+                Log.i("AlarmOnTrigger", "System time is " + Integer.toString(curHour) + ":" + Integer.toString(curMinute));
+                if(/*(curHour == alarmHour) && (curMinute == alarmMinute)*/ true) {
+                    if(todo == null) {
+                        todo = eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
+                    } else {
+                        if(todo.contains(eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO")))) {
+                            continue;
+                        } else {
+                            todo += ", " + eventTableCursor.getString(eventTableCursor.getColumnIndex("MEMO"));
+                        }
+                    }
+                }
+            }
+        }
+
         if(todo != null) {
             todo += " 잊지 않았지?";
         } else {
