@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -27,7 +26,6 @@ public class BackgroundThemeAdapter extends BaseAdapter{
     public ViewHolder disableTargetViewHolder;
     public static int isSelected;
     public int isPermission;
-
     private static Typeface NanumBarunGothic_R;
 
     public BackgroundThemeAdapter(Context context, ArrayList<BackgroundThemeDTO> arrayList) {
@@ -93,10 +91,12 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
+
                     final int checkInt = position;//arrayList.get(position).getBackgroundCode();
                     Handler handler = new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
+
                             setImageByClick(checkInt, viewHolder);
                         }
                     };

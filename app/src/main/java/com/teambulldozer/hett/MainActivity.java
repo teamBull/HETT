@@ -198,7 +198,12 @@ public class MainActivity extends AppCompatActivity {
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
-        new AlarmAMZero(getApplicationContext());
+        //new AlarmAMZero(getApplicationContext());
+
+
+
+
+        //Ctrl + F -> 눈 / snow
 
     }
 
@@ -1100,20 +1105,13 @@ public class MainActivity extends AppCompatActivity {
                 friend_edit.setText(DrawerTableController.getInstance().searchByFriendName());
             }
         }
-
     }
-
     /**
      * 메뉴의 배경화면 텍스트나, 오른쪽 화살표, 혹은 선택되어 있는 테마의 이름을 선택할 시 이 메소드가 호출이 된다.
      */
     private void selectBackgroundMenu() {
         Intent intent = new Intent(getApplicationContext(), SettingBackgroundThemeActivity.class);
         startActivityForResult(intent, SETTING_BACKGROUND_THEME_ACTIVITY);
-
-
     }
-
-
-
 }
 //((TextView)findViewById(R.id.currentTimer)).setText(new SimpleDateFormat("MM월dd일 (E) a HH시 mm분", Locale.KOREA).format(new Date()).toString()); /*TextClock currentTimer = (TextClock) findViewById(R.id.currentTimer); currentTimer.setFormat12Hour("MM월dd일 (E) a HH시 mm분");*///이게 원래코드.

@@ -19,7 +19,7 @@ public class AlarmAMZero {
         //알람시간 calendar에 set해주기
 
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-        long oneday = 24 * 60 * 60 * 1000;// 매일 밤 12시에 등록되어야 하니까.
+        long oneday = 60 * 1000;// 매일 밤 12시에 등록되어야 하니까.
         //알람 예약
         am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),oneday, sender);
     }

@@ -89,7 +89,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_REPEAT_TABLE);
         //db.execSQL(CREATE_EVENT_REPREAT_VIEW);
         //event_table _id INTEGER PRIMARY KEY AUTOINCREMENT, MEMO TEXT, IMPORTANCE INTEGER, COMPLETENESS INTEGER, DATE TEXT, REPEAT INTEGER, ALARM INTEGER, ALARMHOUR
+<<<<<<< HEAD
         /*db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,'16/02/27',0,1,-1,-1);");
+=======
+       /* db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(1,'장보기',1,0,'16/02/27',0,1,-1,-1);");
+>>>>>>> c9a4c6265d6e85d4d9d05d7537328ef4fa4bc041
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(2,'공부하기',0,0,'16/02/27',0,0,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(3,'놀기',1,0,'16/02/28',0,1,-1,-1);");
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(4,'춤추기',0,0,'16/02/29',0,0,-1,-1);");
@@ -117,7 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /*
         //임시 complete_tb : complete_table CODE TEXT, MEMO TEXT NOT NULL
-        db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/15/31/52','네번째메모');");
+       /* db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/15/31/52','네번째메모');");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/06/16/20/13','다섯번째메모');");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/09/09/45/28','일곱번째메모');");
         db.execSQL("INSERT INTO " + TABLE_NAME3 + " VALUES ('16/02/10/13/29/42','두번째메모');");
@@ -134,10 +138,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("insert into "+TABLE_NAME5+" values(1,'나무나무',1,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(2,'스트라이프',1,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(3,'내 우주는 전부 너야',1,0)");
-        db.execSQL("insert into "+TABLE_NAME5+" values(4,'on the snow',0,0)");
+        db.execSQL("insert into "+TABLE_NAME5+" values(4,'on the snow',1,0)");
         /*db.execSQL("insert into "+TABLE_NAME5+" values(4,'빗방울',0,0)");
         db.execSQL("insert into "+TABLE_NAME5+" values(5,'눈송이',0,0)");*/
-
         new AlarmAMZero(mContext);
         // 말투
         db.execSQL("INSERT INTO " + TABLE_NAME7 + " VALUES(null, '기본 말투', '안녕 :-)', '오늘도 우리 열심히 해보자', '화이팅!', " +
