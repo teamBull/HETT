@@ -55,7 +55,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
                 Log.d("AlarmAMZeroReceiver", "event_table에서 삭제");
                 eventCtr.deleteData(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
                 eventCtr.rearrangeData(String.valueOf(cursor.getInt(cursor.getColumnIndex("_id"))));
-                
+
                 cursor.moveToNext();
             }
         } catch (Exception e) {
