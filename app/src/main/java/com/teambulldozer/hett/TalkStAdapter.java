@@ -40,7 +40,6 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
         helper = DatabaseHelper.get(c);
         friendDataManager = FriendDataManager.get(c);
         friendData = friendDataManager.getFriend();
-        Log.i("dddd", friendData.getTotalPoint()+""+friendData.getFriendName());
         dm = c.getResources().getDisplayMetrics();
     }
 
@@ -138,6 +137,45 @@ public class TalkStAdapter extends BaseExpandableListAdapter {
 
             //극존칭
             else if(groupPosition == 3 && (int)friendData.getTotalPoint() <= 79){
+                viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
+                viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
+                v.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // 여기서 이벤트를 막습니다.
+                        return true;
+                    }
+                });
+            }
+
+            //새오체
+            else if(groupPosition == 4 && (int)friendData.getTotalPoint() <= 99){
+                viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
+                viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
+                v.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // 여기서 이벤트를 막습니다.
+                        return true;
+                    }
+                });
+            }
+
+            //연하남
+            else if(groupPosition == 5 && (int)friendData.getTotalPoint() <= 119){
+                viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
+                viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
+                viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));
+                v.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // 여기서 이벤트를 막습니다.
+                        return true;
+                    }
+                });
+            }
+
+            //신하
+            else if(groupPosition == 6 && (int)friendData.getTotalPoint() <= 139){
                 viewHolder.ivTalkStCheck.setVisibility(View.INVISIBLE);
                 viewHolder.ivTalkStLock.setVisibility(View.VISIBLE);
                 viewHolder.tv_groupName.setTextColor(Color.parseColor("#585858"));

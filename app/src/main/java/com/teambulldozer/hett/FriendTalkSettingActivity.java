@@ -33,6 +33,8 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
     private ArrayList<String> mChildListContent3 = null;
     private ArrayList<String> mChildListContent4 = null;
     private ArrayList<String> mChildListContent5 = null;
+    private ArrayList<String> mChildListContent6 = null;
+
     private ExpandableListView mListView;
     FriendDataManager friendDataManager;
     FriendDto friendItem;
@@ -69,6 +71,7 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         mChildListContent3 = new ArrayList<String>();
         mChildListContent4 = new ArrayList<String>();
         mChildListContent5 = new ArrayList<String>();
+        mChildListContent6 = new ArrayList<String>();
 
         //말투 - 기본 테마
         mGroupList.add("기본 테마");
@@ -106,7 +109,32 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
 
         mChildList.add(mChildListContent3);
 
-        //말투-
+        //말투 - 새오체
+        mGroupList.add("새오체");
+
+        mChildListContent4.add("안녕하새오?");
+        mChildListContent4.add("화이팅 하새오!");
+        mChildListContent4.add("오늘도 채선을 다해서 힘내새오!");
+
+        mChildList.add(mChildListContent4);
+
+        //말투 - 연하남
+        mGroupList.add("연하남");
+
+        mChildListContent5.add("누나~ 뭐해요?");
+        mChildListContent5.add("누나 지금 할 일 얼른하고 나랑 놀아요~");
+        mChildListContent5.add("누나 힘내요 누나한테 내가 있잖아요!");
+
+        mChildList.add(mChildListContent5);
+
+        //말투 - 신하
+        mGroupList.add("신하");
+
+        mChildListContent6.add("옥체강령하시옵니까?");
+        mChildListContent6.add("만세!만세!만만세! 천세!천세!천천세!");
+        mChildListContent6.add("더 이상 일정으로 인해 고통받지 마시옵소서..");
+
+        mChildList.add(mChildListContent6);
 
         adapter = new TalkStAdapter(this, mGroupList, mChildList);
         mListView.setAdapter(adapter);
