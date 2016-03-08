@@ -500,6 +500,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         int putHasAlarm = 0;
         int putImportance = 0;
         if(hasAlarm == true) {
+            setAlarm();
             putHasAlarm = 1;
         } else {
             releaseAlarm(getBaseContext());
