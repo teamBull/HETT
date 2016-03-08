@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="D:\NEXTERS\nproject\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="D:\NEXTERS\nproject\HETT\libs\drag-sort-listview\src\debug\jniLibs"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\src\debug\jniLibs"/></dataSet></merger>
->>>>>>> yunsun
+<merger version="3"><dataSet config="main"><source path="C:\Users\GHKwon\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="C:\Users\GHKwon\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\debug\jniLibs"/></dataSet></merger>
