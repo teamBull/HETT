@@ -33,6 +33,7 @@ public class AlarmMain extends Activity implements OnClickListener {
     int alarmHour, alarmMinute;
     boolean noRepeat = true;
     boolean mon, tue, wed, thu, fri, sat, sun = false;
+    int numOfAlarm = 0;
 
     // Button components
     private Button[] alarmButtons;
@@ -52,6 +53,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         setContentView(R.layout.alarm_main);
 
         setAlarmButtons(); // set button components
+        countNumOfAlarm();
         initData();
     }
 
@@ -307,7 +309,7 @@ public class AlarmMain extends Activity implements OnClickListener {
 
         alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + second, pIntent);
         */
-        // 반복적인 알람 설정에 관한 함수
+        /* 반복적인 알람 설정에 관한 함수(하나밖에 설정이 안됨 -> alarm manager를 array로 선언해야함)
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         for(int i = 0; i < 8; i++) {
@@ -333,7 +335,59 @@ public class AlarmMain extends Activity implements OnClickListener {
         triggerTime = setTriggerTime();
         Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime for Debugging System.currentTimeMillis()+400, intervalTime, pending);
+        */
+        // alarm 다수 설정 가능 ver.
+        numOfAlarm++;
+
+        PendingIntent[] pending = new PendingIntent[numOfAlarm];
+        Intent[] intent = new Intent[numOfAlarm];
+        AlarmManager[] alarmManagers = new AlarmManager[numOfAlarm];
+        for(int i = 0; i < numOfAlarm; i++) {
+            alarmManagers[i] = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            intent[i] = new Intent(this, AlarmReceiver.class);
+            pending[i] = PendingIntent.getBroadcast(this, i, intent[i], Intent.FILL_IN_DATA);
+        }
+        int i = 0; // n-th alarm
+
+        Cursor eventTableCursor = eventTableController.getAllData();
+        Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
+
+
+        long triggerTime = 0;
+        long intervalTime = 24 * 60 * 60 * 1000; // 24시간(ms)
+
+        eventTableCursor.move(-1);
+        repeatEventTableCursor.move(-1);
+        while(eventTableCursor.moveToNext()) {
+
+            if(eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM")) == 1) {
+                alarmHour = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMHOUR"));
+                alarmMinute = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMMINUTE"));
+                triggerTime = setTriggerTime();
+                Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
+                alarmManagers[i].setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending[i]);
+                i++;
+            }
+
+            while(repeatEventTableCursor.moveToNext()) {
+                if(eventTableCursor.getString(eventTableCursor.getColumnIndex("DATE"))
+                        != repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"))) {
+                    if(repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM")) == 1) {
+                        alarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
+                        alarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
+                        triggerTime = setTriggerTime();
+                        Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
+                        alarmManagers[i].setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending[i]);
+                        i++;
+                    }
+                }
+
+            }
+            repeatEventTableCursor.move(-1);
+
+        }
+
     }
 
     private long setTriggerTime() {
@@ -351,6 +405,32 @@ public class AlarmMain extends Activity implements OnClickListener {
             triggerTime += 1000 * 60 * 60 * 24;
         }
         return triggerTime;
+    }
+
+    private void countNumOfAlarm() {
+
+        Cursor eventTableCursor = eventTableController.getAllData();
+        Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
+
+        eventTableCursor.move(-1);
+        repeatEventTableCursor.move(-1);
+        while(eventTableCursor.moveToNext()) {
+
+            if(eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM")) == 1) numOfAlarm++;
+
+            while(repeatEventTableCursor.moveToNext()) {
+                if(eventTableCursor.getString(eventTableCursor.getColumnIndex("DATE"))
+                        != repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"))) {
+                    if(repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM")) == 1) numOfAlarm++;
+                }
+
+            }
+            repeatEventTableCursor.move(-1);
+
+        }
+
+        Log.i(TAG, "Number of Alarm is " + Integer.toString(numOfAlarm));
+
     }
 
     // 알람 해제
@@ -505,7 +585,6 @@ public class AlarmMain extends Activity implements OnClickListener {
         int putHasAlarm = 0;
         int putImportance = 0;
         if(hasAlarm == true) {
-            setAlarm();
             putHasAlarm = 1;
         } else {
             releaseAlarm(getBaseContext());
@@ -558,6 +637,8 @@ public class AlarmMain extends Activity implements OnClickListener {
             }
 
         }
+
+        if(hasAlarm) setAlarm();
 
         super.onBackPressed();
     }

@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
 
-    AlarmMain passAlarmParam = new AlarmMain();
+    Intent i;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -27,6 +27,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
+        i = getActivity().getIntent();
 
         //Create and return a new instance of TimePickerDialog
         return new TimePickerDialog(getActivity(),this, hour, minute,
@@ -36,7 +37,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     //onTimeSet() callback method
     public void onTimeSet(TimePicker view, int hourOfDay, int minute){
         // 알람시간 넘겨주기
-        Intent i = getActivity().getIntent();
         i.putExtra("alarmHour", hourOfDay);
         i.putExtra("alarmMinute", minute);
         i.putExtra("hasAlarm", true);
@@ -68,14 +68,15 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
             @Override
             public void onClick(View v) {
                 inflatedLayout.removeAllViews();
-
-                Intent alarmData = getActivity().getIntent();
-                alarmData.putExtra("alarmHour", 0);
-                alarmData.putExtra("alarmMinute", 0);
-                alarmData.putExtra("hasAlarm", false);
-
+                resetAlarmVar();
                 addAlarmTimeButton.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void resetAlarmVar() {
+        i.putExtra("alarmHour", 0);
+        i.putExtra("alarmMinute", 0);
+        i.putExtra("hasAlarm", false);
     }
 }
