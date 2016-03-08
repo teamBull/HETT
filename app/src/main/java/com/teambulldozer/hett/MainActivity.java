@@ -72,7 +72,9 @@ import java.util.TimerTask;
 * 3. 시간 이상하 뜨는 것 고침;; Calendar 클래스의 month는 0부터 시작하기 때문에;;;;; (업데이트 전에는 3월인데, 2월로 나왔음;;)
 * 4. 오후 12시 20분이 0시 20분으로 뜨는 것을 12시 20분으로 뜨게 바꿈.
 *
-*
+*(2016. 3. 8)
+* 1. numOfEntries long으로 return하던 걸 int로 바꿈.
+* 2. event_table에 column TODAY 추가. 오늘 날짜를 담음.
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -89,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private long mBackPressed;
 
     EventTableController myEventController;
+    RepeatEventController myRepeatEventController;
+
     MyDragSortAdapter myDragSortAdapter;
     DragSortListView lv1;
     DragSortController dragSortController;
@@ -141,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* Call the database constructor */
         myEventController = EventTableController.get(this); //
+        myRepeatEventController = RepeatEventController.get(this);
+
 
         /* Connecting XML widgets and JAVA code. */
         dateBar = (TextView) findViewById(R.id.dateBar);
@@ -184,15 +190,25 @@ public class MainActivity extends AppCompatActivity {
         completeIfItemClicked(); // 아이템 클릭되면 View 바꿔주기
         ifClickedDeleteAllRows(); // 모두 지우기 버튼이 눌렀을 때, 일정 모두 지우기.
         populateListView(); // 한 번만 호출되면 된다.
+
+        renewAllEvents();
+
+        /*
+        String todayDate =  getDate().substring(3, 8); // 이 값과 같아야 하는 것은 첫 번째 일정의 데이트값.
+        String memoDate = myEventController.getTodayAt(1).substring(3, 8);
+
+        Toast.makeText(getApplicationContext(), todayDate, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), memoDate, Toast.LENGTH_SHORT).show();
+*/
+
         // 리스트뷰에 아이템 올리기
         // 그 외에 클릭하면 삭제하는 기능은 MyDragSortAdapter에 구현.
-
 
         /* Additional details */
 
         // The following line makes software keyboard disappear until it is clicked again.
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        MyDragSortAdapter.isOnEditMenu = true; // onCreate에서
+        MyDragSortAdapter.isOnEditMenu = true; //
 
 
         /*기호*/
@@ -204,7 +220,141 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Ctrl + F -> 눈 / snow
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
+        //v.startAnimation(animation);
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
+        imageView.startAnimation(animation);
 
+    }
+
+    public void renewAllEvents(){
+
+        // 한번만 실행되게끔 하는
+        /*
+        //repeatEvents를 가져오는 건 한 번만 실행되어야 한다.
+        if(myEventController.numOfEntries() == 0){
+            getRepeatEvents();
+        }
+        else
+
+        */
+        // 아직 불완전한 버전..
+        if(isDateChanged()) {
+            // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
+            moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
+            deleteFinishedEvents(); // 완료된 일정은 메인페이지에서 삭제
+            getRepeatEvents(); // 24시가 되었을 경우 메인페이지의 데이터 경신. //
+            updateTodayOfEvents();
+            // 데이터 경신할 때, 반복일정, 완료일정 정리하고 나머지 일정들의 today column을 다시 오늘 일자로 바꿔줘야한다.
+            //Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
+        }
+        //Toast.makeText(getApplicationContext(), "Date is not changed.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateTodayOfEvents(){
+
+        // 일정이 하나도 없으면 일정의 Today를 업데이트 하지 않는다.
+
+        int numOfEvents = myEventController.numOfEntries();
+        if(numOfEvents == 0)
+            return;
+
+        for(int i = 1; i <= numOfEvents; i++)
+            myEventController.updateToday(Integer.toString(i), getDate().substring(3, 8));
+
+    }
+
+    public void moveFinishedEvents(){
+
+        CompleteEventTableController completeEventTableController = CompleteEventTableController.get(this);
+        Cursor cursor = myEventController.getCompletenessDataAll();
+
+        try {
+            cursor.moveToFirst();
+            // 완료된 일정 데이터를 event_complete_table에 넣는다.
+            for(int i =0; i< cursor.getCount(); i++) {
+                Log.d("MainActivity","event_complete_table로 추가");
+                completeEventTableController.insertToEventCompletenessTable(cursor.getString(cursor.getColumnIndex("DATE")), cursor.getString(cursor.getColumnIndex("MEMO")));
+
+                cursor.moveToNext();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+
+    }
+
+    public void deleteFinishedEvents(){
+        int from, to;
+        if(myEventController.isThereCompletedData()) {
+            from = myEventController.getBorderlinePos();
+            to = myEventController.numOfEntries();
+            myEventController.deleteDataFrom(Integer.toString(from));
+            myEventController.rearrangeData(Integer.toString(to));
+        }
+        else
+            return;
+
+    }
+
+    public void getRepeatEvents(){
+        // 날짜가 변했을 경우, 메모를 갈아 엎는다.
+        // 반복일정은 가져오고, 완료일정은 삭제하는 것이다.
+        // 그런데 중요한것은!!!! 완료일정을 먼저 삭제하고, 반복일정을 가져와야 한다.
+        Calendar rightNow = Calendar.getInstance();
+        int dayOfWeek = rightNow.get(Calendar.DAY_OF_WEEK);
+
+        if(myRepeatEventController.numOfEntries() == 0)
+            return ;
+
+        Toast.makeText(getBaseContext(), "getRepeatEvents()", Toast.LENGTH_SHORT).show();
+        Cursor cursor = myRepeatEventController.getTodoRepeatData(dayTranslator(dayOfWeek));
+        //Toast.makeText(getBaseContext(), dayConverter(dayOfWeek), Toast.LENGTH_SHORT).show();
+        cursor.moveToFirst();
+
+        ContentValues contentValues = new ContentValues();
+        //int lastIdx = myEventController.numOfEntries();
+        do{
+            //contentValues.put("_id", ++lastIdx); // lastIdx값이 하나 증가.
+            contentValues.put("MEMO", cursor.getString(1) );
+            contentValues.put("IMPORTANCE", cursor.getString(2));
+            contentValues.put("COMPLETENESS", "0");
+            contentValues.put("DATE", getDate());
+            contentValues.put("TODAY", getDate().substring(3, 8));
+            contentValues.put("REPEAT", "1");
+            contentValues.put("ALARM", cursor.getString(7));
+            contentValues.put("ALARMHOUR", cursor.getString(8));
+            contentValues.put("ALARMMINUTE", cursor.getString(9));
+
+            myEventController.insertData("", false);
+            EventTableController.get(this).moveDataTo(myEventController.numOfEntries(), contentValues);
+
+        } while (cursor.moveToNext());
+
+        requery();
+    }
+
+    public boolean isDateChanged(){
+        // 날짜가 변했을 때 해야되는 일은, 반복일정은 가져오고, 완료일정은 삭제하는 것이다.
+
+        // 일정이 하나도 없을 때는, 커서가 비어있으므로, 염두에 두어야 한다.
+        if(myEventController.numOfEntries() == 0) // 등록된 일정의 개수가 하나도 없으면, 날짜가 바뀌었는지는 아무런 의미가 없으므로 그냥 리턴.
+            return false;
+
+        String todayDate =  getDate().substring(3, 8); // 이 값과 같아야 하는 것은 첫 번째 일정의 데이트값.
+        String memoDate = myEventController.getTodayAt(1);
+
+        if(todayDate.equals(memoDate))
+            return false;
+        else
+            return true;
     }
 
     @Override
@@ -379,17 +529,6 @@ public class MainActivity extends AppCompatActivity {
         return Calendar.getInstance().get(Calendar.MINUTE)+1;//final int startInt = Calendar.getInstance().get(Calendar.MINUTE)+1;
     }
 
-/*
-    public int getDate(){
-        Calendar rightNow = Calendar.getInstance();
-        int year = rightNow.get(Calendar.YEAR);
-        int month = rightNow.get(Calendar.MONTH) + 1;
-        int date = rightNow.get(Calendar.DATE);
-
-        int timeKey = (year * 10000) + (month * 100) + date; // This timeKey is used to give input to database.
-        return timeKey;
-    }
-    */
 
     public String getDate(){
         Calendar rightNow = Calendar.getInstance();
@@ -402,20 +541,31 @@ public class MainActivity extends AppCompatActivity {
 
         String key = Integer.toString(year)
                 + "/"
-                + Integer.toString(month)
+                + DateConverter(month)
                 + "/"
-                + Integer.toString(date)
+                + DateConverter(date)
                 + "/"
-                + Integer.toString(hour)
+                + DateConverter(hour)
                 + "/"
-                + Integer.toString(minute)
+                + DateConverter(minute)
                 + "/"
-                + Integer.toString(second);
+                + DateConverter(second);
 
-        //Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
         // For debugging, this key is designed to distinguish different IDs.
 
         return key;
+    }
+
+    public String DateConverter(int time){
+
+        String temp = Integer.toString(time);
+
+        if(time < 10){
+            StringBuffer zero = new StringBuffer("0");
+            return zero.append(temp).toString();
+        }
+        return temp;
     }
 
     public void respondToUserInput(){
@@ -553,6 +703,26 @@ public class MainActivity extends AppCompatActivity {
         return "Error";
     }
 
+    public String dayTranslator(int dayInfo){
+        switch(dayInfo){
+            case 1:
+                return "일";
+            case 2:
+                return "월";
+            case 3:
+                return "화";
+            case 4:
+                return "수";
+            case 5:
+                return "목";
+            case 6:
+                return "금";
+            case 7:
+                return "토";
+        }
+        return "Error";
+    }
+
     public void completeIfItemClicked(){
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -595,7 +765,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myEventController.deleteAllData();
-                myEventController.rearrangeData(Integer.toString((int) myEventController.numOfEntries()));
+                myEventController.rearrangeData(Integer.toString(myEventController.numOfEntries()));
                 // 삭제와 관련된 부분은 adapter를 새로 설정해줘야함;
                 requery();
             }
@@ -630,8 +800,8 @@ public class MainActivity extends AppCompatActivity {
         ContentValues tempData = myEventController.getAllContent(rowId);
         deleteRow(Integer.toString(rowId));
         myEventController.insertData("", true); // 여기서의 insertData값은 어차피 업데이트 되므로 상관 없음.
-        myEventController.moveDataTo((int) myEventController.numOfEntries(), tempData);
-        myEventController.updateCompleteness(Integer.toString((int) myEventController.numOfEntries()), 1);
+        myEventController.moveDataTo(myEventController.numOfEntries(), tempData);
+        myEventController.updateCompleteness(Integer.toString(myEventController.numOfEntries()), 1);
     }
 
 
@@ -652,10 +822,10 @@ public class MainActivity extends AppCompatActivity {
                     if (myEventController.isThereCompletedData()) {
                         // 완료된 일정이 하나라도 있을 경우, 새로운 일정은 일반 일정의 맨 끝과 완료된 일정의 처음 부분 사이
                         myEventController.insertData(memo, false); // 일단 메모 내용을 맨 밑으로 넣은 다음에,
-                        ContentValues insertedData = myEventController.getAllContent((int) myEventController.numOfEntries());
+                        ContentValues insertedData = myEventController.getAllContent(myEventController.numOfEntries());
 
                         int fromPos = myEventController.getBorderlinePos();
-                        int toPos = (int) myEventController.numOfEntries();
+                        int toPos =  myEventController.numOfEntries();
 
                         myEventController.shiftAllData(fromPos, toPos); // 인덱스 1부터 마지막거 하나 전까지의 데이터를 한칸씩 뒤로 밀고,
                         myEventController.moveDataTo(fromPos, insertedData);
@@ -678,8 +848,10 @@ public class MainActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 memoInput.setText("");
 
+
                 requery();
-                toastProperMessage(DrawerTableController.getInstance().searchByFriendName(), (int) myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                //Toast.makeText(getBaseContext(),"lastIdx = " + Integer.toString((int)myEventController.numOfEntries()), Toast.LENGTH_SHORT).show();
+                toastProperMessage(DrawerTableController.getInstance().searchByFriendName(), myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
@@ -718,7 +890,6 @@ public class MainActivity extends AppCompatActivity {
         //return view;
     }
 
-
     /*
     * 밑의 lifecycle methods는 디버그를 위해 존재한다.
     * */
@@ -738,6 +909,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){ // 화면이 다시 나타날 때.
+        renewAllEvents();
         Cursor cursor = myEventController.getAllData();
         myDragSortAdapter.changeCursor(cursor);
         super.onResume();

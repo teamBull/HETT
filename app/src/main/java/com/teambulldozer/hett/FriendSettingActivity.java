@@ -127,15 +127,20 @@ public class FriendSettingActivity extends AppCompatActivity {
     @Override
     public void onResume(){ // 화면이 다시 나타날 때.
         super.onResume();
-        if(semaporeByPause) {
-            overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
-            semaporeByPause = false;
-        }
+        //if(semaporeByPause) {
+        //    overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
+        //    semaporeByPause = false;
+       // }
     }
     @Override
     public void onPause(){ // 화면이 이동되서 없어질 때.
         super.onPause();
         overridePendingTransition(R.anim.activity_start_first, R.anim.activity_start_second);// 화면 이동 시 애니메이션.
         semaporeByPause=true;
+    }
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK,new Intent().putExtras(new Bundle()));
+        finish();
     }
 }
