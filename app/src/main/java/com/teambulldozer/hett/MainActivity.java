@@ -224,15 +224,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void renewAllEvents(){
+
+        // 한번만 실행되게끔 하는
+        /*
+        //repeatEvents를 가져오는 건 한 번만 실행되어야 한다.
+        if(myEventController.numOfEntries() == 0){
+            getRepeatEvents();
+        }
+        else
+
+        */
+        // 첫번째 일정이 아니라, DB에 저장된 걸로 해야 ...
         if(isDateChanged()) {
             // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
             moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
             deleteFinishedEvents(); // 완료된 일정은 메인페이지에서 삭제
-            getRepeatEvents(); // 날짜가 변했을 경우 메인페이지의 데이터 경신. //
-            // 데이터 경신할 때, 반복일정, 완료일정 정리하고 나머지 일정 데이트 다시 오늘 일자로 바꿔줘야한다.
-            Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
+            getRepeatEvents(); // 24시가 되었을 경우 메인페이지의 데이터 경신. //
+            updateTodayOfEvents();
+            // 데이터 경신할 때, 반복일정, 완료일정 정리하고 나머지 일정들의 today column을 다시 오늘 일자로 바꿔줘야한다.
+            //Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getApplicationContext(), "Date is not changed.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Date is not changed.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateTodayOfEvents(){
+
+        // 일정이 하나도 없으면 일정의 Today를 업데이트 하지 않는다.
+
+        int numOfEvents = myEventController.numOfEntries();
+        if(numOfEvents == 0)
+            return;
+
+        for(int i = 1; i <= numOfEvents; i++)
+            myEventController.updateToday(Integer.toString(i), getDate().substring(3, 8));
+
     }
 
     public void moveFinishedEvents(){
@@ -284,24 +309,27 @@ public class MainActivity extends AppCompatActivity {
         if(myRepeatEventController.numOfEntries() == 0)
             return ;
 
-        Cursor cursor = myRepeatEventController.getTodoRepeatData(dayConverter(dayOfWeek));
+        Toast.makeText(getBaseContext(), "getRepeatEvents()", Toast.LENGTH_SHORT).show();
+        Cursor cursor = myRepeatEventController.getTodoRepeatData(dayTranslator(dayOfWeek));
+        //Toast.makeText(getBaseContext(), dayConverter(dayOfWeek), Toast.LENGTH_SHORT).show();
         cursor.moveToFirst();
 
         ContentValues contentValues = new ContentValues();
-        int lastIdx = myEventController.numOfEntries();
+        //int lastIdx = myEventController.numOfEntries();
         do{
-            contentValues.put("_id", ++lastIdx); // lastIdx값이 하나 증가.
-            contentValues.put("MEMO",cursor.getString(1) );
+            //contentValues.put("_id", ++lastIdx); // lastIdx값이 하나 증가.
+            contentValues.put("MEMO", cursor.getString(1) );
             contentValues.put("IMPORTANCE", cursor.getString(2));
             contentValues.put("COMPLETENESS", "0");
             contentValues.put("DATE", getDate());
-            contentValues.put("TODAY", getDate().substring(3,8));
+            contentValues.put("TODAY", getDate().substring(3, 8));
             contentValues.put("REPEAT", "1");
-            contentValues.put("ALARM", cursor.getString(4));
-            contentValues.put("ALARMHOUR", cursor.getString(5));
-            contentValues.put("ALARMMINUTE", cursor.getString(6));
+            contentValues.put("ALARM", cursor.getString(7));
+            contentValues.put("ALARMHOUR", cursor.getString(8));
+            contentValues.put("ALARMMINUTE", cursor.getString(9));
 
-            EventTableController.get(this).moveDataTo(lastIdx, contentValues);
+            myEventController.insertData("", false);
+            EventTableController.get(this).moveDataTo(myEventController.numOfEntries(), contentValues);
 
         } while (cursor.moveToNext());
 
@@ -670,6 +698,26 @@ public class MainActivity extends AppCompatActivity {
         return "Error";
     }
 
+    public String dayTranslator(int dayInfo){
+        switch(dayInfo){
+            case 1:
+                return "일";
+            case 2:
+                return "월";
+            case 3:
+                return "화";
+            case 4:
+                return "수";
+            case 5:
+                return "목";
+            case 6:
+                return "금";
+            case 7:
+                return "토";
+        }
+        return "Error";
+    }
+
     public void completeIfItemClicked(){
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -836,7 +884,6 @@ public class MainActivity extends AppCompatActivity {
         image.startAnimation(animation);
         //return view;
     }
-
 
     /*
     * 밑의 lifecycle methods는 디버그를 위해 존재한다.

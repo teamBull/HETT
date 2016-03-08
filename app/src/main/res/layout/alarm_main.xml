@@ -443,6 +443,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:visibility="invisible"
             android:text="확인"
             android:textColor="#1bbbbf"
             android:background="@android:color/transparent"/>

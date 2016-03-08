@@ -84,11 +84,13 @@ public class RepeatEventController {
         String[] searchId = {id};
         Cursor cursor = db.rawQuery(sql,searchId);
         cursor.moveToFirst();
+
         return cursor.getInt(cursor.getColumnIndex("IMPORTANCE"));
     }
 
     //update
-    public int updateImportances(String id,int importance){
+    public int updateImportances(String id, int importance){
+
         Log.d("importance값:", String.valueOf(importance));
         SQLiteDatabase db = dbhelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -99,6 +101,17 @@ public class RepeatEventController {
         }
         return db.update(TABLE, values, " _id = ?", new String[]{id});
     }
+
+    // Joonsang method.
+    public int updateImportance(String id, int importance){
+
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Columns.IMPORTANCE, importance);
+
+        return db.update(TABLE, values, " _id = ?", new String[]{id});
+    }
+
 
     //태훈아 이메소드 쓰면 됭
     public int updateRepeatTable(String id, ContentValues contentValues){

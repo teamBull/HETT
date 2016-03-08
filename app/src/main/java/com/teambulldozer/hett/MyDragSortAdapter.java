@@ -144,12 +144,12 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
                             if (cursor.getString(1).equals("1")) {
                                 viewHolder.starButton.setImageResource(R.drawable.star_off); // 이 라인 지우면 안돼;
                                 myEventController.updateImportance(Integer.toString(position_sync), 0);
-                                myRepeatController.updateImportances(myEventController.getRepeatTableIDAt(position_sync), 0);
+                                myRepeatController.updateImportance(myEventController.getRepeatTableIDAt(position_sync), 0);
                                 break; // In order to avoid unnecessary loop.
                             } else {
                                 viewHolder.starButton.setImageResource(R.drawable.star_on);
                                 myEventController.updateImportance(Integer.toString(position_sync), 1);
-                                myRepeatController.updateImportances(myEventController.getRepeatTableIDAt(position_sync), 1);
+                                myRepeatController.updateImportance(myEventController.getRepeatTableIDAt(position_sync), 1);
                                 break;
                             }
                         }

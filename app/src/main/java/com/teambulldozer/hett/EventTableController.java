@@ -48,7 +48,9 @@ public class EventTableController {
         contentValues.put(Columns.IMPORTANCE, 0); // 입력 단계에서 중요 설정 할 수 없으므로, default 값은 false.
         contentValues.put(Columns.DATE, ((MainActivity)mContext).getDate()); // 인풋 시에 날짜가 DB에 기입된다. 그리고 이게 repeat_table의 ID로 사용된다.
         contentValues.put(Columns.TODAY, ((MainActivity)mContext).getDate().substring(3, 8)); // 인풋 시에 해당 날짜가 TODAY column에 기록된다.
-        contentValues.put(Columns.ALARM, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
+        contentValues.put(Columns.ALARM, 0);
+        contentValues.put(Columns.ALARMHOUR, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
+        contentValues.put(Columns.ALARMMINUTE, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
         //
         /* getDate값은 변하지 않는 값으로 처음에 한 번만 입력되어야 한다. */
 
@@ -189,7 +191,7 @@ public class EventTableController {
     }
 
     public String getRepeatTableIDAt(int position){ // 날짜만 리턴
-        Cursor cursor = getTodayData();
+        Cursor cursor = getRepeatTableID();
         cursor.moveToFirst();
         try{
             do {
@@ -236,6 +238,15 @@ public class EventTableController {
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
         ContentValues values = new ContentValues();
         values.put(Columns.IMPORTANCE, importance);
+        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
+
+        return true;
+    }
+
+    public boolean updateToday(String id, String today){ // 일정의 날짜만 업데이트한다.
+        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
+        ContentValues values = new ContentValues();
+        values.put(Columns.TODAY, today);
         db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
 
         return true;
