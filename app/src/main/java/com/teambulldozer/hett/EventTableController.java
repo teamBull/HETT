@@ -68,7 +68,6 @@ public class EventTableController {
         return cursor;
     }
 
-
     public boolean isThereCompletedData(){
         Cursor cursor = getCompletenessData();
         cursor.moveToFirst();
@@ -88,7 +87,12 @@ public class EventTableController {
         }
         return false;
     }
-
+    public Cursor getCompletenessDataAll(){
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        String sql = "SELECT * FROM "+ TABLE_NAME +" WHERE COMPLETENESS == 1 ORDER BY DATE ASC";
+        Cursor res = db.rawQuery(sql, null);
+        return res;
+    }
     // 커서는 id와 별개로 움직이나?
     public boolean isCompleted(int position){ // maybe position_sync?
         Cursor cursor = getCompletenessData();
@@ -186,20 +190,17 @@ public class EventTableController {
 
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
-        db.delete("repeat_table", "code = ?", new String[] { id });
         return db.delete(TABLE_NAME, "_id = ?", new String[] { id });
     }
 
     public void deleteAllData(){
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
         db.execSQL("delete from " + TABLE_NAME);
-        db.execSQL("delete from repeat_table");
     }
 
     public void rearrangeData(String id){
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
         db.execSQL("UPDATE " + TABLE_NAME + " SET _id = (_id - 1) WHERE _id > " + id);
-        db.execSQL("UPDATE repeat_table SET code = (code - 1) WHERE CODE > " + id);
         db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='event_table'");
     }
 
