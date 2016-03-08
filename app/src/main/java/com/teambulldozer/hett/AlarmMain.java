@@ -314,16 +314,21 @@ public class AlarmMain extends Activity implements OnClickListener {
             Log.i("alarmSetAlarm", "week[" + Integer.toString(i)+ "] = " + Boolean.toString(week[i]));
         }
         Intent i = getIntent();
-        alarmHour = i.getIntExtra("alarmHour", 0);
-        alarmMinute = i.getIntExtra("alarmMinute", 0);
+
+        // if time picker is not clicked
+        if((i.getIntExtra("alarmHour", -1) == -1) && (i.getIntExtra("alarmMinute", -1) == -1)) {
+            // Do not change values of alarm hour, minute, hasAlarm.
+        } else {
+            hasAlarm = i.getBooleanExtra("hasAlarm", false);
+            alarmHour = i.getIntExtra("alarmHour", -1);
+            alarmMinute = i.getIntExtra("alarmMinute", -1);
+        }
 
         Intent intent = new Intent(AlarmMain.this, AlarmReceiver.class);
         long triggerTime = 0;
         long intervalTime = 24 * 60 * 60 * 1000; // 24시간(ms)
 
         PendingIntent pending = PendingIntent.getBroadcast(AlarmMain.this, 0, intent, Intent.FILL_IN_DATA);
-        intent.putExtra("alarm_days", week);
-
 
         triggerTime = setTriggerTime();
         Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
@@ -508,6 +513,7 @@ public class AlarmMain extends Activity implements OnClickListener {
         if(importance == true) {
             putImportance = 1;
         }
+        Log.i(TAG, "alarmHour:alarmMinute" + Integer.toString(alarmHour) + ":" + Integer.toString(alarmMinute));
 
         /*
         Update tables
