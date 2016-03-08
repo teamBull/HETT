@@ -11,7 +11,7 @@ import android.util.Log;
 
 import java.util.Calendar;
 
-/**
+/*
  * Created by yoon on 16. 3. 8..
  */
 public class AlarmOnBoot extends Service {
