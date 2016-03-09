@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,12 +48,24 @@ public class AlarmMain extends Activity implements OnClickListener {
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
     String repeatDays = null;
 
+    // font
+    Typeface NanumSquare_B;
+    Typeface NanumBarunGothic_R;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_main);
 
+        // font init
+        NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
+        NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
+        setFont();
+
+        // component init
         setAlarmButtons(); // set button components
+
+        // data init
         countNumOfAlarm();
         initData();
     }
@@ -641,5 +654,19 @@ public class AlarmMain extends Activity implements OnClickListener {
         if(hasAlarm) setAlarm();
 
         super.onBackPressed();
+    }
+
+    private void setFont(){
+        ((EditText)findViewById(R.id.alarm_todo_title)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.alarmInAlarm)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.repeatInAlarm)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.noRepeatTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.monTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.tueTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.wedTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.thuTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.satTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.sunTextInAlarm)).setTypeface(NanumBarunGothic_R);
     }
 }
