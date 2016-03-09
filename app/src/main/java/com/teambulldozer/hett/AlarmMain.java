@@ -616,10 +616,12 @@ public class AlarmMain extends Activity implements OnClickListener {
         values.put("ALARM", putHasAlarm);
         values.put("ALARMHOUR", alarmHour);
         values.put("ALARMMINUTE", alarmMinute);
-        eventTableController.shiftContentValuesTo(values, position); // Update event table
 
         // repeat table에서 아이디값을 찾아본 후 있으면 update 그렇지 않으면 insert
         if(repeatDays != null) {
+            values.put("REPEAT", 1);
+            eventTableController.shiftContentValuesTo(values, position); // Update event table
+
             ContentValues rValues = new ContentValues();
             rValues.put("MEMO", todo);
             rValues.put("IMPORTANCE", putImportance);
@@ -645,6 +647,8 @@ public class AlarmMain extends Activity implements OnClickListener {
             repeatEventTableController.insertToRepeatTable(syncID, todo, putImportance, repeatDays, putHasAlarm, alarmHour, alarmMinute);
             Log.i(TAG, "Insert repeat Table");
         } else {
+            values.put("REPEAT", 1);
+            eventTableController.shiftContentValuesTo(values, position); // Update event table
 
             while(repeatEventTableCursor.moveToNext()) {
                 if (repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id")).equals(syncID)) {
