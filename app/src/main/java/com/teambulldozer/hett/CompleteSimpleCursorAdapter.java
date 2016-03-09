@@ -116,7 +116,6 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         });
     }
     private void isOnEditMenu(){
-        Toast.makeText(mContext,String.valueOf(isOnEditMenu),Toast.LENGTH_SHORT).show();
         if(isOnEditMenu){
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
         }else{
