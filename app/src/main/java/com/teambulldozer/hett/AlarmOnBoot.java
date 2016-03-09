@@ -56,39 +56,33 @@ public class AlarmOnBoot extends Service {
         long triggerTime = 0;
         long intervalTime = 24 * 60 * 60 * 1000; // 24시간(ms)
 
-        eventTableCursor.move(-1);
+        // 일반 일정 alarm set(반복일정 포함)
         repeatEventTableCursor.move(-1);
         while(eventTableCursor.moveToNext()) {
 
-            if(eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM")) == 1) {
+            if (eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM")) == 1) {
                 alarmHour = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMHOUR"));
                 alarmMinute = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMMINUTE"));
                 triggerTime = setTriggerTime();
-                Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
-                intent[i] = new Intent(this, AlarmReceiver.class);
-                pending[i] = PendingIntent.getBroadcast(this, i, intent[i], Intent.FILL_IN_DATA);
+                Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()) + " -> 알람이 설정되었음 - 일반 일정");
                 alarmManagers[i].setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending[i]);
+
                 i++;
             }
 
-            while(repeatEventTableCursor.moveToNext()) {
-                if(eventTableCursor.getString(eventTableCursor.getColumnIndex("DATE"))
-                        != repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"))) {
-                    if(repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM")) == 1) {
-                        alarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
-                        alarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
-                        triggerTime = setTriggerTime();
-                        Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()));
-                        intent[i] = new Intent(this, AlarmReceiver.class);
-                        pending[i] = PendingIntent.getBroadcast(this, i, intent[i], Intent.FILL_IN_DATA);
-                        alarmManagers[i].setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending[i]);
-                        i++;
-                    }
-                }
+        }
 
+        // 반복 일정 alarm set(일반 일정 포함)
+        repeatEventTableCursor.move(-1);
+        while(repeatEventTableCursor.moveToNext()) {
+            if (repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM")) == 1) {
+                alarmHour = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMHOUR"));
+                alarmMinute = repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARMMINUTE"));
+                triggerTime = setTriggerTime();
+                Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()) + " -> 알람이 설정되었음 - 반복 일정");
+                alarmManagers[i].setRepeating(AlarmManager.RTC_WAKEUP, triggerTime /*for Debugging System.currentTimeMillis()+400*/, intervalTime, pending[i]);
+                i++;
             }
-            repeatEventTableCursor.move(-1);
-
         }
     }
 
@@ -115,20 +109,13 @@ public class AlarmOnBoot extends Service {
         Cursor repeatEventTableCursor = repeatEventTableController.getEventRepeatData();
 
         eventTableCursor.move(-1);
-        repeatEventTableCursor.move(-1);
         while(eventTableCursor.moveToNext()) {
-
             if(eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM")) == 1) numOfAlarm++;
+        }
 
-            while(repeatEventTableCursor.moveToNext()) {
-                if(eventTableCursor.getString(eventTableCursor.getColumnIndex("DATE"))
-                        != repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id"))) {
-                    if(repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM")) == 1) numOfAlarm++;
-                }
-
-            }
-            repeatEventTableCursor.move(-1);
-
+        repeatEventTableCursor.move(-1);
+        while(repeatEventTableCursor.moveToNext()) {
+            if (repeatEventTableCursor.getInt(repeatEventTableCursor.getColumnIndex("ALARM")) == 1) numOfAlarm++;
         }
 
         Log.i(TAG, "Number of Alarm is " + Integer.toString(numOfAlarm));
