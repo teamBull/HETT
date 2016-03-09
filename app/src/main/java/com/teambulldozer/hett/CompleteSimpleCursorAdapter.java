@@ -33,7 +33,7 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
     Typeface NanumBarunGothic_R;
     ViewHolder viewHolder;
 
-    private static String maxDate=null;
+    private static String maxDate="";
     public static boolean isOnEditMenu = true;
 
     /*1) context : ListView의 context
@@ -67,19 +67,23 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         view.setTag(viewHolder);
 
         initializeAllButtons();
-        //((CompleteActivity)mContext).getLoaderManager().restartLoader()
+        isOnEditMenu();
+
         return view;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         ViewHolder holder = (ViewHolder)view.getTag();
 
         String dateInfo = dayConverter(cursor.getString(cursor.getColumnIndex("_id")));
         if(maxDate == null || !maxDate.equals(dateInfo)){
             maxDate = dateInfo;
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,35, mContext.getResources().getDisplayMetrics());
-            holder.borderline.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height));
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,height);
+            holder.borderline.setLayoutParams(params);
+            holder.borderline.setPadding(12,0,0,0);
             holder.borderline.setText(dateInfo);
         }
 
@@ -94,25 +98,31 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
         public ImageView deleteButton;
         public TextView memoContent;
     }
+
+
+
     private void initializeAllButtons(){
         viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(mContext,String.valueOf(v.getTag()),Toast.LENGTH_SHORT).show();
-                //completeEventCtr.deleteData(String.valueOf(v.getTag()));
-                //completeEventCtr.rearrangeData(String.valueOf(v.getTag()));
-                //changeCursor(getCursor());
-                if (!((CompleteActivity)mContext).deleteRow(String.valueOf(v.getTag())))
+                if (completeEventCtr.deleteData(String.valueOf(v.getTag())) == 1) {
+                    swapCursor(completeEventCtr.getEventTableCompleteData());
+                    notifyDataSetChanged();
+                    maxDate = null;
+                } else {
                     Toast.makeText(mContext, "Data Not Deleted", Toast.LENGTH_LONG).show();
+                }
             }
         });
+    }
+    private void isOnEditMenu(){
         if(isOnEditMenu){
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
         }else{
             viewHolder.deleteButton.setVisibility(View.VISIBLE);
         }
     }
-    public String dayConverter(String dateInfo){
+    private String dayConverter(String dateInfo){
         Calendar calendar = Calendar.getInstance();
         String year = null,month = null, date = null,hour=null,min=null,sec=null;
         StringTokenizer st = new StringTokenizer(dateInfo,"/");
@@ -158,5 +168,8 @@ public class CompleteSimpleCursorAdapter extends SimpleCursorAdapter{
                 break;
         }
         return month + "월 " + date + "일 " + "(" + dayOfWeek + ")";
+    }
+    public static void setMaxDate(String maxDate) {
+        CompleteSimpleCursorAdapter.maxDate = maxDate;
     }
 }

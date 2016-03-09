@@ -56,8 +56,7 @@ public class CompleteEventTableController {
 
     public Cursor getEventTableCompleteData(){
         SQLiteDatabase db = dbhelper.getReadableDatabase();
-        String sql = "SELECT * FROM "+ TABLE +" ORDER BY _id ASC";
-
+        String sql = "SELECT * FROM "+ TABLE +" ORDER BY _id DESC";
         Cursor res = db.rawQuery(sql, null);
         return res;
     }

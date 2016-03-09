@@ -10,27 +10,15 @@
     android:focusable="false"
     >
 
-    <TextView
-        android:id="@+id/repeat_date_line"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/repeatEventAcitivity_date_textsize"
-        android:textColor="@color/hatt_completed_event_date"
-        android:background="@color/hatt_background"
-        >
-    </TextView>
 
     <RelativeLayout
-        android:layout_below="@id/repeat_date_line"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_below="@id/repeat_toolbar_layout"
         android:layout_width="wrap_content"
         android:layout_height="48dp">
+
         <ImageView
             android:id="@+id/repeat_star_btn"
             android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/star_off"
@@ -39,12 +27,12 @@
             android:id="@+id/repeat_memo_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
             android:textSize="14dp"
-            android:layout_toRightOf="@id/repeat_star_btn"
             android:layout_centerVertical="true"
             android:textColor="@color/hatt_memocolor"
-            />
+            android:layout_toRightOf="@id/repeat_star_btn"
+            android:layout_toLeftOf="@+id/repeat_dayofweek_textview"
+        />
 
         <ImageView
             android:id="@+id/repeat_delete_Btn"
@@ -57,14 +45,14 @@
         <TextView
             android:id="@+id/repeat_dayofweek_textview"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="24dp"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_marginRight="12dp"
             android:textSize="11sp"
             android:textColor="@color/hatt_cyan"
-            android:text="요일"
+            android:text="월,화,수,목,금,토,일"
             />
     </RelativeLayout>
 </RelativeLayout>

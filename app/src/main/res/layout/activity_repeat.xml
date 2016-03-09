@@ -68,6 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0.7dp"
         android:background="@color/hatt_linecolor"
+        android:layout_marginBottom="2dp"
         />
 
     <ListView
@@ -75,8 +76,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_below="@+id/repeat_layout_line"
         android:smoothScrollbar="true"
         android:scrollingCache="false"
