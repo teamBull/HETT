@@ -88,6 +88,21 @@ public class RepeatEventController {
         return cursor.getInt(cursor.getColumnIndex("IMPORTANCE"));
     }
 
+    public String getDayOfWeek(String id){
+        // ID값을 받아서 반복일정 스트링을 받아오는 함수
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        String sql = "SELECT " + Columns.DAY_OF_WEEK + " from " + TABLE + " where _id = ?";
+        String[] searchId = {id};
+        Cursor cursor = db.rawQuery(sql,searchId);
+
+        if(cursor.getCount() == 0) {
+            return "No Such Data";
+        } else {
+            cursor.moveToFirst();
+            return cursor.getString(cursor.getColumnIndex(Columns.DAY_OF_WEEK));
+        }
+    }
+
     //update
     public int updateImportances(String id, int importance){
 

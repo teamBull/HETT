@@ -74,7 +74,7 @@ import java.util.TimerTask;
 *
 *(2016. 3. 8)
 * 1. numOfEntries long으로 return하던 걸 int로 바꿈.
-* 2. event_table에 column TODAY 추가. 오늘 날짜를 담음.
+* 2. 
 * */
 
 public class MainActivity extends AppCompatActivity {
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     EventTableController myEventController;
     RepeatEventController myRepeatEventController;
+    DateController myDateController;
 
     MyDragSortAdapter myDragSortAdapter;
     DragSortListView lv1;
@@ -146,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         /* Call the database constructor */
         myEventController = EventTableController.get(this); //
         myRepeatEventController = RepeatEventController.get(this);
+        myDateController = DateController.get(this);
 
 
         /* Connecting XML widgets and JAVA code. */
@@ -193,14 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
         renewAllEvents();
 
-        /*
-        String todayDate =  getDate().substring(3, 8); // 이 값과 같아야 하는 것은 첫 번째 일정의 데이트값.
-        String memoDate = myEventController.getTodayAt(1).substring(3, 8);
-
-        Toast.makeText(getApplicationContext(), todayDate, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), memoDate, Toast.LENGTH_SHORT).show();
-*/
-
         // 리스트뷰에 아이템 올리기
         // 그 외에 클릭하면 삭제하는 기능은 MyDragSortAdapter에 구현.
 
@@ -210,13 +204,10 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         MyDragSortAdapter.isOnEditMenu = true; //
 
-
         /*기호*/
 
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
         //new AlarmAMZero(getApplicationContext());
-
-
 
 
         //Ctrl + F -> 눈 / snow
@@ -230,39 +221,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void renewAllEvents(){
 
-        // 한번만 실행되게끔 하는
-        /*
-        //repeatEvents를 가져오는 건 한 번만 실행되어야 한다.
-        if(myEventController.numOfEntries() == 0){
-            getRepeatEvents();
-        }
-        else
-
-        */
-        // 아직 불완전한 버전..
         if(isDateChanged()) {
             // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
             moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
             deleteFinishedEvents(); // 완료된 일정은 메인페이지에서 삭제
             getRepeatEvents(); // 24시가 되었을 경우 메인페이지의 데이터 경신. //
-            updateTodayOfEvents();
-            // 데이터 경신할 때, 반복일정, 완료일정 정리하고 나머지 일정들의 today column을 다시 오늘 일자로 바꿔줘야한다.
+
             //Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
         }
         //Toast.makeText(getApplicationContext(), "Date is not changed.", Toast.LENGTH_SHORT).show();
-    }
-
-    public void updateTodayOfEvents(){
-
-        // 일정이 하나도 없으면 일정의 Today를 업데이트 하지 않는다.
-
-        int numOfEvents = myEventController.numOfEntries();
-        if(numOfEvents == 0)
-            return;
-
-        for(int i = 1; i <= numOfEvents; i++)
-            myEventController.updateToday(Integer.toString(i), getDate().substring(3, 8));
-
     }
 
     public void moveFinishedEvents(){
@@ -287,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
                 cursor.close();
             }
         }
-
 
     }
 
@@ -327,11 +293,10 @@ public class MainActivity extends AppCompatActivity {
             contentValues.put("IMPORTANCE", cursor.getString(2));
             contentValues.put("COMPLETENESS", "0");
             contentValues.put("DATE", getDate());
-            contentValues.put("TODAY", getDate().substring(3, 8));
             contentValues.put("REPEAT", "1");
-            contentValues.put("ALARM", cursor.getString(7));
-            contentValues.put("ALARMHOUR", cursor.getString(8));
-            contentValues.put("ALARMMINUTE", cursor.getString(9));
+            contentValues.put("ALARM", cursor.getString(6));
+            contentValues.put("ALARMHOUR", cursor.getString(7));
+            contentValues.put("ALARMMINUTE", cursor.getString(8));
 
             myEventController.insertData("", false);
             EventTableController.get(this).moveDataTo(myEventController.numOfEntries(), contentValues);
@@ -342,19 +307,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean isDateChanged(){
-        // 날짜가 변했을 때 해야되는 일은, 반복일정은 가져오고, 완료일정은 삭제하는 것이다.
+        // 날짜가 바뀔 때 해야할 일은 반복일정은 가져오고, 완료일정은 삭제하는 것이다.
 
-        // 일정이 하나도 없을 때는, 커서가 비어있으므로, 염두에 두어야 한다.
-        if(myEventController.numOfEntries() == 0) // 등록된 일정의 개수가 하나도 없으면, 날짜가 바뀌었는지는 아무런 의미가 없으므로 그냥 리턴.
+        String todayDate =  getDate().substring(3, 8);
+        String recentUpdatedDate = myDateController.getDateInfo();
+
+        if(recentUpdatedDate.equals("0")){
+            // Date 값이 0일 때는 앱을 처음 깔 때 나타나는  초기 상태이므로, 오늘 날짜 값으로 업데이트 해준다.
+            myDateController.insertToTodayTable(todayDate);
             return false;
-
-        String todayDate =  getDate().substring(3, 8); // 이 값과 같아야 하는 것은 첫 번째 일정의 데이트값.
-        String memoDate = myEventController.getTodayAt(1);
-
-        if(todayDate.equals(memoDate))
+        }
+        else if(recentUpdatedDate.equals(todayDate)){ // 오늘 날짜와 같을 때 아무런 일도 수행하지 않음.
             return false;
-        else
+        } else { // 오늘 날짜와 다를 때, 날짜를 업데이트해주고, true를 리턴.
+            myDateController.updateToday("1", todayDate); // true를 return하기 전에, DB값을 업데이트해줘야함.
             return true;
+        }
+
     }
 
     @Override
@@ -385,7 +354,6 @@ public class MainActivity extends AppCompatActivity {
         lv1.setFloatViewManager(dragSortController);
         lv1.setOnTouchListener(dragSortController);
         lv1.setDragEnabled(true);
-
     }
 
     private DragSortListView.DropListener onDrop = new DragSortListView.DropListener(){
