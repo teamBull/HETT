@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
@@ -22,7 +23,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import static android.provider.ContactsContract.*;
+
 public class CompleteActivity extends AppCompatActivity{
+
     private static boolean devMode = false;
     /* 디버그를 위한 개발자 모드 설정. true로 설정되어 있을 시, 오류 발생시 강제로 앱을 종료한다. */
 
@@ -52,8 +56,7 @@ public class CompleteActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (CompleteActivity.devMode)
-        {
+        if (CompleteActivity.devMode) {
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects()
@@ -63,8 +66,8 @@ public class CompleteActivity extends AppCompatActivity{
         }
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle) called");
-
         setContentView(R.layout.activity_complete);
+
         /**
          * 기호
          * 배경화면 setting부분.
@@ -74,16 +77,16 @@ public class CompleteActivity extends AppCompatActivity{
         completeEventCtr = CompleteEventTableController.get(this);
 
         /* Connecting XML widgets and JAVA code. */
-        this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout)findViewById(R.id.complete_layout);
-        this.completeToolbarLayout = (RelativeLayout)findViewById(R.id.complete_toolbar_layout);
-        this.prevBtn = (ImageView)findViewById(R.id.prev_btn);
-        this.editMenuBtn = (TextView)findViewById(R.id.edit_menu);
-        this.finishMenuBtn = (TextView)findViewById(R.id.finish_menu);
-        this.listView = (ListView)findViewById(R.id.complete_listview);
-        this.memoContent = (TextView)findViewById(R.id.memo_content);
+        this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.complete_layout);
+        this.completeToolbarLayout = (RelativeLayout) findViewById(R.id.complete_toolbar_layout);
+        this.prevBtn = (ImageView) findViewById(R.id.prev_btn);
+        this.editMenuBtn = (TextView) findViewById(R.id.edit_menu);
+        this.finishMenuBtn = (TextView) findViewById(R.id.finish_menu);
+        this.listView = (ListView) findViewById(R.id.complete_listview);
+        this.memoContent = (TextView) findViewById(R.id.memo_content);
 
-        this.deleteBtn = (ImageView)findViewById(R.id.delete_btn);
-        this.deleteAllBtn =(TextView)findViewById(R.id.delete_all_btn);
+        this.deleteBtn = (ImageView) findViewById(R.id.delete_btn);
+        this.deleteAllBtn = (TextView) findViewById(R.id.delete_all_btn);
 
         /*font*/
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
@@ -113,7 +116,9 @@ public class CompleteActivity extends AppCompatActivity{
                 finishMenuBtn.setVisibility(View.VISIBLE);
 
                 CompleteSimpleCursorAdapter.isOnEditMenu = false;
+                cursorAdapter.setMaxDate(null);
                 populateListView();
+
 
                 deleteAllBtn.setVisibility(View.VISIBLE);
             }
@@ -129,28 +134,32 @@ public class CompleteActivity extends AppCompatActivity{
                 finishMenuBtn.setVisibility(View.INVISIBLE);
 
                 CompleteSimpleCursorAdapter.isOnEditMenu = true;
+                cursorAdapter.setMaxDate(null);
                 populateListView();
 
                 deleteAllBtn.setVisibility(View.INVISIBLE);
             }
         });
     }
-    private void ifPrevBtnClicked(){
+
+    private void ifPrevBtnClicked() {
         this.prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(),"Asdf",Toast.LENGTH_SHORT).show();
                 CompleteSimpleCursorAdapter.isOnEditMenu = true;
+                cursorAdapter.setMaxDate(null);
                 finish();
             }
         });
     }
+
     private void ifClickedDeleteAllRows() {
         deleteAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 completeEventCtr.deleteAllData();
-                populateListView();
+                cursorAdapter.swapCursor(completeEventCtr.getEventTableCompleteData());
+                cursorAdapter.setMaxDate(null);
             }
         });
     }
@@ -158,22 +167,14 @@ public class CompleteActivity extends AppCompatActivity{
     private void populateListView() {
         this.cursor = completeEventCtr.getEventTableCompleteData();
         this.cursor.moveToFirst();
-        String[] fromFieldNames = new String[] {CompleteEventTableController.Columns.MEMO};
-        int[] toViewIDS = new int[] { R.id.memo_content};
-        cursorAdapter = new CompleteSimpleCursorAdapter(this,R.layout.list_item_complete,this.cursor,fromFieldNames,toViewIDS,0,completeEventCtr);
+        String[] fromFieldNames = new String[]{CompleteEventTableController.Columns.MEMO};
+        int[] toViewIDS = new int[]{R.id.memo_content};
+        cursorAdapter = new CompleteSimpleCursorAdapter(this, R.layout.list_item_complete, this.cursor, fromFieldNames, toViewIDS, 0, completeEventCtr);
         this.listView.setAdapter(cursorAdapter);
     }
-    public void setFont(){
+
+    public void setFont() {
         this.editMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
-    }
-    public boolean deleteRow(String rowId){
-        Integer deletedRows = completeEventCtr.deleteData(rowId);
-        requery();
-        return deletedRows != 0;
-    }
-    public void requery(){
-        Cursor cursor = completeEventCtr.getEventTableCompleteData();
-        cursorAdapter.changeCursor(cursor);
     }
 }
