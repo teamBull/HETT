@@ -3,6 +3,7 @@ package com.teambulldozer.hett;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -25,12 +26,21 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
     String syncID = null; // Date is syncID for event and repeat table.
     EventTableController eventTableController = EventTableController.get(this);
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
+    DrawerTableController drawerTableController = DrawerTableController.getInstance(this);
+
+    // font
+    Typeface NanumSquare_B;
+    Typeface NanumBarunGothic_R;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_on_trigger);
 
+        // set font
+        NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
+        NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
+        setFont();
         // intialize page info
         initPage();
     }
@@ -84,6 +94,11 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         TextView am_pmTv = (TextView) findViewById(R.id.curAM_PM_OnTrigger);
         timeTv.setText(makeTimeStr(curHour, curMinute));
         am_pmTv.setText(makeAM_PMStr(curAMPM));
+
+        // 친구 이름 표시
+        TextView friendTv = (TextView) findViewById(R.id.friendNameOnTrigger);
+        String friendName = drawerTableController.searchByFriendName();
+        friendTv.setText(friendName);
 
         // 메모내용 표시 -> DB로부터 해당알람정보 끌어오기(알람시간이 같은 정보가 있으면 끌어온다.)
         TextView todoTv = (TextView) findViewById(R.id.todoOnTrigger);
@@ -234,5 +249,17 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         super.onBackPressed();
         releaseWakeLock();
         mVibe.cancel();
+    }
+
+    private void setFont() {
+        ((TextView)findViewById(R.id.curTimeOnTrigger)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.curAM_PM_OnTrigger)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.friendNameOnTrigger)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.todoOnTrigger)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.missCallOnTrigger)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.alarmReceivedOnTrigger)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.thxOnTrigger)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.pushTextOnTrigger)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.gotItOnTrigger)).setTypeface(NanumSquare_B);
     }
 }

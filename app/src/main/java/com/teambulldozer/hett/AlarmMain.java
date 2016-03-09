@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,12 +48,24 @@ public class AlarmMain extends Activity implements OnClickListener {
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
     String repeatDays = null;
 
+    // font
+    Typeface NanumSquare_B;
+    Typeface NanumBarunGothic_R;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_main);
 
+        // font init
+        NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
+        NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
+        setFont();
+
+        // component init
         setAlarmButtons(); // set button components
+
+        // data init
         countNumOfAlarm();
         initData();
     }
@@ -603,10 +616,12 @@ public class AlarmMain extends Activity implements OnClickListener {
         values.put("ALARM", putHasAlarm);
         values.put("ALARMHOUR", alarmHour);
         values.put("ALARMMINUTE", alarmMinute);
-        eventTableController.shiftContentValuesTo(values, position); // Update event table
 
         // repeat table에서 아이디값을 찾아본 후 있으면 update 그렇지 않으면 insert
         if(repeatDays != null) {
+            values.put("REPEAT", 1);
+            eventTableController.shiftContentValuesTo(values, position); // Update event table
+
             ContentValues rValues = new ContentValues();
             rValues.put("MEMO", todo);
             rValues.put("IMPORTANCE", putImportance);
@@ -620,6 +635,10 @@ public class AlarmMain extends Activity implements OnClickListener {
                 if(repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id")).equals(syncID)) {
                     repeatEventTableController.updateRepeatTable(syncID, rValues);
                     Log.i(TAG, "Update repeat Table");
+                    if(hasAlarm) {
+                        setAlarm();
+                        Log.i(TAG, "알람이 설정되었음");
+                    }
                     super.onBackPressed();
                     return;
                 }
@@ -628,6 +647,8 @@ public class AlarmMain extends Activity implements OnClickListener {
             repeatEventTableController.insertToRepeatTable(syncID, todo, putImportance, repeatDays, putHasAlarm, alarmHour, alarmMinute);
             Log.i(TAG, "Insert repeat Table");
         } else {
+            values.put("REPEAT", 1);
+            eventTableController.shiftContentValuesTo(values, position); // Update event table
 
             while(repeatEventTableCursor.moveToNext()) {
                 if (repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id")).equals(syncID)) {
@@ -638,8 +659,25 @@ public class AlarmMain extends Activity implements OnClickListener {
 
         }
 
-        if(hasAlarm) setAlarm();
+        if(hasAlarm) {
+            setAlarm();
+            Log.i(TAG, "알람이 설정되었음");
+        }
 
         super.onBackPressed();
+    }
+
+    private void setFont(){
+        ((EditText)findViewById(R.id.alarm_todo_title)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.alarmInAlarm)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.repeatInAlarm)).setTypeface(NanumSquare_B);
+        ((TextView)findViewById(R.id.noRepeatTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.monTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.tueTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.wedTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.thuTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.friTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.satTextInAlarm)).setTypeface(NanumBarunGothic_R);
+        ((TextView)findViewById(R.id.sunTextInAlarm)).setTypeface(NanumBarunGothic_R);
     }
 }

@@ -49,6 +49,7 @@
         android:paddingLeft="24dp">
 
         <TextView
+            android:id="@+id/friendNameOnTrigger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="김넥터"
@@ -118,6 +119,7 @@
                     android:padding="3dp"
                     android:src="@drawable/phone" />
                 <TextView
+                    android:id="@+id/missCallOnTrigger"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="부재중 (2)"
@@ -146,6 +148,7 @@
                 android:paddingLeft="12dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/alarmReceivedOnTrigger"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="알람왔다 따릉따릉!"
@@ -174,6 +177,7 @@
                 android:paddingLeft="12dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/thxOnTrigger"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="고맙지?"
@@ -202,6 +206,7 @@
                 android:paddingLeft="12dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/pushTextOnTrigger"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="꼭 할 일을 완수하자!"
@@ -220,24 +225,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="25dp"
             android:gravity="center_horizontal|center_vertical"
             android:background="#ffffff">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="83dp"
-                android:padding="12dp"
-                android:paddingTop="25dp"
-                android:background="#ededed"
+                android:background="#ffffff"
                 android:src="@drawable/answer"
                 android:scaleType="fitXY" />
             <TextView
+                android:id="@+id/gotItOnTrigger"
                 android:layout_width="match_parent"
                 android:layout_height="83dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="16dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="알겠어!"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -35,6 +35,7 @@
                 android:src="@drawable/alarm" />
 
             <TextView
+                android:id="@+id/alarmInAlarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -91,6 +92,7 @@
                 android:src="@drawable/repeat" />
 
             <TextView
+                android:id="@+id/repeatInAlarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -142,6 +144,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/noRepeatTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -180,6 +183,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/monTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -218,6 +222,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/tueTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -256,6 +261,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/wedTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -294,6 +300,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/thuTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -332,6 +339,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/friTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -370,6 +378,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/satTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -408,6 +417,7 @@
                 android:onClick="onClick">
 
                 <TextView
+                    android:id="@+id/sunTextInAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
