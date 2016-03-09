@@ -10,7 +10,6 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -27,6 +26,7 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
     String syncID = null; // Date is syncID for event and repeat table.
     EventTableController eventTableController = EventTableController.get(this);
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
+    DrawerTableController drawerTableController = DrawerTableController.getInstance(this);
 
     // font
     Typeface NanumSquare_B;
@@ -97,7 +97,7 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
 
         // 친구 이름 표시
         TextView friendTv = (TextView) findViewById(R.id.friendNameOnTrigger);
-        String friendName = ((EditText)findViewById(R.id.friendNameEditText)).getText().toString();
+        String friendName = drawerTableController.searchByFriendName();
         friendTv.setText(friendName);
 
         // 메모내용 표시 -> DB로부터 해당알람정보 끌어오기(알람시간이 같은 정보가 있으면 끌어온다.)

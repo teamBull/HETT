@@ -633,6 +633,10 @@ public class AlarmMain extends Activity implements OnClickListener {
                 if(repeatEventTableCursor.getString(repeatEventTableCursor.getColumnIndex("_id")).equals(syncID)) {
                     repeatEventTableController.updateRepeatTable(syncID, rValues);
                     Log.i(TAG, "Update repeat Table");
+                    if(hasAlarm) {
+                        setAlarm();
+                        Log.i(TAG, "알람이 설정되었음");
+                    }
                     super.onBackPressed();
                     return;
                 }
@@ -651,7 +655,10 @@ public class AlarmMain extends Activity implements OnClickListener {
 
         }
 
-        if(hasAlarm) setAlarm();
+        if(hasAlarm) {
+            setAlarm();
+            Log.i(TAG, "알람이 설정되었음");
+        }
 
         super.onBackPressed();
     }

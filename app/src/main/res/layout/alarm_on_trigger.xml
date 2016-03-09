@@ -225,25 +225,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="25dp"
             android:gravity="center_horizontal|center_vertical"
             android:background="#ffffff">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="83dp"
-                android:padding="12dp"
-                android:paddingTop="25dp"
-                android:background="#ededed"
+                android:background="#ffffff"
                 android:src="@drawable/answer"
                 android:scaleType="fitXY" />
             <TextView
                 android:id="@+id/gotItOnTrigger"
                 android:layout_width="match_parent"
                 android:layout_height="83dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="16dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="알겠어!"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
         </RelativeLayout>
     </LinearLayout>
 
