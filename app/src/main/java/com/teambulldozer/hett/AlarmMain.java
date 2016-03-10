@@ -612,8 +612,15 @@ public class AlarmMain extends Activity implements OnClickListener {
 
         // repeat table에서 아이디값을 찾아본 후 있으면 update 그렇지 않으면 insert
         if(repeatDays != null) {
-            values.put("REPEAT", 1);
-            eventTableController.shiftContentValuesTo(values, position); // Update event table
+            Calendar c = Calendar.getInstance();
+            int curDay = c.get(Calendar.DAY_OF_WEEK);
+            if (repeatDays.contains(intDayToStr(curDay))) {
+                values.put("REPEAT", 1);
+                eventTableController.shiftContentValuesTo(values, position); // Update event table
+            } else {
+                eventTableController.deleteData(Integer.toString(position));
+                eventTableController.rearrangeData(Integer.toString(position));
+            }
 
             ContentValues rValues = new ContentValues();
             rValues.put("MEMO", todo);
@@ -671,4 +678,38 @@ public class AlarmMain extends Activity implements OnClickListener {
         ((TextView)findViewById(R.id.satTextInAlarm)).setTypeface(NanumBarunGothic_R);
         ((TextView)findViewById(R.id.sunTextInAlarm)).setTypeface(NanumBarunGothic_R);
     }
+
+    private String intDayToStr(int intDay) {
+        String dayStr = null;
+
+        switch(intDay) {
+            case 0:
+                dayStr = "반복없음";
+                break;
+            case 1:
+                dayStr = "일";
+                break;
+            case 2:
+                dayStr = "월";
+                break;
+            case 3:
+                dayStr = "화";
+                break;
+            case 4:
+                dayStr = "수";
+                break;
+            case 5:
+                dayStr = "목";
+                break;
+            case 6:
+                dayStr = "금";
+                break;
+            case 7:
+                dayStr = "토";
+                break;
+        }
+
+        return dayStr;
+    }
+
 }
