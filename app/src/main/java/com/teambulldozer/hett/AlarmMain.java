@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+// need refactoring
 public class AlarmMain extends Activity implements OnClickListener {
 
     // Log TAG
