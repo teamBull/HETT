@@ -125,6 +125,7 @@ public class MyDragSortAdapter extends SimpleDragSortCursorAdapter {
                 i.putExtra("position", position_sync);
 
                 mContext.startActivity(i);
+
             }
         });
 

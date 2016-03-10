@@ -20,24 +20,25 @@
 
     <RelativeLayout
         android:layout_below="@id/borderline"
-        android:layout_width="336dp"
-        android:layout_height="48dp">
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        >
 
         <ImageView
             android:id="@+id/nextButton"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:padding="2dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
             android:src="@drawable/next"
             />
 
         <ImageView
             android:id="@+id/deleteButton"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:padding="2dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/delete"
@@ -47,39 +48,70 @@
         <ImageView
             android:id="@+id/starButton"
             android:layout_centerVertical="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:padding="2dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
             android:src="@drawable/star_off"
             />
 
         <ImageView
             android:id="@+id/orderButton"
             android:layout_centerVertical="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:padding="2dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
             android:src="@drawable/order"
             android:visibility="invisible"
             />
 
+
+        <LinearLayout
+            android:id="@+id/border_line_extender1"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal" />
+
         <ImageView
             android:id="@+id/finishLine1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignTop="@id/border_line_extender1"
+            android:layout_alignBottom="@id/border_line_extender1"
+            android:layout_alignLeft="@id/border_line_extender1"
+            android:layout_alignRight="@id/border_line_extender1"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:visibility="invisible"
-            android:src="@drawable/finish_line_1"/>
+            android:src="@drawable/finish_line_1"
+            android:scaleType="fitXY" />
+
+
+        <LinearLayout
+            android:id="@+id/border_line_extender2"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal" />
 
         <ImageView
             android:id="@+id/finishLine2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignTop="@id/border_line_extender2"
+            android:layout_alignBottom="@id/border_line_extender2"
+            android:layout_alignLeft="@id/border_line_extender2"
+            android:layout_alignRight="@id/border_line_extender2"
+            android:visibility="invisible"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:visibility="invisible"
-            android:src="@drawable/finish_line_2"/>
+            android:src="@drawable/finish_line_2"
+            android:scaleType="fitXY" />
+
 
         <TextView
             android:id="@+id/memoContent"
