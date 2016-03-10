@@ -617,8 +617,8 @@ public class AlarmMain extends Activity implements OnClickListener {
                 values.put("REPEAT", 1);
                 eventTableController.shiftContentValuesTo(values, position); // Update event table
             } else {
-                eventTableController.deleteData(syncID);
-                Log.i(TAG, "지워라아아아아 제발 조오오오오옹ㅁ");
+                eventTableController.deleteData(Integer.toString(position));
+                eventTableController.rearrangeData(Integer.toString(position));
             }
 
             ContentValues rValues = new ContentValues();
@@ -710,4 +710,5 @@ public class AlarmMain extends Activity implements OnClickListener {
 
         return dayStr;
     }
+
 }
