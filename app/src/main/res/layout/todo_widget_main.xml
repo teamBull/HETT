@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="294dp"
+    android:layout_height="294dp"
+    android:background="#ededed">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:gravity="center_horizontal|center_vertical">
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="36dp"
+            android:src="@drawable/logo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widgetTodo1Layout"
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingRight="12dp"
+            android:gravity="center_vertical"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/widgetTodo1StarOn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_on"/>
+                <ImageView
+                    android:id="@+id/widgetTodo1StarOff"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_off"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/widgetTodo1"
+                android:layout_width="223dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="default text1"
+                android:textColor="#000000"
+                android:textSize="14dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/widgetTodo1NoSelect"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select_no" />
+
+                <ImageView
+                    android:id="@+id/widgetTodo1Select"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
+        <LinearLayout
+            android:id="@+id/widgetTodo2Layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingRight="12dp"
+            android:gravity="center_vertical"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/widgetTodo2StarOn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_on"/>
+                <ImageView
+                    android:id="@+id/widgetTodo2StarOff"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_off"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/widgetTodo2"
+                android:layout_width="223dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="default text1"
+                android:textColor="#000000"
+                android:textSize="14dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/widgetTodo2NoSelect"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select_no" />
+
+                <ImageView
+                    android:id="@+id/widgetTodo2Select"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
+        <LinearLayout
+            android:id="@+id/widgetTodo3Layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingRight="12dp"
+            android:gravity="center_vertical"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/widgetTodo3StarOn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_on"/>
+                <ImageView
+                    android:id="@+id/widgetTodo3StarOff"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_off"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/widgetTodo3"
+                android:layout_width="223dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="default text1"
+                android:textColor="#000000"
+                android:textSize="14dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/widgetTodo3NoSelect"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select_no" />
+
+                <ImageView
+                    android:id="@+id/widgetTodo3Select"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
+        <LinearLayout
+            android:id="@+id/widgetTodo4Layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingRight="12dp"
+            android:gravity="center_vertical"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/widgetTodo4StarOn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_on"/>
+                <ImageView
+                    android:id="@+id/widgetTodo4StarOff"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/star_off"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/widgetTodo4"
+                android:layout_width="223dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="default text1"
+                android:textColor="#000000"
+                android:textSize="14dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/widgetTodo4NoSelect"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select_no" />
+
+                <ImageView
+                    android:id="@+id/widgetTodo4Select"
+                    android:layout_width="11dp"
+                    android:layout_height="7dp"
+                    android:src="@drawable/select" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widgetSeeMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="더보기"
+            android:textColor="#202b78"
+            android:textSize="11dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

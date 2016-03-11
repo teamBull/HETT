@@ -23,6 +23,39 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <receiver
+                android:name=".TodoWidgetProvider"
+                android:label="HATT">
+                <intent-filter>
+                    <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                    <action android:name="android.appwidget.action.ACTION_APPWIDGET_ENABLED" />
+                    <!--일정1-->
+                    <action android:name="android.action.TODO1_STAR_ON" />
+                    <action android:name="android.action.TODO1_STAR_OFF" />
+                    <action android:name="android.action.TODO1_SELECT" />
+                    <action android:name="android.action.TODO1_NO_SELECT" />
+                    <!--일정2-->
+                    <action android:name="android.action.TODO2_STAR_ON" />
+                    <action android:name="android.action.TODO2_STAR_OFF" />
+                    <action android:name="android.action.TODO2_SELECT" />
+                    <action android:name="android.action.TODO2_NO_SELECT" />
+                    <!--일정3-->
+                    <action android:name="android.action.TODO3_STAR_ON" />
+                    <action android:name="android.action.TODO3_STAR_OFF" />
+                    <action android:name="android.action.TODO3_SELECT" />
+                    <action android:name="android.action.TODO3_NO_SELECT" />
+                    <!--일정4-->
+                    <action android:name="android.action.TODO4_STAR_ON" />
+                    <action android:name="android.action.TODO4_STAR_OFF" />
+                    <action android:name="android.action.TODO4_SELECT" />
+                    <action android:name="android.action.TODO4_NO_SELECT" />
+                    <!--더보기-->
+                    <action android:name="android.action.SEE_MORE" />
+                </intent-filter>
+                <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/todo_widget_provider" />
+            </receiver>
         </activity>
 
 
@@ -36,6 +69,40 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".TodoWidgetProvider"
+            android:label="HATT">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.ACTION_APPWIDGET_ENABLED" />
+                <!--일정1-->
+                <action android:name="android.action.TODO1_STAR_ON" />
+                <action android:name="android.action.TODO1_STAR_OFF" />
+                <action android:name="android.action.TODO1_SELECT" />
+                <action android:name="android.action.TODO1_NO_SELECT" />
+                <!--일정2-->
+                <action android:name="android.action.TODO2_STAR_ON" />
+                <action android:name="android.action.TODO2_STAR_OFF" />
+                <action android:name="android.action.TODO2_SELECT" />
+                <action android:name="android.action.TODO2_NO_SELECT" />
+                <!--일정3-->
+                <action android:name="android.action.TODO3_STAR_ON" />
+                <action android:name="android.action.TODO3_STAR_OFF" />
+                <action android:name="android.action.TODO3_SELECT" />
+                <action android:name="android.action.TODO3_NO_SELECT" />
+                <!--일정4-->
+                <action android:name="android.action.TODO4_STAR_ON" />
+                <action android:name="android.action.TODO4_STAR_OFF" />
+                <action android:name="android.action.TODO4_SELECT" />
+                <action android:name="android.action.TODO4_NO_SELECT" />
+                <!--더보기-->
+                <action android:name="android.action.SEE_MORE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/todo_widget_provider" />
+        </receiver>
+
 
         <activity android:name=".AlarmMain" />
         <activity android:name=".AlarmOnTrigger">

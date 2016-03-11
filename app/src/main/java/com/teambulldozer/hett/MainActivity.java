@@ -870,6 +870,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause(){ // 화면이 이동되서 없어질 때.
         super.onPause();
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         Log.d(TAG, "onPause(Bundle) called");
         if(isOpened != 0)
             overridePendingTransition(R.anim.activity_start_first, R.anim.activity_start_second);// 화면 이동 시 애니메이션.
@@ -890,6 +891,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop(){
         super.onStop();
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         Log.d(TAG, "onStop() called");
 
     }
@@ -898,6 +900,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         //((CursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
         //((SimpleCursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         myEventController.myDb.close();
         Log.d(TAG, "onDestroy() called");
     }
