@@ -49,12 +49,12 @@ public class TodoWidgetProvider extends AppWidgetProvider {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.i(TAG, "위젯이 호출되었습니당.");
+        super.onReceive(context, intent);
+
         mainViews = new RemoteViews(context.getPackageName(),R.layout.todo_widget_main);
         String action = intent.getAction();
         buttonEventControll(context, intent, action);
-
-        super.onReceive(context, intent);
-        Log.i(TAG, "위젯이 호출되었습니당.");
     }
 
     /**
@@ -64,9 +64,9 @@ public class TodoWidgetProvider extends AppWidgetProvider {
      */
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        updateInfo(context, appWidgetManager, appWidgetIds);
-
+        Log.i(TAG, "업데이트를 진행합니당.");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        updateInfo(context, appWidgetManager, appWidgetIds);
     }
 
     /**
@@ -86,6 +86,7 @@ public class TodoWidgetProvider extends AppWidgetProvider {
      */
     @Override
     public void onDisabled(Context context) {
+        Log.i(TAG, "위젯이 Disable 됩니당.");
         super.onDisabled(context);
     }
 
@@ -98,7 +99,6 @@ public class TodoWidgetProvider extends AppWidgetProvider {
     }
 
     public void updateInfo(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.i(TAG, "업데이트를 진행합니당.");
         mAppWidgetManager = appWidgetManager;
         mAppWidgetId = appWidgetIds;
 
@@ -264,6 +264,9 @@ public class TodoWidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(widgetId, mainViews);
         }
+
+        eventTableController.myDb.close();
+        onDisabled(context);
     }
 
     public void buttonEventControll(Context context, Intent intent, String e) {
@@ -364,6 +367,7 @@ public class TodoWidgetProvider extends AppWidgetProvider {
             PendingIntent mainPI = PendingIntent.getActivity(context, 0, mainIntent, 0);
             mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, mainPI);
         }
+        eventTableController.myDb.close();
 
         for(int i = 0; i < widgetIds.length; i++) {
             appWidgetManager.updateAppWidget(widgetIds[i], mainViews);
