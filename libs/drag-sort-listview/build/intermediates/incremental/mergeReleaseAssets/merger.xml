@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/assets"/></dataSet><dataSet config="release"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/src/release/assets"/></dataSet></merger>
 =======
 <merger version="3"><dataSet config="main"><source path="C:\Users\kwongiho\AndroidStudioProjects\HETT\libs\drag-sort-listview\assets"/></dataSet><dataSet config="release"><source path="C:\Users\kwongiho\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\release\assets"/></dataSet></merger>
 >>>>>>> giho
+=======
+<merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/assets"/></dataSet><dataSet config="release"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/release/assets"/></dataSet></merger>
+>>>>>>> Stashed changes
