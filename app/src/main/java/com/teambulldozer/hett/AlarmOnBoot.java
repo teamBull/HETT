@@ -36,6 +36,7 @@ public class AlarmOnBoot extends Service {
 
         countNumOfAlarm();
         resetAlarm();
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
     }
 
     private void resetAlarm() {

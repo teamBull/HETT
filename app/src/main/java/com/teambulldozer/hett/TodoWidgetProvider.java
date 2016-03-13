@@ -66,7 +66,9 @@ public class TodoWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.i(TAG, "업데이트를 진행합니당.");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-        updateInfo(context, appWidgetManager, appWidgetIds);
+        if(mainViews != null) {
+            updateInfo(context, appWidgetManager, appWidgetIds);
+        }
     }
 
     /**
