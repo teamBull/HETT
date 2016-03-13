@@ -1,2 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-core-slh/3.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="49223278ec2ede1d05d00868c5ce3e077b4016f8">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/com.nhaarman.listviewanimations-lib-core-slh-3.1.0_4beb7ac6214421978fed69d6d31530c6eddb9480.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-manipulation/3.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5660e4bf78904137e90e62a5d4cc2e987258f02c">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/com.nhaarman.listviewanimations-lib-manipulation-3.1.0_e21b8789aa1b61e851c9d83d55adaa3d727f3e74.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/library-2.4.0_c58993866c8d669a4d15ab2eef32ce38769c617b.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4eaf5133fb07c9b45ea4ad24af2b1be03b2451ab">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_4e68956a67a46e058efa5fb69d72c5da7b29e94d.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_de53bcaba09c7f13e77184093a5bcd4c5b0ae4ea.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.1_b416414383f7e0a0483dd235e7f0c103d4014026.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/com.nhaarman.listviewanimations/lib-core/3.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="acf66033b1418ccf9e15c8e77750981e4809c4ea">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/com.nhaarman.listviewanimations-lib-core-3.1.0_eda16e02d2adcd457ce7915fd88939c9a223f19a.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_bf355439e6fd5cc4dac2e1c48661ef44e9666964.jar" />
+    </item>
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_4938c670bc3f3ba9e3b2dd4981bb2b8d181fae3f.jar" />
+    </item>
+
+</items>
