@@ -83,6 +83,7 @@ public class ClosenessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_closeness);
 
+
         /*기호부분. 배경화면 setting.*/
         BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.closenessActivity));
         /*완료데스네*/
@@ -288,6 +289,5 @@ public class ClosenessActivity extends AppCompatActivity {
             mDownHandler.post(animateDownImage);
         }
     }
-
 
 }
