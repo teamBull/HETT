@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
     EventTableController myEventController;
     RepeatEventController myRepeatEventController;
+    CompleteEventTableController myCompleteEventController;
+
     DateController myDateController;
 
     MyDragSortAdapter myDragSortAdapter;
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         /* Call the database constructor */
         myEventController = EventTableController.get(this); //
         myRepeatEventController = RepeatEventController.get(this);
+        myCompleteEventController = CompleteEventTableController.get(this);
         myDateController = DateController.get(this);
 
 
@@ -966,6 +969,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDIT_FRIEND_NAME_ACTIVITY=10;
     private static final int SETTING_BACKGROUND_THEME_ACTIVITY=11;
     private static final int FRIEND_SETTING_ACTIVITY=12; // 윤선이꺼
+    private static final int COMPLETE_ACTIVITY=13;
+    private static final int REPEAT_ACTIVITY=14;
     /**
      * Edit_friend_name_activity화면으로 이동 후, 이름을 서로 다른 메소드에서 변경을 하기 때문에, 로컬변수로는
      * 해결할 수 없는 문제점이 있었다.
@@ -1029,7 +1034,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CompleteActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, COMPLETE_ACTIVITY);
             }
         });
         repeatSchedule = (TextView)findViewById(R.id.againSchedule);
@@ -1037,7 +1042,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RepeatEventActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, REPEAT_ACTIVITY);
             }
         });
     }
@@ -1116,12 +1121,13 @@ public class MainActivity extends AppCompatActivity {
 
         //완료일정 count.
         TextView completeScheduleNo = (TextView)findViewById(R.id.completeScheduleNo);
-        completeScheduleNo.setText(DrawerTableController.getInstance().searchByCompleteEvent() + "");
+        completeScheduleNo.setText(String.valueOf(myCompleteEventController.getCompleteDataCnt()));
         //Toast.makeText(getApplicationContext(),DrawerTableController.getInstance().setDataBaseHelper(getApplicationContext()).searchByCompleteEvent()+"",Toast.LENGTH_SHORT).show();
         //반복일정 count.
         //searchByRepeatEvent
         TextView repeatScheduleNo = (TextView)findViewById(R.id.repeatScheduleNo);
-        repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent() + "");
+        repeatScheduleNo.setText(String.valueOf(myRepeatEventController.getRepeatDataCnt()));
+       // repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent() + "");
         //selectByFriendName
         friend_edit = (TextView)findViewById(R.id.friend_edit);
         friend_edit.setText(DrawerTableController.getInstance().searchByFriendName() + "");
@@ -1253,6 +1259,20 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode==RESULT_OK) {
                 extraBundle = intent.getExtras();
                 friend_edit.setText(DrawerTableController.getInstance().searchByFriendName());
+            }
+        }
+        else if(requestCode == REPEAT_ACTIVITY){
+            if(resultCode == RESULT_OK){
+                extraBundle = intent.getExtras();
+                TextView repeatScheduleNo = (TextView)findViewById(R.id.repeatScheduleNo);
+                repeatScheduleNo.setText(extraBundle.getString("repeat_data_cnt"));
+            }
+        }
+        else if(requestCode == COMPLETE_ACTIVITY){
+            if(resultCode == RESULT_OK){
+                extraBundle = intent.getExtras();
+                TextView completeScheduleNo = (TextView)findViewById(R.id.completeScheduleNo);
+                completeScheduleNo.setText(extraBundle.getString("complete_data_cnt"));
             }
         }
     }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <items version="2" >
 
     <item
@@ -10,3 +11,10 @@
     </item>
 
 </items>
+=======
+<items version="2" />
+<<<<<<< HEAD
+
+=======
+>>>>>>> 77c54d65af466a7ede1e597c277bdf7df570fa25
+>>>>>>> d6df9190bc207a3321c82b2071131c6e94b74a14
