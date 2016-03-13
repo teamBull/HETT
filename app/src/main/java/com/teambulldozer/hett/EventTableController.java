@@ -173,19 +173,20 @@ public class EventTableController {
                     rearrangeData(Integer.toString(position));
                     insertData("", false);
                     moveDataTo(numOfEntries(), values);
+                    position--;
                 }
 
             }
         }
     }
 
-
-
     public boolean isEventReversed(int position){
 
-            if ((isCompleted(position)) && !isCompleted(position + 1)) {
+        for(int tillast = position+1; tillast < numOfEntries(); tillast++)
+            if ((isCompleted(position)) && !isCompleted(tillast)) {
                 return true;
             }
+
         return false; //
     }
 
