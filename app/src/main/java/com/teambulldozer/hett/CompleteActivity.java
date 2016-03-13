@@ -3,6 +3,7 @@ package com.teambulldozer.hett;
 import android.app.LoaderManager;
 import android.content.AsyncQueryHandler;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -134,7 +135,7 @@ public class CompleteActivity extends AppCompatActivity{
                 finishMenuBtn.setVisibility(View.INVISIBLE);
 
                 CompleteSimpleCursorAdapter.isOnEditMenu = true;
-                cursorAdapter.setMaxDate(null);
+                cursorAdapter.setMaxDate(null); 
                 populateListView();
 
                 deleteAllBtn.setVisibility(View.INVISIBLE);
@@ -148,6 +149,9 @@ public class CompleteActivity extends AppCompatActivity{
             public void onClick(View v) {
                 CompleteSimpleCursorAdapter.isOnEditMenu = true;
                 cursorAdapter.setMaxDate(null);
+                Bundle bundle = new Bundle();
+                bundle.putString("complete_data_cnt",String.valueOf(completeEventCtr.getCompleteDataCnt()));
+                setResult(RESULT_OK, new Intent().putExtras(bundle));
                 finish();
             }
         });

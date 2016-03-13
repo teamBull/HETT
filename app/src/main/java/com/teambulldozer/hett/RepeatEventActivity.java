@@ -1,6 +1,7 @@
 package com.teambulldozer.hett;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.StrictMode;
@@ -134,10 +135,14 @@ public class RepeatEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"Asdf",Toast.LENGTH_SHORT).show();
                 cursorAdapter.isOnEditMenu = true;
+                Bundle bundle = new Bundle();
+                bundle.putString("repeat_data_cnt",String.valueOf(repeatEventController.getRepeatDataCnt()));
+                setResult(RESULT_OK, new Intent().putExtras(bundle));
                 finish();
             }
         });
     }
+
     private void ifClickedDeleteAllRows() {
         deleteAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override

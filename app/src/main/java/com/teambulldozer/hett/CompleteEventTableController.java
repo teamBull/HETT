@@ -60,4 +60,10 @@ public class CompleteEventTableController {
         Cursor res = db.rawQuery(sql, null);
         return res;
     }
+    public int getCompleteDataCnt(){
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        String sql = "SELECT * FROM "+ TABLE;
+        Cursor res = db.rawQuery(sql, null);
+        return res.getCount();
+    }
 }
