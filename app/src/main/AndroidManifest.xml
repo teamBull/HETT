@@ -31,6 +31,8 @@
                 <intent-filter>
                     <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                     <action android:name="android.appwidget.action.ACTION_APPWIDGET_ENABLED" />
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
                     <!--일정1-->
                     <action android:name="android.action.TODO1_STAR_ON" />
                     <action android:name="android.action.TODO1_STAR_OFF" />
@@ -77,6 +79,8 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.ACTION_APPWIDGET_ENABLED" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
                 <!--일정1-->
                 <action android:name="android.action.TODO1_STAR_ON" />
                 <action android:name="android.action.TODO1_STAR_OFF" />

@@ -48,7 +48,7 @@
 
             <TextView
                 android:id="@+id/widgetTodo1"
-                android:layout_width="223dp"
+                android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="default text1"
@@ -61,14 +61,16 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo1NoSelect"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo1Select"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
             </RelativeLayout>
@@ -105,7 +107,7 @@
 
             <TextView
                 android:id="@+id/widgetTodo2"
-                android:layout_width="223dp"
+                android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="default text1"
@@ -118,14 +120,16 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo2NoSelect"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo2Select"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
             </RelativeLayout>
@@ -162,7 +166,7 @@
 
             <TextView
                 android:id="@+id/widgetTodo3"
-                android:layout_width="223dp"
+                android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="default text1"
@@ -175,14 +179,16 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo3NoSelect"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo3Select"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
             </RelativeLayout>
@@ -219,7 +225,7 @@
 
             <TextView
                 android:id="@+id/widgetTodo4"
-                android:layout_width="223dp"
+                android:layout_width="210dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="default text1"
@@ -232,14 +238,16 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo4NoSelect"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo4Select"
-                    android:layout_width="11dp"
-                    android:layout_height="7dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
             </RelativeLayout>
@@ -258,7 +266,7 @@
         <TextView
             android:id="@+id/widgetSeeMore"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
             android:text="더보기"
             android:textColor="#202b78"
