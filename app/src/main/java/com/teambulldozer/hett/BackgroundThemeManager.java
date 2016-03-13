@@ -45,18 +45,30 @@ public class BackgroundThemeManager {
     private BackgroundThemeManager(){
 
     }
+
+    /**
+     * 싱글톤 적용.
+     * @return this를 return
+     */
     public static BackgroundThemeManager getInstance() {
         return backgroundThemeManager;
     }
+
+    /**
+     * 배경화면을 변경해 주기 위해서 호출한다.
+     * @param context 호출하는 Activity의 context
+     * @param view 호출하는 Activity의 Root View.
+     */
     public void setBackground(Context context,View view) {
         this.context=context;
         selectedBackgroundThemeCodeNo = DrawerTableController.getInstance(context).searchByBackgroundThemeCodeNo();
         try {
 
+            view.clearAnimation();
+            rainingStart1.clearAnimation();
+            rainingStart2.clearAnimation();
             rainingStart1.setVisibility(View.GONE);
-            Log.d("1", "1");
             rainingStart2.setVisibility(View.GONE);
-            Log.d("2", "2");
 
         } catch(Exception ex) {
             Log.d("happendException","BackgroundTheme");
@@ -70,7 +82,6 @@ public class BackgroundThemeManager {
                 case 3 :space(view); break;
                 case 4 :snow(view);break;
                 case 5 :break;
-
             }
         } catch(Exception ex) {ex.printStackTrace();}
 
@@ -96,12 +107,14 @@ public class BackgroundThemeManager {
         animation2 = AnimationUtils.loadAnimation(context,R.anim.tranlate2);
         rainingStart2 = new ImageView(context);
         rainingStart2.setImageDrawable(context.getResources().getDrawable(R.drawable.raining_star));
-
-
+        settingAnimation(view);
+        //changeTextColorByLight(view);
+        //brightMainActivity(view);
+    }
+    public void settingAnimation (View view) {
         rainingStart1.startAnimation(animation1);
         rainingStart2.startAnimation(animation2);
         try {
-
             ((SoftKeyboardLsnedRelativeLayout)view).addView(rainingStart1);
             ((SoftKeyboardLsnedRelativeLayout)view).addView(rainingStart2);
         } catch(Exception ex) {
@@ -115,12 +128,26 @@ public class BackgroundThemeManager {
             ex.printStackTrace();
             Log.d("error1",ex.getMessage());
         }
-
-        //changeTextColorByLight(view);
-        //brightMainActivity(view);
+        try {
+            ((RelativeLayout)view).addView(rainingStart1);
+            ((RelativeLayout)view).addView(rainingStart2);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            Log.d("error1",ex.getMessage());
+        }
     }
     public void snow(View view) {
         view.setBackground(context.getResources().getDrawable(R.drawable.snow_1));
+        animation1 = AnimationUtils.loadAnimation(context,R.anim.snow);
+
+        rainingStart1 = new ImageView(context);
+        rainingStart1.setImageDrawable(context.getResources().getDrawable(R.drawable.snow_3));
+
+        animation2 = AnimationUtils.loadAnimation(context,R.anim.snow);
+        rainingStart2 = new ImageView(context);
+        rainingStart2.setImageDrawable(context.getResources().getDrawable(R.drawable.snow_3));
+        settingAnimation(view);
+
         //changeOwnTextColorByMainActivity(view);
     }
     public void brightMainActivity(View view) {
