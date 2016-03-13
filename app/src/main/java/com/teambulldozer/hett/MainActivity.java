@@ -194,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
         populateListView(); // 한 번만 호출되면 된다.
 
         renewAllEvents();
+        rearrangeCompletedEvents();
+
 
         // 리스트뷰에 아이템 올리기
         // 그 외에 클릭하면 삭제하는 기능은 MyDragSortAdapter에 구현.
@@ -217,6 +219,11 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
         imageView.startAnimation(animation);
 
+    }
+
+    public void rearrangeCompletedEvents(){
+        //Wrapper
+        myEventController.renewCompletedEvent();
     }
 
     public void renewAllEvents(){

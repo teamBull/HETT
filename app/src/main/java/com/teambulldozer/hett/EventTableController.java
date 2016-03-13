@@ -74,6 +74,10 @@ public class EventTableController {
     }
 
     public boolean isThereCompletedData(){
+
+        if(numOfEntries() == 0)
+            return false;
+
         Cursor cursor = getCompletenessData();
         cursor.moveToFirst();
 
@@ -157,6 +161,34 @@ public class EventTableController {
 
         return "Error";
     }
+
+    public void renewCompletedEvent(){
+        // 만약 완료 일정이 일반 일정보다 위에 있을 경우, 그 일정 삭제하고 맨 밑으로
+        ContentValues values = new ContentValues();
+        if(isThereCompletedData()){ // 완료된 일정이 하나라도 있으면 검사 시작.
+            for(int position = 1; position <= numOfEntries(); position++){
+                if(isEventReversed(position)) {
+                    values = getAllContent(position);
+                    deleteData(Integer.toString(position));
+                    rearrangeData(Integer.toString(position));
+                    insertData("", false);
+                    moveDataTo(numOfEntries(), values);
+                }
+
+            }
+        }
+    }
+
+
+
+    public boolean isEventReversed(int position){
+
+            if ((isCompleted(position)) && !isCompleted(position + 1)) {
+                return true;
+            }
+        return false; //
+    }
+
 
     private Cursor getDateData(){
         SQLiteDatabase db = myDb.getReadableDatabase();
