@@ -26,7 +26,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:paddingRight="12dp"
             android:gravity="center_vertical"
             android:background="#ffffff"
             android:orientation="horizontal">
@@ -61,15 +60,17 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo1NoSelect"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo1Select"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
@@ -85,7 +86,6 @@
             android:id="@+id/widgetTodo2Layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:paddingRight="12dp"
             android:gravity="center_vertical"
             android:background="#ffffff"
             android:orientation="horizontal">
@@ -120,15 +120,17 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo2NoSelect"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo2Select"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
@@ -144,7 +146,6 @@
             android:id="@+id/widgetTodo3Layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:paddingRight="12dp"
             android:gravity="center_vertical"
             android:background="#ffffff"
             android:orientation="horizontal">
@@ -179,15 +180,17 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo3NoSelect"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo3Select"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 
@@ -203,7 +206,6 @@
             android:id="@+id/widgetTodo4Layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:paddingRight="12dp"
             android:gravity="center_vertical"
             android:background="#ffffff"
             android:orientation="horizontal">
@@ -238,15 +240,17 @@
 
                 <ImageView
                     android:id="@+id/widgetTodo4NoSelect"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select_no" />
 
                 <ImageView
                     android:id="@+id/widgetTodo4Select"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:paddingRight="12dp"
                     android:paddingLeft="13dp"
                     android:src="@drawable/select" />
 

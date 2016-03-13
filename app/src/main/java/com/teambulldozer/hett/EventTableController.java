@@ -14,7 +14,6 @@ import java.util.Calendar;
 public class EventTableController {
 
     private static EventTableController mEventTableController;
-    private Context mContext;
     DatabaseHelper myDb;
     static final String TABLE_NAME = "event_table";
 
@@ -32,7 +31,6 @@ public class EventTableController {
 
     private EventTableController(Context context){
         myDb = DatabaseHelper.get(context);
-        mContext = context;
     }
 
     public static EventTableController get(Context context){
@@ -180,14 +178,13 @@ public class EventTableController {
         }
     }
 
-    public boolean isEventReversed(int position){
+    public boolean isEventReversed(int position) {
 
-        for(int tillast = position+1; tillast < numOfEntries(); tillast++)
+        for (int tillast = position + 1; tillast < numOfEntries(); tillast++)
             if ((isCompleted(position)) && !isCompleted(tillast)) {
                 return true;
             }
-
-        return false; //
+        return false;
     }
 
 
@@ -251,14 +248,6 @@ public class EventTableController {
         return cursor;
     }
 
-    public boolean updateMemo(String id, String memo){ //일정의 완수여부만 업데이트한다.
-        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues values = new ContentValues();
-        values.put(Columns.MEMO, memo);
-        db.update(TABLE_NAME, values, " _id = ?", new String[]{id});
-
-        return true;
-    }
 
     public boolean updateCompleteness(String id, int completeness){ //일정의 완수여부만 업데이트한다.
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
@@ -277,16 +266,7 @@ public class EventTableController {
 
         return true;
     }
-/*
-    public boolean updateToday(String id, String today){ // 일정의 날짜만 업데이트한다.
-        SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
-        ContentValues values = new ContentValues();
-        values.put(Columns.TODAY, today);
-        db.update(TABLE_NAME, values, " _id = ?", new String[] { id });
 
-        return true;
-    }
-*/
 
     public Integer deleteData(String id){ // Since id is a primary key
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
@@ -474,8 +454,6 @@ public class EventTableController {
                 + "/"
                 + DateConverter(second);
 
-        //   Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
-        // For debugging, this key is designed to distinguish different IDs.
 
         return key;
     }

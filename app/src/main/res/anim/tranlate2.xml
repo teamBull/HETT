@@ -3,14 +3,15 @@
     <translate
         android:duration="1234"
         android:fillAfter="true"
-        android:fromXDelta="150%p"
-        android:fromYDelta="-100"
-        android:toXDelta="-100%"
-        android:toYDelta="70%p"
+        android:fromXDelta="100%p"
+        android:fromYDelta="-200"
+        android:toXDelta="-80%"
+        android:toYDelta="90%p"
         android:repeatCount="-1"
+
         />
     <alpha
-        android:duration="900"
+        android:duration="1000"
         android:fromAlpha="0.1"
         android:toAlpha="0.1"
         />
