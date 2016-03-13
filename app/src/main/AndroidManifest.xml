@@ -17,11 +17,13 @@
 
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize">
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
 
@@ -29,20 +31,29 @@
         <receiver android:name=".AlarmAMZeroReceiver"/>
         <receiver android:name=".AlarmReceiver" />
 
-        <activity android:name=".AlarmMain" />
-        <activity android:name=".AlarmOnTrigger">
+        <activity android:name=".AlarmMain"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AlarmOnTrigger"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="teambull.com.AlarmOnTrigger"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".EditFriendNameActivity" />
-        <activity android:name=".SettingBackgroundThemeActivity" />
-        <activity android:name=".ClosenessActivity" />
-        <activity android:name=".FriendSettingActivity" />
-        <activity android:name=".FriendTalkSettingActivity" />
-        <activity android:name=".CompleteActivity" />
-        <activity android:name=".RepeatEventActivity" />
+        <activity android:name=".EditFriendNameActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SettingBackgroundThemeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClosenessActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FriendSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".FriendTalkSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CompleteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RepeatEventActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
