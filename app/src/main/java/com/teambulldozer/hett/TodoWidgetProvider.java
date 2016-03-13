@@ -259,7 +259,7 @@ public class TodoWidgetProvider extends AppWidgetProvider {
             mainViews.setOnClickPendingIntent(R.id.widgetTodo4Select, todo4SelectBtn);
             mainViews.setOnClickPendingIntent(R.id.widgetTodo4NoSelect, todo4rNoSelectBtn);
 
-            PendingIntent seeMoreBtn = PendingIntent.getBroadcast(context, 0, new Intent(SEE_MORE), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent seeMoreBtn = PendingIntent.getActivity(context.getApplicationContext(), 0, new Intent(SEE_MORE), PendingIntent.FLAG_UPDATE_CURRENT);
             mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, seeMoreBtn);
 
             appWidgetManager.updateAppWidget(widgetId, mainViews);
@@ -363,9 +363,30 @@ public class TodoWidgetProvider extends AppWidgetProvider {
         }
 
         if(e.equals(SEE_MORE)) {
-            Intent mainIntent = new Intent(context, MainActivity.class);
+            /*
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            mainIntent.setComponent(new ComponentName(context, MainActivity.class));
             PendingIntent mainPI = PendingIntent.getActivity(context, 0, mainIntent, 0);
             mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, mainPI);
+            */
+            /*
+            Log.i(TAG, "메인 화면 호출");
+            Intent mainIntent = new Intent(context.getApplicationContext(), MainActivity.class);
+            PendingIntent p = PendingIntent.getActivity(context.getApplicationContext(), 0, mainIntent, 0);
+            try {
+                p.send();
+            } catch (PendingIntent.CanceledException er) {
+                er.printStackTrace();
+            }
+            onDisabled(context);
+            */
+            /*
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            mainIntent.setComponent(new ComponentName(context, MainActivity.class));
+            context.startActivity(mainIntent);
+            */
         }
         eventTableController.myDb.close();
 
