@@ -1,14 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="D:\NEXTERS\nproject\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="D:\NEXTERS\nproject\HETT\libs\drag-sort-listview\src\release\jniLibs"/></dataSet></merger>
-=======
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/src/main/jniLibs"/></dataSet><dataSet config="release"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/src/release/jniLibs"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="C:\Users\kwongiho\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\kwongiho\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\release\jniLibs"/></dataSet></merger>
->>>>>>> giho
-=======
-<merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/main/jniLibs"/></dataSet><dataSet config="release"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/release/jniLibs"/></dataSet></merger>
->>>>>>> Stashed changes
->>>>>>> ad47b6ff17018ca871d137bf3c3fac92d24d0d57

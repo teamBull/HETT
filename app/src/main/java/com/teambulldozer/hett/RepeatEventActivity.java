@@ -166,4 +166,13 @@ public class RepeatEventActivity extends AppCompatActivity {
         this.deleteMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
     }
+
+    @Override
+    public void onBackPressed() {
+        cursorAdapter.isOnEditMenu = true;
+        Bundle bundle = new Bundle();
+        bundle.putString("repeat_data_cnt",String.valueOf(repeatEventController.getRepeatDataCnt()));
+        setResult(RESULT_OK, new Intent().putExtras(bundle));
+        super.onBackPressed();
+    }
 }
