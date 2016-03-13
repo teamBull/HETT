@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/assets"/></dataSet><dataSet config="release"><source path="/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/src/release/assets"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/assets"/></dataSet><dataSet config="release"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/src/release/assets"/></dataSet></merger>
->>>>>>> d4a1a4c5f3fef910e4f53c5dfa695d05e56efe5a
