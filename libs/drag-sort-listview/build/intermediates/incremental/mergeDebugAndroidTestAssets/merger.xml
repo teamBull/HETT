@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <merger version="3"><dataSet config="debug"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/build/intermediates/bundles/debug/assets"/></dataSet><dataSet config="main"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/src/androidTest/assets"/></dataSet></merger>
 =======
 <merger version="3"><dataSet config="debug"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\src\androidTest\assets"/></dataSet></merger>
 >>>>>>> yunsun
+=======
+<merger version="3"><dataSet config="debug"><source path="C:\Users\kwongiho\AndroidStudioProjects\HETT\libs\drag-sort-listview\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="C:\Users\kwongiho\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\androidTest\assets"/></dataSet></merger>
+>>>>>>> giho
