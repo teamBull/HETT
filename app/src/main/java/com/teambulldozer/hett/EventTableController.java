@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Calendar;
+
 /**
  * Created by flecho on 2016. 2. 23..
  */
@@ -45,7 +47,7 @@ public class EventTableController {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Columns.MEMO, memo);
         contentValues.put(Columns.IMPORTANCE, 0); // 입력 단계에서 중요 설정 할 수 없으므로, default 값은 false.
-        contentValues.put(Columns.DATE, ((MainActivity)mContext).getDate()); // 인풋 시에 날짜가 DB에 기입된다. 그리고 이게 repeat_table의 ID로 사용된다.
+        contentValues.put(Columns.DATE, getDate()); // 인풋 시에 날짜가 DB에 기입된다. 그리고 이게 repeat_table의 ID로 사용된다.
         contentValues.put(Columns.ALARM, 0);
         contentValues.put(Columns.ALARMHOUR, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
         contentValues.put(Columns.ALARMMINUTE, -1); // 일정을 입력할 당시 값은 알람이 설정되어 있지 않으므로, -1로 설정.
@@ -72,6 +74,10 @@ public class EventTableController {
     }
 
     public boolean isThereCompletedData(){
+
+        if(numOfEntries() == 0)
+            return false;
+
         Cursor cursor = getCompletenessData();
         cursor.moveToFirst();
 
@@ -155,6 +161,34 @@ public class EventTableController {
 
         return "Error";
     }
+
+    public void renewCompletedEvent(){
+        // 만약 완료 일정이 일반 일정보다 위에 있을 경우, 그 일정 삭제하고 맨 밑으로
+        ContentValues values = new ContentValues();
+        if(isThereCompletedData()){ // 완료된 일정이 하나라도 있으면 검사 시작.
+            for(int position = 1; position <= numOfEntries(); position++){
+                if(isEventReversed(position)) {
+                    values = getAllContent(position);
+                    deleteData(Integer.toString(position));
+                    rearrangeData(Integer.toString(position));
+                    insertData("", false);
+                    moveDataTo(numOfEntries(), values);
+                }
+
+            }
+        }
+    }
+
+
+
+    public boolean isEventReversed(int position){
+
+            if ((isCompleted(position)) && !isCompleted(position + 1)) {
+                return true;
+            }
+        return false; //
+    }
+
 
     private Cursor getDateData(){
         SQLiteDatabase db = myDb.getReadableDatabase();
@@ -260,7 +294,7 @@ public class EventTableController {
 
     public void deleteDataFrom(String id){
         SQLiteDatabase db = myDb.getWritableDatabase(); // It is going to create your database and table.
-        db.delete(TABLE_NAME, "_id >= ?", new String[] { id });
+        db.delete(TABLE_NAME, "_id >= ?", new String[]{id});
     }
 
     public void deleteAllData(){
@@ -417,4 +451,43 @@ public class EventTableController {
         return size;
 
     }
+
+    public String getDate(){
+        Calendar rightNow = Calendar.getInstance();
+        int year = rightNow.get(Calendar.YEAR) - 2000;
+        int month = rightNow.get(Calendar.MONTH) + 1;
+        int date = rightNow.get(Calendar.DATE);
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY); // HOUR_OF_DAY -> 24-hour clock.
+        int minute = rightNow.get(Calendar.MINUTE);
+        int second = rightNow.get(Calendar.SECOND);
+
+        String key = Integer.toString(year)
+                + "/"
+                + DateConverter(month)
+                + "/"
+                + DateConverter(date)
+                + "/"
+                + DateConverter(hour)
+                + "/"
+                + DateConverter(minute)
+                + "/"
+                + DateConverter(second);
+
+        //   Toast.makeText(getApplicationContext(), "key ID = " + key, Toast.LENGTH_SHORT).show();
+        // For debugging, this key is designed to distinguish different IDs.
+
+        return key;
+    }
+
+    public String DateConverter(int time){
+
+        String temp = Integer.toString(time);
+
+        if(time < 10){
+            StringBuffer zero = new StringBuffer("0");
+            return zero.append(temp).toString();
+        }
+        return temp;
+    }
+
 }

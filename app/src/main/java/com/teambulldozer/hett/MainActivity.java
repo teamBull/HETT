@@ -197,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
         populateListView(); // 한 번만 호출되면 된다.
 
         renewAllEvents();
+        rearrangeCompletedEvents();
+
 
         // 리스트뷰에 아이템 올리기
         // 그 외에 클릭하면 삭제하는 기능은 MyDragSortAdapter에 구현.
@@ -220,6 +222,11 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
         imageView.startAnimation(animation);
 
+    }
+
+    public void rearrangeCompletedEvents(){
+        //Wrapper
+        myEventController.renewCompletedEvent();
     }
 
     public void renewAllEvents(){
@@ -873,6 +880,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause(){ // 화면이 이동되서 없어질 때.
         super.onPause();
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         Log.d(TAG, "onPause(Bundle) called");
         if(isOpened != 0)
             overridePendingTransition(R.anim.activity_start_first, R.anim.activity_start_second);// 화면 이동 시 애니메이션.
@@ -893,6 +901,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop(){
         super.onStop();
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         Log.d(TAG, "onStop() called");
 
     }
@@ -901,6 +910,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         //((CursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
         //((SimpleCursorAdapter)lv1.getAdapter()).getCursor().close(); // ?
+        sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         myEventController.myDb.close();
         Log.d(TAG, "onDestroy() called");
     }

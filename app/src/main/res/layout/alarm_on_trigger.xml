@@ -116,7 +116,6 @@
                 <ImageView
                     android:layout_width="19dp"
                     android:layout_height="19dp"
-                    android:padding="3dp"
                     android:src="@drawable/phone" />
                 <TextView
                     android:id="@+id/missCallOnTrigger"

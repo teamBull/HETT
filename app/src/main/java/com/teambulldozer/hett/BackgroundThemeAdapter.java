@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,23 +94,25 @@ public class BackgroundThemeAdapter extends BaseAdapter{
                     //리스트 뷰가 클릭 된 거니까 포문을 이용해서 모두 비선택으로 변경 해준뒤 클릭 한 놈만 선택하는 방향으로 변경함.
 
                     final int checkInt = position;//arrayList.get(position).getBackgroundCode();
-                    Handler handler = new Handler() {
+                    /*Handler handler = new Handler() {
                         @Override
-                        public void handleMessage(Message msg) {
-
-                            setImageByClick(checkInt, viewHolder);
-                        }
+                        public void handleMessage(Message msg) {*/
+                    setImageByClick(checkInt, viewHolder);
+                        /*}
                     };
-                    handler.obtainMessage().sendToTarget();
-                    isEnabled(isSelected);
-                    isSelected=checkInt;
+                    handler.obtainMessage().sendToTarget();*/
                     disableTargetViewHolder=viewHolder; // isEnable에서 enable할 애.
+                    isEnabled(isSelected);
+                    Log.d("number",isSelected+"");
+                    isSelected=checkInt;
+
                 }
             });//리스너 종료.
         }
         return itemLayout;
     }
     public void selectTheme(ViewHolder viewHolder){
+        disableTargetViewHolder.selectedBackgroundTheme.setVisibility(View.GONE);
         viewHolder.selectedBackgroundTheme.setVisibility(View.VISIBLE);
         viewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.select);
         viewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.hatt_cyan));
@@ -168,7 +171,9 @@ public class BackgroundThemeAdapter extends BaseAdapter{
 
     @Override
     public boolean isEnabled(int position) {
-        disableTargetViewHolder.selectedBackgroundTheme.setVisibility(View.GONE);
+        //arrayListView.get(position).findViewById(R.id.selectedBackgroundTheme).setVisibility(View.GONE);
+
+
         disableTargetViewHolder.backgroundThemeOpenStatus.setImageResource(R.drawable.white_select_image);
         disableTargetViewHolder.backgroundThemeName.setTextColor(context.getResources().getColor(R.color.hatt_gray));
         return super.isEnabled(position);

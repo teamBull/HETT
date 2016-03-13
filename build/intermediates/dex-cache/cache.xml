@@ -1,3 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< Updated upstream
 <items version="2" />
 
+<<<<<<< HEAD
+=======
+=======
+<items version="2" >
+
+    <item
+        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="84b9e7417c4894fbcb5b6a70dd6fb6ef7164ee03">
+        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_759f033db24de0899d43fe9fc06edad015b86900.jar" />
+    </item>
+
+</items>
+>>>>>>> Stashed changes
+>>>>>>> ad47b6ff17018ca871d137bf3c3fac92d24d0d57
