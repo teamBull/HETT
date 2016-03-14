@@ -171,11 +171,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "'전~~하~~~~!!통~촉하여!!주시옵~소서~~!!', '수라는 드셨사옵니까? 수라를 내오라 할까요?', " + "'전~~하! 힘을 내십시오! 백성들이 지켜보고 있사옵니다!',"
                 + " '만세!만세!만만세! 천세!천세!천천세!', '더 이상 일정으로 인해 고통받지 마시옵소서..');");
 
-
-// Joonsang check Today
-        db.execSQL("insert into " + TABLE_NAME8 + " values('1', '0');");
-
-
     }
 
     @Override

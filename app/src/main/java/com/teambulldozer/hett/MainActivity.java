@@ -327,20 +327,31 @@ public class MainActivity extends AppCompatActivity {
         // 날짜가 바뀔 때 해야할 일은 반복일정은 가져오고, 완료일정은 삭제하는 것이다.
 
         String todayDate =  getDate().substring(3, 8);
-        String recentUpdatedDate = myDateController.getDateInfo();
+        String recentUpdatedDate = "no data yet.";
 
-        if(recentUpdatedDate.equals("0")){
-            // Date 값이 0일 때는 앱을 처음 깔 때 나타나는  초기 상태이므로, 오늘 날짜 값으로 업데이트 해준다.
-            myDateController.insertToTodayTable(todayDate);
+        if(myDateController.numOfEntries() == 0){
+            // 최근에 접속한 날짜 데이타가 하나도 없는 경우
+            if(myDateController.insertToTodayTable(todayDate))
+                Log.d("INSERT_TEST", "insertion success");
+            else
+                Log.d("INSERT_TEST", "insertion failed");
+
             return false;
+        } else {
+            // 날짜 데이타가 있는 경우
+            recentUpdatedDate = myDateController.getDateInfo();
         }
-        else if(recentUpdatedDate.equals(todayDate)){ // 오늘 날짜와 같을 때 아무런 일도 수행하지 않음.
+
+        //for debugging
+        // Toast.makeText(getBaseContext(), "오늘 날짜: " + todayDate + "최근 업데이트 날짜: " + recentUpdatedDate , Toast.LENGTH_SHORT).show();
+
+
+        if(recentUpdatedDate.equals(todayDate)){ // 오늘 날짜와 같을 때 아무런 일도 수행하지 않음.
             return false;
         } else { // 오늘 날짜와 다를 때, 날짜를 업데이트해주고, true를 리턴.
-            myDateController.updateToday("1", todayDate); // true를 return하기 전에, DB값을 업데이트해줘야함.
+            myDateController.updateToday("1", todayDate); // true를 return하기 전에 DB값을 업데이트해줘야함.
             return true;
         }
-
     }
 
     @Override

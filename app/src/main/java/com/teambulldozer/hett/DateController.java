@@ -3,6 +3,7 @@ package com.teambulldozer.hett;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -20,6 +21,7 @@ public class DateController {
     private DateController(Context context){
         myDb = DatabaseHelper.get(context);
     }
+
     public static DateController get(Context context){
         if(mDateController == null){
             mDateController = new DateController(context);
@@ -41,10 +43,24 @@ public class DateController {
 
     public String getDateInfo(){
         SQLiteDatabase db = myDb.getReadableDatabase();
-        String[] columns = {Columns.ID, Columns.TODAY};
+        String[] columns = { Columns.ID, Columns.TODAY };
         Cursor cursor = db.query(TABLE, columns, null, null, null, null, null);
+
         cursor.moveToFirst();
-        return cursor.getString(1);
+
+        try {
+            do {
+                if ("1".equals(cursor.getString(0)))
+                    return cursor.getString(1);
+
+            } while (cursor.moveToNext());
+
+        } finally {
+            if(cursor != null)
+                cursor.close();
+        }
+        return "no such data";
+        //return cursor.getString(1);
     }
 
     //delete
@@ -62,4 +78,10 @@ public class DateController {
         return db.update(TABLE, values, " _id = ?", new String[]{id});
     }
 
+
+    public int numOfEntries() // int
+    {
+        SQLiteDatabase db = myDb.getReadableDatabase();
+        return (int) DatabaseUtils.queryNumEntries(db, TABLE);
+    }
 }
