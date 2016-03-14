@@ -69,7 +69,12 @@ public class RepeatEventController {
         Cursor res = db.rawQuery(sql, null);
         return res;
     }
-
+    public int getRepeatDataCnt(){
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        String sql = "SELECT * FROM  " + TABLE;
+        Cursor res = db.rawQuery(sql,null);
+        return res.getCount();
+    }
     //준상이는 이 메소드 쓰면 됨
     public Cursor getTodoRepeatData(String dayOfWeek){
         SQLiteDatabase db = dbhelper.getReadableDatabase();

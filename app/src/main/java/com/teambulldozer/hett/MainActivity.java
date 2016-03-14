@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
     EventTableController myEventController;
     RepeatEventController myRepeatEventController;
+    CompleteEventTableController myCompleteEventController;
+
     DateController myDateController;
 
     MyDragSortAdapter myDragSortAdapter;
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
     TextView dateBar;
     TextView todayBar;
     TextView editMenu;
+    TextView friend_ask_1;
+    TextView friend_ask_2;
     ImageView addLine;
     RelativeLayout rl1;
     RelativeLayout rl2;
@@ -140,13 +144,13 @@ public class MainActivity extends AppCompatActivity {
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
 
-
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
         /* Call the database constructor */
         myEventController = EventTableController.get(this); //
         myRepeatEventController = RepeatEventController.get(this);
+        myCompleteEventController = CompleteEventTableController.get(this);
         myDateController = DateController.get(this);
 
 
@@ -162,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
         rl2 = (RelativeLayout) findViewById(R.id.rl2);
         dateLayout = (LinearLayout) findViewById(R.id.dateLayout);
         myLayout = (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout);
+
+        friend_ask_1 = (TextView)findViewById(R.id.friend_ask_1);
+        friend_ask_2 = (TextView)findViewById(R.id.friend_ask_2);
 
         /* 편집 눌렀을 때 추가 되는 버튼들 */
         finishMenu = (TextView) findViewById(R.id.finishMenu);
@@ -219,6 +226,9 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
         imageView.startAnimation(animation);
 
+        //윤선
+        friend_ask_1.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
+        friend_ask_2.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
     }
 
     public void rearrangeCompletedEvents(){
@@ -317,20 +327,31 @@ public class MainActivity extends AppCompatActivity {
         // 날짜가 바뀔 때 해야할 일은 반복일정은 가져오고, 완료일정은 삭제하는 것이다.
 
         String todayDate =  getDate().substring(3, 8);
-        String recentUpdatedDate = myDateController.getDateInfo();
+        String recentUpdatedDate = "no data yet.";
 
-        if(recentUpdatedDate.equals("0")){
-            // Date 값이 0일 때는 앱을 처음 깔 때 나타나는  초기 상태이므로, 오늘 날짜 값으로 업데이트 해준다.
-            myDateController.insertToTodayTable(todayDate);
+        if(myDateController.numOfEntries() == 0){
+            // 최근에 접속한 날짜 데이타가 하나도 없는 경우
+            if(myDateController.insertToTodayTable(todayDate))
+                Log.d("INSERT_TEST", "insertion success");
+            else
+                Log.d("INSERT_TEST", "insertion failed");
+
             return false;
+        } else {
+            // 날짜 데이타가 있는 경우
+            recentUpdatedDate = myDateController.getDateInfo();
         }
-        else if(recentUpdatedDate.equals(todayDate)){ // 오늘 날짜와 같을 때 아무런 일도 수행하지 않음.
+
+        //for debugging
+        // Toast.makeText(getBaseContext(), "오늘 날짜: " + todayDate + "최근 업데이트 날짜: " + recentUpdatedDate , Toast.LENGTH_SHORT).show();
+
+
+        if(recentUpdatedDate.equals(todayDate)){ // 오늘 날짜와 같을 때 아무런 일도 수행하지 않음.
             return false;
         } else { // 오늘 날짜와 다를 때, 날짜를 업데이트해주고, true를 리턴.
-            myDateController.updateToday("1", todayDate); // true를 return하기 전에, DB값을 업데이트해줘야함.
+            myDateController.updateToday("1", todayDate); // true를 return하기 전에 DB값을 업데이트해줘야함.
             return true;
         }
-
     }
 
     @Override
@@ -399,11 +420,13 @@ public class MainActivity extends AppCompatActivity {
 
         HattToast toast = new HattToast(this); // 메모리 누수 발생 지점!
 
+        FriendDataManager dataManager = FriendDataManager.get(this);
+
         if(numOfTODOs == 1) {
-            String toastMessage = hatt_id + ": " + "오늘도 힘내구~!";
+            String toastMessage = hatt_id + ": " + dataManager.getTalkStDetail(dataManager.getTalkSt()).get(0);
             toast.showToast(toastMessage, Toast.LENGTH_SHORT);
         } else if (numOfTODOs == 5){
-            String toastMessage = hatt_id + ": " + "다 할 수 있겠어!? 대단하다~~";
+            String toastMessage = hatt_id + ": " + dataManager.getTalkStDetail(dataManager.getTalkSt()).get(4);
             toast.showToast(toastMessage, Toast.LENGTH_SHORT);
 
         } else
@@ -966,6 +989,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDIT_FRIEND_NAME_ACTIVITY=10;
     private static final int SETTING_BACKGROUND_THEME_ACTIVITY=11;
     private static final int FRIEND_SETTING_ACTIVITY=12; // 윤선이꺼
+    private static final int COMPLETE_ACTIVITY=13;
+    private static final int REPEAT_ACTIVITY=14;
     /**
      * Edit_friend_name_activity화면으로 이동 후, 이름을 서로 다른 메소드에서 변경을 하기 때문에, 로컬변수로는
      * 해결할 수 없는 문제점이 있었다.
@@ -1029,7 +1054,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CompleteActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, COMPLETE_ACTIVITY);
             }
         });
         repeatSchedule = (TextView)findViewById(R.id.againSchedule);
@@ -1037,7 +1062,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RepeatEventActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, REPEAT_ACTIVITY);
             }
         });
     }
@@ -1116,12 +1141,13 @@ public class MainActivity extends AppCompatActivity {
 
         //완료일정 count.
         TextView completeScheduleNo = (TextView)findViewById(R.id.completeScheduleNo);
-        completeScheduleNo.setText(DrawerTableController.getInstance().searchByCompleteEvent() + "");
+        completeScheduleNo.setText(String.valueOf(myCompleteEventController.getCompleteDataCnt()));
         //Toast.makeText(getApplicationContext(),DrawerTableController.getInstance().setDataBaseHelper(getApplicationContext()).searchByCompleteEvent()+"",Toast.LENGTH_SHORT).show();
         //반복일정 count.
         //searchByRepeatEvent
         TextView repeatScheduleNo = (TextView)findViewById(R.id.repeatScheduleNo);
-        repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent() + "");
+        repeatScheduleNo.setText(String.valueOf(myRepeatEventController.getRepeatDataCnt()));
+       // repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent() + "");
         //selectByFriendName
         friend_edit = (TextView)findViewById(R.id.friend_edit);
         friend_edit.setText(DrawerTableController.getInstance().searchByFriendName() + "");
@@ -1253,6 +1279,20 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode==RESULT_OK) {
                 extraBundle = intent.getExtras();
                 friend_edit.setText(DrawerTableController.getInstance().searchByFriendName());
+            }
+        }
+        else if(requestCode == REPEAT_ACTIVITY){
+            if(resultCode == RESULT_OK){
+                extraBundle = intent.getExtras();
+                TextView repeatScheduleNo = (TextView)findViewById(R.id.repeatScheduleNo);
+                repeatScheduleNo.setText(extraBundle.getString("repeat_data_cnt"));
+            }
+        }
+        else if(requestCode == COMPLETE_ACTIVITY){
+            if(resultCode == RESULT_OK){
+                extraBundle = intent.getExtras();
+                TextView completeScheduleNo = (TextView)findViewById(R.id.completeScheduleNo);
+                completeScheduleNo.setText(extraBundle.getString("complete_data_cnt"));
             }
         }
     }

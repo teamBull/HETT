@@ -14,7 +14,7 @@ public class SelfPushReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context,Intent intent) {
-        if(DrawerTableController.getInstance().searchPushMode()) {
+        if(DrawerTableController.getInstance(context).searchPushMode()) {
             NotificationManager notificationmanager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
             Notification.Builder builder = new Notification.Builder(context);
