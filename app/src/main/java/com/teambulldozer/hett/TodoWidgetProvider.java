@@ -264,6 +264,7 @@ public class TodoWidgetProvider extends AppWidgetProvider {
             PendingIntent seeMoreBtn = PendingIntent.getBroadcast(context.getApplicationContext(), 0, new Intent(SEE_MORE), PendingIntent.FLAG_UPDATE_CURRENT);
             mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, seeMoreBtn);
             */
+            // activity를 바로 불러와서 onResume 상태를 만들어줌
             Intent mainIntent = new Intent(Intent.ACTION_MAIN);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             mainIntent.setComponent(new ComponentName(context, MainActivity.class));
