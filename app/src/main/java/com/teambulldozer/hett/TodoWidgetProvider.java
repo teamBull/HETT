@@ -260,9 +260,15 @@ public class TodoWidgetProvider extends AppWidgetProvider {
             mainViews.setOnClickPendingIntent(R.id.widgetTodo4StarOff, todo4StarOffBtn);
             mainViews.setOnClickPendingIntent(R.id.widgetTodo4Select, todo4SelectBtn);
             mainViews.setOnClickPendingIntent(R.id.widgetTodo4NoSelect, todo4rNoSelectBtn);
-
+            /*
             PendingIntent seeMoreBtn = PendingIntent.getBroadcast(context.getApplicationContext(), 0, new Intent(SEE_MORE), PendingIntent.FLAG_UPDATE_CURRENT);
             mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, seeMoreBtn);
+            */
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            mainIntent.setComponent(new ComponentName(context, MainActivity.class));
+            PendingIntent p = PendingIntent.getActivity(context, 0, mainIntent, 0);
+            mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, p);
 
             appWidgetManager.updateAppWidget(widgetId, mainViews);
         }
@@ -365,23 +371,18 @@ public class TodoWidgetProvider extends AppWidgetProvider {
         }
 
         if(e.equals(SEE_MORE)) {
+            Log.i(TAG, "더보기 클릭시 추가행위는 없습니당.");
             /*
-            Intent mainIntent = new Intent(Intent.ACTION_MAIN);
-            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            mainIntent.setComponent(new ComponentName(context, MainActivity.class));
-            PendingIntent mainPI = PendingIntent.getActivity(context, 0, mainIntent, 0);
-            mainViews.setOnClickPendingIntent(R.id.widgetSeeMore, mainPI);
-            */
             Log.i(TAG, "메인 화면 호출");
             Intent mainIntent = new Intent(context.getApplicationContext(), MainActivity.class);
             PendingIntent p = PendingIntent.getActivity(context.getApplicationContext(), 0, mainIntent, 0);
+
             try {
                 p.send();
             } catch (PendingIntent.CanceledException er) {
                 er.printStackTrace();
             }
-            onDisabled(context);
-
+            */
         }
         eventTableController.myDb.close();
 
