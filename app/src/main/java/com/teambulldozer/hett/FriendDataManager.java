@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 /**
  * Created by YUNSEON on 2016-02-16.
  */
@@ -66,6 +68,28 @@ public class FriendDataManager {
         return friend;
     }
 
+    public ArrayList getTalkStDetail(String talkSt){
+        db = dbHelper.getReadableDatabase();
+
+        cursor = db.rawQuery("SELECT * FROM talk_detail_talble WHERE talk_title = \"" + talkSt + "\"", null);
+        cursor.moveToNext();
+
+        ArrayList talk_detail = new ArrayList();
+        talk_detail.add(cursor.getString(2));
+        talk_detail.add(cursor.getString(3));
+        talk_detail.add(cursor.getString(4));
+        talk_detail.add(cursor.getString(5));
+        talk_detail.add(cursor.getString(6));
+        talk_detail.add(cursor.getString(7));
+        talk_detail.add(cursor.getString(8));
+
+
+        cursor.close();
+        dbHelper.close();
+
+        return talk_detail;
+    }
+
     public void updateFriendName(String friend_name, String talk_st){
         db = dbHelper.getWritableDatabase();
 
@@ -99,6 +123,20 @@ public class FriendDataManager {
         return point;
     }
 
+    public String getTalkSt(){
+        db = dbHelper.getReadableDatabase();
+
+        String talkSt;
+
+        cursor = db.rawQuery("SELECT * FROM friend_table", null);
+        cursor.moveToNext();
+
+        talkSt = cursor.getString(2);
+
+        dbHelper.close();
+        cursor.close();
+        return talkSt;
+    }
 
     public void updateTodayPoint(int id, double todayPoint){
         db = dbHelper.getWritableDatabase();

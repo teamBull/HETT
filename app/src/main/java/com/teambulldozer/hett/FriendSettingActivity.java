@@ -41,7 +41,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         /*
         기호부분. 배경화면 setting.
          */
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendSettingActivity));
+
         /*끝.*/
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
@@ -127,6 +127,7 @@ public class FriendSettingActivity extends AppCompatActivity {
     @Override
     public void onResume(){ // 화면이 다시 나타날 때.
         super.onResume();
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendSettingActivity));
         //if(semaporeByPause) {
         //    overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
         //    semaporeByPause = false;

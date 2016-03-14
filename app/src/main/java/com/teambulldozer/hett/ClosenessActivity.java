@@ -193,7 +193,77 @@ public class ClosenessActivity extends AppCompatActivity {
             ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
-        }else {
+        }else if (totalPoint < 120) {
+            temp = 120 - totalPoint;
+
+            tvClGift.setText("말투");
+            tvClGiftTitle.setText("새오체");
+            al.add("안녕하새오?");
+            al.add("밥은 먹었어오?");
+            al.add("오늘 하루 똑바로 사새오!!");
+            ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+        }else if (totalPoint < 120) {
+            temp = 120 - totalPoint;
+
+            tvClGift.setText("말투");
+            tvClGiftTitle.setText("연하남");
+            al.add("누나~ 뭐해요?");
+            al.add("누나 지금 할 일 얼른하고 나랑 놀아요~");
+            al.add("야");
+            ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+        }else if (totalPoint < 140) {
+            temp = 140 - totalPoint;
+
+            tvClGift.setText("말투");
+            tvClGiftTitle.setText("신하");
+            al.add("옥체강령하시옵니까?");
+            al.add("아뢰옵기 황공하오나, 약조를 잊지 않고 계시온지요?");
+            al.add("더 이상 일정으로 인해 고통받지 마시옵소서..");
+            ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+        }
+        else if (totalPoint < 160){
+            temp = 160 - totalPoint;
+
+            tvClGift.setText("배경");
+            tvClGiftTitle.setText("내 우주는 전부 너야");
+            rlthemeEx.setBackground((getResources().getDrawable(R.drawable.space_dir_width)));
+            ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+
+        }else if (totalPoint < 180){
+            temp = 180 - totalPoint;
+
+            tvClGift.setText("배경");
+            tvClGiftTitle.setText("on the snow");
+            rlthemeEx.setBackground((getResources().getDrawable(R.drawable.bg_pattern_snow)));
+            ivGiftBox0.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox1.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox2.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox3.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+            ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
+
+        }
+        else {
             temp = 0;
 
             tvClGift.setText("보상");

@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
     TextView dateBar;
     TextView todayBar;
     TextView editMenu;
+    TextView friend_ask_1;
+    TextView friend_ask_2;
     ImageView addLine;
     RelativeLayout rl1;
     RelativeLayout rl2;
@@ -142,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
 
-
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -165,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
         rl2 = (RelativeLayout) findViewById(R.id.rl2);
         dateLayout = (LinearLayout) findViewById(R.id.dateLayout);
         myLayout = (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout);
+
+        friend_ask_1 = (TextView)findViewById(R.id.friend_ask_1);
+        friend_ask_2 = (TextView)findViewById(R.id.friend_ask_2);
 
         /* 편집 눌렀을 때 추가 되는 버튼들 */
         finishMenu = (TextView) findViewById(R.id.finishMenu);
@@ -222,6 +226,9 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
         imageView.startAnimation(animation);
 
+        //윤선
+        friend_ask_1.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
+        friend_ask_2.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
     }
 
     public void rearrangeCompletedEvents(){
@@ -402,11 +409,13 @@ public class MainActivity extends AppCompatActivity {
 
         HattToast toast = new HattToast(this); // 메모리 누수 발생 지점!
 
+        FriendDataManager dataManager = FriendDataManager.get(this);
+
         if(numOfTODOs == 1) {
-            String toastMessage = hatt_id + ": " + "오늘도 힘내구~!";
+            String toastMessage = hatt_id + ": " + dataManager.getTalkStDetail(dataManager.getTalkSt()).get(0);
             toast.showToast(toastMessage, Toast.LENGTH_SHORT);
         } else if (numOfTODOs == 5){
-            String toastMessage = hatt_id + ": " + "다 할 수 있겠어!? 대단하다~~";
+            String toastMessage = hatt_id + ": " + dataManager.getTalkStDetail(dataManager.getTalkSt()).get(4);
             toast.showToast(toastMessage, Toast.LENGTH_SHORT);
 
         } else
