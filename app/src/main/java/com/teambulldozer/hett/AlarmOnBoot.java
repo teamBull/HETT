@@ -40,6 +40,7 @@ public class AlarmOnBoot extends Service {
         countNumOfAlarm();
         resetAlarm();
         sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         int lastUpdateDay = hettSettingSharedPreference.searchLastUpdateDay(getApplicationContext());
 
         if(lastUpdateDay!= GregorianCalendar.getInstance().get(Calendar.DATE))
