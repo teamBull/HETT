@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
         if(myRepeatEventController.numOfEntries() == 0)
             return ;
 
-        Toast.makeText(getBaseContext(), "getRepeatEvents()", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getBaseContext(), "getRepeatEvents()", Toast.LENGTH_SHORT).show();
         Cursor cursor = myRepeatEventController.getTodoRepeatData(dayTranslator(dayOfWeek));
         //Toast.makeText(getBaseContext(), dayConverter(dayOfWeek), Toast.LENGTH_SHORT).show();
         cursor.moveToFirst();
