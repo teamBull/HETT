@@ -243,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
             // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
             moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
             deleteFinishedEvents(); // 완료된 일정은 메인페이지에서 삭제
+            requery();
             getRepeatEvents(); // 24시가 되었을 경우 메인페이지의 데이터 경신. //
+            requery();
 
             //Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
         }
@@ -300,8 +302,9 @@ public class MainActivity extends AppCompatActivity {
 
        // Toast.makeText(getBaseContext(), "getRepeatEvents()", Toast.LENGTH_SHORT).show();
         Cursor cursor = myRepeatEventController.getTodoRepeatData(dayTranslator(dayOfWeek));
-        //Toast.makeText(getBaseContext(), dayConverter(dayOfWeek), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(), Integer.toString(cursor.getCount()), Toast.LENGTH_SHORT).show();
         cursor.moveToFirst();
+
 
         ContentValues contentValues = new ContentValues();
         //int lastIdx = myEventController.numOfEntries();
@@ -312,9 +315,9 @@ public class MainActivity extends AppCompatActivity {
             contentValues.put("COMPLETENESS", "0");
             contentValues.put("DATE", getDate());
             contentValues.put("REPEAT", "1");
-            contentValues.put("ALARM", cursor.getString(6));
-            contentValues.put("ALARMHOUR", cursor.getString(7));
-            contentValues.put("ALARMMINUTE", cursor.getString(8));
+            contentValues.put("ALARM", cursor.getString(4));
+            contentValues.put("ALARMHOUR", cursor.getString(5));
+            contentValues.put("ALARMMINUTE", cursor.getString(6));
 
             myEventController.insertData("", false);
             EventTableController.get(this).moveDataTo(myEventController.numOfEntries(), contentValues);
