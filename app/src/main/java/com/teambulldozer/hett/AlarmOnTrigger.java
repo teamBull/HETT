@@ -32,6 +32,7 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
 
+    private HETTSettingSharedPreference hettSettingSharedPreference;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,7 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
         String alarmDay = null;
         String curStrDay = intDayToStr(curDay);
 
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         // 알람 시간 표시
         TextView timeTv = (TextView) findViewById(R.id.curTimeOnTrigger);
         TextView am_pmTv = (TextView) findViewById(R.id.curAM_PM_OnTrigger);
@@ -97,8 +99,8 @@ public class AlarmOnTrigger extends Activity implements View.OnClickListener {
 
         // 친구 이름 표시
         TextView friendTv = (TextView) findViewById(R.id.friendNameOnTrigger);
-        String friendName = drawerTableController.searchByFriendName();
-        friendTv.setText(friendName);
+        //String friendName = //drawerTableController.searchByFriendName();
+        friendTv.setText(hettSettingSharedPreference.searchHattFriendName(getApplicationContext()));
 
         // 메모내용 표시 -> DB로부터 해당알람정보 끌어오기(알람시간이 같은 정보가 있으면 끌어온다.)
         TextView todoTv = (TextView) findViewById(R.id.todoOnTrigger);

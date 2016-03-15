@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * Created by GHKwon on 2016-02-27.
  */
 public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
+    private HETTSettingSharedPreference hettSettingSharedPreference;
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent) {//GregorianCalendar.getInstance().get(Calendar.DATE)
         //여따가 12시 되면 해야될 것들 작성해라.
         Cursor cursor;
         double todayPoint = 0;
@@ -21,7 +25,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
         eventTableControllerr = EventTableController.get(context);
         friendDataManager = FriendDataManager.get(context);
-
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
 
         if (eventTableControllerr.numOfEntries() == 0) {
             todayPoint = 0;
@@ -31,14 +35,16 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
         //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
         totalPoint = friendDataManager.getTotalPoint() + todayPoint;
         friendDataManager.updateTotalPoint(1, totalPoint);
-        PushAlarmReservation.getInstance().registerAlarm(context, 0, 9, 0, 0, DrawerTableController.getInstance(context).searchByFriendName(), "오늘도 잘 일어났냐?");
+        PushAlarmReservation.getInstance().registerAlarm(context, 9, 0, 0, hettSettingSharedPreference.searchHattFriendName(context), "오늘도 잘 일어났냐?");
 
-        PushAlarmReservation.getInstance().registerAlarm(context,1,2,0,0,DrawerTableController.getInstance(context).searchByFriendName(),"얼렁 자라 ㅋㅋㅋㅋ");
+        PushAlarmReservation.getInstance().registerAlarm(context,2,0,0,hettSettingSharedPreference.searchHattFriendName(context),"얼렁 자라 ㅋㅋㅋㅋ");
+
+        PushAlarmReservation.getInstance().registerAlarm(context,22,0,0,hettSettingSharedPreference.searchHattFriendName(context),"오늘도 고생했슈~~ 벌써 열시넹ㅎㅎ");
         CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
         EventTableController eventCtr = EventTableController.get(context);
 
 
-
+        hettSettingSharedPreference.updateLastUpdateDay(context, GregorianCalendar.getInstance().get(Calendar.DATE));
         //1. event_table에서 complete 인 것들만 가져온다.
         /*Log.d("AlarmAMZeroReceiver","시작");
         cursor = eventCtr.getCompletenessDataAll();

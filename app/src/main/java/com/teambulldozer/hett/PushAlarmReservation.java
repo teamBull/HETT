@@ -13,22 +13,12 @@ import java.util.Map;
  * Created by GHKwon on 2016-02-21.
  */
 public class PushAlarmReservation {
-    /**
-     * 지금 해쉬맵의 개수.
-     */
-    public static int hashMapCurrentSize=0;
-    /**
-     * 해쉬맵의 크기.
-     */
-    public static final int HASH_MAP_SIZE=5;
+
     /**
      * default 푸쉬 알람 제목.
      */
     private static final String PUSH_ALARM_TITLE_HATT="HATT";
-    /**
-     * 알람의 정보를 저장할 자료형.
-     */
-    private Map<Integer,AlarmInfomation> hashMap;
+
     /**
      * 싱글톤적용.
      */
@@ -48,7 +38,7 @@ public class PushAlarmReservation {
      * 기본 생성자.
      */
     private PushAlarmReservation() {
-        hashMap = new HashMap<Integer,AlarmInfomation>();
+
     }
     /**
      * 알람을 등록하는 메소드. 푸쉬 알람의 제목이 앱 이름으로 등록되어 있다.
@@ -60,8 +50,8 @@ public class PushAlarmReservation {
      * @param pushAlarmBody 알람 울릴 내용.
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
-    public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmBody) {
-        return registerAlarm(context,position, hour, min, second, PUSH_ALARM_TITLE_HATT, pushAlarmBody);
+    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmBody) {
+        return registerAlarm(context, hour, min, second, PUSH_ALARM_TITLE_HATT, pushAlarmBody);
     }
     /**
      * 알람을 등록하는 메소드. 푸쉬 알람의 제목이 앱 이름으로 등록되어 있다.
@@ -79,25 +69,15 @@ public class PushAlarmReservation {
      * @param pushAlarmBody
      * @return 알람 등록을 성공했는지 실패했는지 체크하는 메소드.
      */
-    public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody) {
-        hashMap.put(position, new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody));
+    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody) {
+         new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody);
         return true;
     }
     public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
-        hashMap.put(position, new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody, repeat));
+        new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody, repeat);
         return true;
     }
-    /**
-     * 저장할 해쉬맵의 크기.
-     * @return 사용할 해쉬맵의 key.
-     */
-    public int checkHashMapSize() {
-        hashMapCurrentSize+=1; // 지금 해쉬맵 번호에 1을 더했어.
-        if(hashMapCurrentSize>=HASH_MAP_SIZE) { // 근데 Max의 값보다 높아지면
-            hashMapCurrentSize%=HASH_MAP_SIZE;//값을 초기화.
-        }
-        return hashMapCurrentSize; // 해쉬맵의 번호를 retrun.
-    }
+
     /**
      * 푸쉬 알람의 정보를 저장하는 AlarmInfomation.
      */

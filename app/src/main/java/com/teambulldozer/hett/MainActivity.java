@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
 
-
+    HETTSettingSharedPreference hettSettingSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         MyDragSortAdapter.isOnEditMenu = true; //
 
         /*기호*/
-
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
         //new AlarmAMZero(getApplicationContext());
 
@@ -849,7 +850,7 @@ public class MainActivity extends AppCompatActivity {
 
                 requery();
                 //Toast.makeText(getBaseContext(),"lastIdx = " + Integer.toString((int)myEventController.numOfEntries()), Toast.LENGTH_SHORT).show();
-                toastProperMessage(DrawerTableController.getInstance().searchByFriendName(), myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
+                toastProperMessage(hettSettingSharedPreference.searchHattFriendName(getApplicationContext()), myEventController.numOfEntries()); // hatti는 임시 ID, 나중에 유저가 set한 걸 받아와야 함;
             }
         });
     }
@@ -1076,7 +1077,7 @@ public class MainActivity extends AppCompatActivity {
         toggleButton.setTextOn(null);
         toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
         //DB에 접근해서 pushMode가 true인지 false인지 체크한다.
-        boolean isPushMode = DrawerTableController.getInstance().searchPushMode();
+        boolean isPushMode = hettSettingSharedPreference.searchPushAlarm(getApplicationContext());
         if(isPushMode) {
             toggleButton.setSelected(true);
             toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
@@ -1090,11 +1091,13 @@ public class MainActivity extends AppCompatActivity {
                 if (toggleButton.isChecked()) {
                     toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
                     //PushAlarmReservation.getInstance().changePushAlarmMode(true);
-                    DrawerTableController.getInstance().updatePushMode(true);
+                    hettSettingSharedPreference.updatePushAlarm(getApplicationContext(), true);
+
                 } else {
                     toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
                     //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
-                    DrawerTableController.getInstance().updatePushMode(false);
+                    hettSettingSharedPreference.updatePushAlarm(getApplicationContext(), false);
+
                 }
             }
         });
@@ -1110,25 +1113,29 @@ public class MainActivity extends AppCompatActivity {
         toggleButton.setTextOn(null);
         toggleButton.setTextOff(null); // 토글의  OFF/ON 글자를 없앰.. 이거 안없애면 이미지 뒤에 글자가 나와서 화남.
         //DB에 접근해서 pushMode가 true인지 false인지 체크한다.
-        boolean isPushMode = DrawerTableController.getInstance().searchPushMode();
-        if(isPushMode) {
-            toggleButton.setSelected(true);
+        boolean isBellMode = hettSettingSharedPreference.searchBellMode(getApplicationContext());
+        if(isBellMode) {
+            //toggleButton.setSelected(true);
             toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.on));
+            ((AudioManager)getApplicationContext().getSystemService(getApplicationContext().AUDIO_SERVICE)).setMode(AudioManager.RINGER_MODE_SILENT);
         } else {
-            toggleButton.setSelected(false);
+            //toggleButton.setSelected(false);
             toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
+            ((AudioManager)getApplicationContext().getSystemService(getApplicationContext().AUDIO_SERVICE)).setMode(AudioManager.RINGER_MODE_NORMAL);
         }
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (toggleButton.isChecked()) {
+                if (!hettSettingSharedPreference.searchBellMode(getApplicationContext())) {
+
                     toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
-                    //PushAlarmReservation.getInstance().changePushAlarmMode(true);
-                    DrawerTableController.getInstance().updatePushMode(true);
+                    hettSettingSharedPreference.updateBellMode(getApplicationContext(), true);
+                    ((AudioManager)getApplicationContext().getSystemService(getApplicationContext().AUDIO_SERVICE)).setMode(AudioManager.RINGER_MODE_SILENT);
                 } else {
                     toggleButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.off));
                     //PushAlarmReservation.getInstance().changePushAlarmMode(false); break;
-                    DrawerTableController.getInstance().updatePushMode(false);
+                    hettSettingSharedPreference.updateBellMode(getApplicationContext(), false);
+                    ((AudioManager)getApplicationContext().getSystemService(getApplicationContext().AUDIO_SERVICE)).setMode(AudioManager.RINGER_MODE_NORMAL);
                 }
             }
         });
@@ -1150,7 +1157,7 @@ public class MainActivity extends AppCompatActivity {
        // repeatScheduleNo.setText(DrawerTableController.getInstance().searchByRepeatEvent() + "");
         //selectByFriendName
         friend_edit = (TextView)findViewById(R.id.friend_edit);
-        friend_edit.setText(DrawerTableController.getInstance().searchByFriendName() + "");
+        friend_edit.setText(hettSettingSharedPreference.searchHattFriendName(getApplicationContext()));
         //드로워의 시간 초기화
         //
         //getTotalPoint
@@ -1278,7 +1285,7 @@ public class MainActivity extends AppCompatActivity {
         else if (requestCode == FRIEND_SETTING_ACTIVITY) {
             if(resultCode==RESULT_OK) {
                 extraBundle = intent.getExtras();
-                friend_edit.setText(DrawerTableController.getInstance().searchByFriendName());
+                friend_edit.setText(hettSettingSharedPreference.searchHattFriendName(getApplicationContext()));
             }
         }
         else if(requestCode == REPEAT_ACTIVITY){

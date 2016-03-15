@@ -34,6 +34,8 @@ public class FriendSettingActivity extends AppCompatActivity {
     Typeface NanumSquare_B;
     Typeface NanumBarunGothic_R;
     private final int EDIT_FRIEND_NAME_ACTIVITY = 10;
+
+    private HETTSettingSharedPreference hettSettingSharedPreference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         /*
         기호부분. 배경화면 setting.
          */
-
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         /*끝.*/
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
@@ -67,7 +69,7 @@ public class FriendSettingActivity extends AppCompatActivity {
         tvFsName = (TextView)findViewById(R.id.tvFsName);
         tvFsTalk = (TextView)findViewById(R.id.tvFsTalk);
 
-        tvFriendName.setText(DrawerTableController.getInstance(getApplicationContext()).searchByFriendName());
+        tvFriendName.setText(hettSettingSharedPreference.searchHattFriendName(getApplicationContext()));
         tvFriendTalkSt.setText(friendData.getFriendTalkSt().toString());
 
         setFont();

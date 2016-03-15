@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME3 = "event_complete_table";
     public static final String TABLE_NAME4 = "repeat_table";
     //public static final String VIEW_NAME = "event_repeat_view";
-    public static final String TABLE_NAME6 = "hatt_setting_table";
+    //public static final String TABLE_NAME6 = "hatt_setting_table";
     public static final String TABLE_NAME5="hatt_background_theme_table";
     public static final String TABLE_NAME7 = "talk_detail_talble";
     public static final String TABLE_NAME8 = "today_table";
@@ -60,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     "(_id TEXT primary key,MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL,ALARM INTEGER, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE INTEGER NOT NULL)";
 
     //기호
-    private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
+    //private static final String CREATE_HATT_SETTING_TABLE = "create table "+TABLE_NAME6+" (hatt_setting_code TEXT primary key ,hatt_friend_name TEXT ,is_push_alarm integer );";
     private static final String CREATE_HATT_BACKGROUND_THEME_TABLE = "create table "+TABLE_NAME5+" (background_code integer primary key autoincrement , background_theme_name text not null, is_background_permission integer not null,is_selected integer not null);";
 
     private static final String CREATE_TODAY_TABLE =
@@ -102,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_NAME + " VALUES(7,'데이트',1,0,'16/02/11',0,0,-1,-1);");*/
 
 
-        db.execSQL(CREATE_HATT_SETTING_TABLE);
+        //db.execSQL(CREATE_HATT_SETTING_TABLE);
         db.execSQL(CREATE_HATT_BACKGROUND_THEME_TABLE);
         db.execSQL(CREATE_TALK_DETAIL_TABLE);
         db.execSQL(CREATE_TODAY_TABLE);
@@ -133,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //임시 repeat_tb : CODE INTEGER, MEMO TEXT, IMPORTANCE INTEGER, DAY_OF_WEEK TEXT NOT NULL, ALARMHOUR INTEGER NOT NULL, ALARMMINUTE
 
 
-        db.execSQL("insert into "+TABLE_NAME6+" values('user1','Hatti',0);");
+        //db.execSQL("insert into "+TABLE_NAME6+" values('user1','Hatti',0);");
 
         db.execSQL("insert into "+TABLE_NAME5+" values(0,'기본 테마',1,1)");
         db.execSQL("insert into "+TABLE_NAME5+" values(1,'나무나무',1,0)");
@@ -179,7 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME3);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME4);
         //db.execSQL("DROP VIEW IF EXISTS " + VIEW_NAME);
-        db.execSQL("drop table if exists "+TABLE_NAME6);
+        //db.execSQL("drop table if exists "+TABLE_NAME6);
         db.execSQL("drop table if exists "+TABLE_NAME5);
         db.execSQL("drop table if exists "+TABLE_NAME8);
         onCreate(db);
