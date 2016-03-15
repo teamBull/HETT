@@ -1088,7 +1088,7 @@ public class MainActivity extends AppCompatActivity {
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (toggleButton.isChecked()) {
+                if (!hettSettingSharedPreference.searchPushAlarm(getApplicationContext())) {
                     toggleButton.setBackground(getResources().getDrawable(R.drawable.on));
                     //PushAlarmReservation.getInstance().changePushAlarmMode(true);
                     hettSettingSharedPreference.updatePushAlarm(getApplicationContext(), true);
