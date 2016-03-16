@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
+        jar="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="2580faf5da6e8a4be8e42c7bc74ec50cf02036a5">
-        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_4e68956a67a46e058efa5fb69d72c5da7b29e94d.jar" />
+        sha1="3a46aaf34939bc3ad3b947b0f5d5a10c5ce95110">
+        <dex dex="/Users/yoon/AndroidStudioProjects/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_759f033db24de0899d43fe9fc06edad015b86900.jar" />
     </item>
 
 </items>

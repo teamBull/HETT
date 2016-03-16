@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -38,7 +37,9 @@ public class AlarmOnBoot extends Service {
         super.onCreate();
 
         countNumOfAlarm();
-        resetAlarm();
+        if(numOfAlarm > 0) {
+            resetAlarm();
+        }
         sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         int lastUpdateDay = hettSettingSharedPreference.searchLastUpdateDay(getApplicationContext());
