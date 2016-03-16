@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/exploded-aar/HETT.libs/drag-sort-listview/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="2580faf5da6e8a4be8e42c7bc74ec50cf02036a5">
+        <dex dex="/Users/flecho/hett-bulldozer/ALMOST/HETT/app/build/intermediates/pre-dexed/debug/HETT.libs-drag-sort-listview-unspecified_4e68956a67a46e058efa5fb69d72c5da7b29e94d.jar" />
+    </item>
+
+</items>

@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /*
  * Created by yoon on 16. 3. 8..
@@ -25,6 +27,7 @@ public class AlarmOnBoot extends Service {
     RepeatEventController repeatEventTableController = RepeatEventController.get(this);
     String syncID;
 
+    private HETTSettingSharedPreference hettSettingSharedPreference;
     @Override
     public IBinder onBind(final Intent intent) {
         return null;
@@ -37,6 +40,12 @@ public class AlarmOnBoot extends Service {
         countNumOfAlarm();
         resetAlarm();
         sendBroadcast(new Intent("android.appwidget.action.APPWIDGET_UPDATE"));
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
+        int lastUpdateDay = hettSettingSharedPreference.searchLastUpdateDay(getApplicationContext());
+
+        if(lastUpdateDay!= GregorianCalendar.getInstance().get(Calendar.DATE))
+            sendBroadcast(new Intent(getApplicationContext(),AlarmAMZeroReceiver.class));
+
     }
 
     private void resetAlarm() {

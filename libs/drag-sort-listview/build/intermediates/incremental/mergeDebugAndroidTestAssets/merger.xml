@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="debug"><source path="D:\NEXTERS\nproject\HETT\libs\drag-sort-listview\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="D:\NEXTERS\nproject\HETT\libs\drag-sort-listview\src\androidTest\assets"/></dataSet></merger>
+<<<<<<< Updated upstream
+<merger version="3"><dataSet config="debug"><source path="C:\Users\adminstrator\AndroidStudioProjects\HETT\libs\drag-sort-listview\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="C:\Users\adminstrator\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\androidTest\assets"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="debug"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/build/intermediates/bundles/debug/assets"/></dataSet><dataSet config="main"><source path="/Users/flecho/hett-bulldozer/ALMOST/HETT/libs/drag-sort-listview/src/androidTest/assets"/></dataSet></merger>
+>>>>>>> Stashed changes

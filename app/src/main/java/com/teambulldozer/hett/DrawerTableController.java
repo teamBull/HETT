@@ -99,23 +99,23 @@ public class DrawerTableController {
      * 전달인자로 받은 friendName을 이용하여 사용자 친구의 이름을 변경한다.
      * @param friendName
      */
-    public int updateByFriendName(String friendName) {
+    /*public int updateByFriendName(String friendName) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         ContentValues contentValues  = new ContentValues();
         contentValues.put("hatt_friend_name", friendName);
-        /* 3번째 전달인자는 where절의 조건이다 / 4번째 전달인자는 ?로 준 값의 input될 data들.*/
+        *//* 3번째 전달인자는 where절의 조건이다 / 4번째 전달인자는 ?로 준 값의 input될 data들.*//*
         int result = sqLiteDatabase.update("HATT_SETTING_TABLE",contentValues,"hatt_setting_code=?",new String[]{"user1"});
         return result;
-        /*SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
+        *//*SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("hatt_friend_name",friendName);*/
-    }
+        contentValues.put("hatt_friend_name",friendName);*//*
+    }*/
 
     /**
      * 사용자가 지정한 가상친구의 이름을 불러올 떄 호출하는 메소드.
      * @return 가상친구의 이름.
      */
-    public String searchByFriendName() {
+    /*public String searchByFriendName() {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
         String sql = "select * from hatt_setting_table;";
         String friendName = "";
@@ -136,7 +136,7 @@ public class DrawerTableController {
             }
         }
         return friendName;
-    }
+    }*/
     public int searchByBackgroundThemeCodeNo() {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
         String sql = "select * from hatt_background_theme_table where is_selected=1;";
@@ -149,7 +149,7 @@ public class DrawerTableController {
         return selectedBackgroundCode;
     }
 
-    public boolean updatePushMode(boolean isPushMode) {
+    /*public boolean updatePushMode(boolean isPushMode) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         if(isPushMode)
@@ -158,8 +158,8 @@ public class DrawerTableController {
             contentValues.put("is_push_alarm",0);
         sqLiteDatabase.update("HATT_SETTING_TABLE",contentValues,"hatt_setting_code=?",new String[]{"user1"});
         return true;
-    }
-    public boolean searchPushMode() {
+    }*/
+    /*public boolean searchPushMode() {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
         String sql = "select * from HATT_SETTING_TABLE;";
         Cursor cursor = null ;
@@ -181,7 +181,7 @@ public class DrawerTableController {
             }
         }
         return false;
-    }
+    }*/
     public ArrayList<BackgroundThemeDTO> searchBackbroundThemeDTOAllData(){
         ArrayList<BackgroundThemeDTO> arrayList = new ArrayList<BackgroundThemeDTO>();
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();

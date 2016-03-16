@@ -32,6 +32,7 @@ public class EditFriendNameActivity extends AppCompatActivity {
     /**
      * 이전 화면으로 넘어가는 액티비티.
      */
+    private HETTSettingSharedPreference hettSettingSharedPreference;
     private ImageView editFriendNamePrevPage;
     private Typeface NanumSquare_B ;
     private Typeface NanumBarunGothic_R ;
@@ -42,9 +43,10 @@ public class EditFriendNameActivity extends AppCompatActivity {
         /*
         배경화면 setting 부분.
          */
+
         BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.editFriendNameActivity));
 
-
+        hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
 
         //초기화 메소드.
         initView();
@@ -89,7 +91,8 @@ public class EditFriendNameActivity extends AppCompatActivity {
 
                     try {
                         // DrawerTableController의 인스턴스를 받아와서 이름을 set해주는 메소드이다.
-                        DrawerTableController.getInstance(getApplicationContext()).updateByFriendName(friendNameEditText.getText().toString());
+                        //DrawerTableController.getInstance(getApplicationContext()).updateByFriendName(friendNameEditText.getText().toString());
+                        hettSettingSharedPreference.updateHattFriendName(getApplicationContext(),friendNameEditText.getText().toString());
                         new HattToast(getApplicationContext()).showToast("앞으로 내 이름은 " + friendNameEditText.getText() + " 군!", Toast.LENGTH_SHORT);
                         Bundle bundle = new Bundle();
                         bundle.putString("new_friend_edit_name", friendNameEditText.getText().toString());
