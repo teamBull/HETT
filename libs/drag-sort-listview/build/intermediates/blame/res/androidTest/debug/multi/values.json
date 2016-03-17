@@ -1,0 +1,62 @@
+[
+    {
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+        "outputFile": "/Users/yoon/AndroidStudioProjects/HETT/libs/drag-sort-listview/build/intermediates/res/merged/androidTest/debug/values/values.xml",
+<<<<<<< HEAD
+=======
+        "outputFile": "C:\\Users\\YUNSEON\\AndroidStudioProjects\\bulldozer\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "C:\\Users\\GHKwon\\AndroidStudioProjects\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+>>>>>>> 63782f05c7f1d81afcb7d7eca7db2441881e85da
+        "map": []
+    },
+    {
+        "outputFile": "/Users/yoon/AndroidStudioProjects/HETT/C:\\Users\\GHKwon\\AndroidStudioProjects\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/Users/yoon/AndroidStudioProjects/HETT/D:\\NEXTERS\\nproject\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+=======
+        "map": []
+    },
+    {
+        "outputFile": "/Users/yoon/AndroidStudioProjects/HETT/C:\\Users\\GHKwon\\AndroidStudioProjects\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/Users/yoon/AndroidStudioProjects/HETT/D:\\NEXTERS\\nproject\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+=======
+        "outputFile": "/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/C:\\Users\\YUNSEON\\AndroidStudioProjects\\bulldozer\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/C:\\Users\\GHKwon\\AndroidStudioProjects\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+=======
+        "outputFile": "/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/C:\\Users\\YUNSEON\\AndroidStudioProjects\\bulldozer\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/C:\\Users\\GHKwon\\AndroidStudioProjects\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+>>>>>>> Stashed changes
+        "outputFile": "/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/D:\\NEXTERS\\nproject\\HETT\\libs\\drag-sort-listview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "map": []
+    },
+    {
+        "outputFile": "/Users/flecho/cleanVersion/DB_incorporate/HATT_again/HETT/libs/drag-sort-listview/build/intermediates/res/merged/androidTest/debug/values/values.xml",
+<<<<<<< Updated upstream
+>>>>>>> 2c125fb36b49b36ad618b06d1063a196081733d1
+>>>>>>> master
+=======
+>>>>>>> Stashed changes
+        "map": []
+    }
+]
