@@ -40,11 +40,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
         pushAlarm.registerAlarm(context,)*/
 
-        PushAlarmReservation.getInstance().registerAlarm(context, 9, 2, 0, hettSettingSharedPreference.searchHattFriendName(context), "오늘도 잘 일어났냐?");
 
-        PushAlarmReservation.getInstance().registerAlarm(context,2,0,0,hettSettingSharedPreference.searchHattFriendName(context),"얼렁 자라 ㅋㅋㅋㅋ");
-
-        PushAlarmReservation.getInstance().registerAlarm(context,22,0,0,hettSettingSharedPreference.searchHattFriendName(context),"오늘도 고생했슈~~ 벌써 열시넹ㅎㅎ");
         CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
         EventTableController eventCtr = EventTableController.get(context);
 

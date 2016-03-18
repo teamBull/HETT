@@ -73,7 +73,7 @@ public class PushAlarmReservation {
          new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody);
         return true;
     }
-    public boolean registerAlarm (Context context,int position, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
+    public boolean registerAlarm (Context context, int hour,int min,int second,String pushAlarmTitle,String pushAlarmBody,boolean repeat) {
         new AlarmInfomation(context, hour, min, second, pushAlarmTitle, pushAlarmBody, repeat);
         return true;
     }
