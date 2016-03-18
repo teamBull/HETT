@@ -61,14 +61,6 @@ public class RepeatEventActivity extends AppCompatActivity {
 
         /* Call the database constructor */
         this.repeatEventController = RepeatEventController.get(this);
-        /*repeatEventController.insertToRepeatTable("16/03/07/01/13/50", "반복일정", 1, "월,화", 0, 0, 0);
-        repeatEventController.insertToRepeatTable("16/03/05/01/13/50", "반복일정", 0, "수,목", 0, 0, 0);
-        repeatEventController.insertToRepeatTable("16/03/09/01/13/50", "반복일정", 1, "월,일", 0, 0, 0);
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("MEMO","바뀐반복일정");
-        contentValues.put("IMPORTANCE",1);
-        contentValues.put("DAY_OF_WEEK","금");
-        repeatEventController.updateRepeatTable("16/03/05/01/13/50",contentValues);*/
 
         /* Connecting XML widgets and JAVA code. */
         this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout)findViewById(R.id.repeat_layout);
