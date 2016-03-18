@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
+    <color name="hatt_title">#525252</color>
+    <color name="hatt_repeat_complete_edit">#202b78</color>
     <color name="hatt_cyan">#1BBBBF</color>
     <color name="hatt_turquoise">#202B78</color>
     <color name="hatt_turquoise_opacity100">#FF202B78</color>

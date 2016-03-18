@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HETT.iml" filepath="$PROJECT_DIR$/HETT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HATT.iml" filepath="$PROJECT_DIR$/HATT.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/ListViewAnimations/ListViewAnimations.iml" filepath="$PROJECT_DIR$/libs/ListViewAnimations/ListViewAnimations.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/drag-sort-listview/drag-sort-listview.iml" filepath="$PROJECT_DIR$/libs/drag-sort-listview/drag-sort-listview.iml" />

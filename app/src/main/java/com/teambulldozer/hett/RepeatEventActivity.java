@@ -29,6 +29,7 @@ public class RepeatEventActivity extends AppCompatActivity {
     private SoftKeyboardLsnedRelativeLayout softRelativeLayout;
     private RelativeLayout repeatToolbarLayout;
     private ImageView prevBtn;
+    private TextView repeatTitle;
     private TextView deleteMenuBtn;
     private TextView finishMenuBtn;
     private  ListView listView;
@@ -73,6 +74,7 @@ public class RepeatEventActivity extends AppCompatActivity {
         this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout)findViewById(R.id.repeat_layout);
         this.repeatToolbarLayout = (RelativeLayout)findViewById(R.id.repeat_toolbar_layout);
         this.prevBtn = (ImageView)findViewById(R.id.repeat_prev_btn);
+        this.repeatTitle = (TextView) findViewById(R.id.repeat_title);
         this.deleteMenuBtn = (TextView)findViewById(R.id.repeat_delete_menu);
         this.finishMenuBtn = (TextView)findViewById(R.id.repeat_finish_menu);
         this.listView = (ListView)findViewById(R.id.repeat_listview);
@@ -163,6 +165,7 @@ public class RepeatEventActivity extends AppCompatActivity {
 
     }
     public void setFont(){
+        this.repeatTitle.setTypeface(NanumSquare_B);
         this.deleteMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
     }

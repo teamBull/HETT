@@ -41,6 +41,7 @@ public class CompleteActivity extends AppCompatActivity{
     SoftKeyboardLsnedRelativeLayout softRelativeLayout;
     RelativeLayout completeToolbarLayout;
     ImageView prevBtn;
+    TextView completeTitle;
     TextView editMenuBtn;
     TextView finishMenuBtn;
     ListView listView;
@@ -81,6 +82,7 @@ public class CompleteActivity extends AppCompatActivity{
         this.softRelativeLayout = (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.complete_layout);
         this.completeToolbarLayout = (RelativeLayout) findViewById(R.id.complete_toolbar_layout);
         this.prevBtn = (ImageView) findViewById(R.id.prev_btn);
+        this.completeTitle = (TextView) findViewById(R.id.complete_title);
         this.editMenuBtn = (TextView) findViewById(R.id.edit_menu);
         this.finishMenuBtn = (TextView) findViewById(R.id.finish_menu);
         this.listView = (ListView) findViewById(R.id.complete_listview);
@@ -178,6 +180,7 @@ public class CompleteActivity extends AppCompatActivity{
     }
 
     public void setFont() {
+        this.completeTitle.setTypeface(NanumSquare_B);
         this.editMenuBtn.setTypeface(NanumSquare_B);
         this.finishMenuBtn.setTypeface(NanumSquare_B);
     }
