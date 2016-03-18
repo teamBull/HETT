@@ -91,12 +91,14 @@ public class FriendSettingActivity extends AppCompatActivity {
             case R.id.layoutName:
                 intent = new Intent(FriendSettingActivity.this, EditFriendNameActivity.class);
                 startActivityForResult(intent, EDIT_FRIEND_NAME_ACTIVITY);
+                finish();
                 break;
 
             case R.id.layoutTalkSt:
                 intent = new Intent(FriendSettingActivity.this, FriendTalkSettingActivity.class);
                 intent.putExtra("friendItem", friendData);
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.tvBtnFreindOk: {
