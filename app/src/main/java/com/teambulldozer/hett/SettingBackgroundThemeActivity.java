@@ -35,7 +35,7 @@ public class SettingBackgroundThemeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settting_background_theme);
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (LinearLayout) findViewById(R.id.settingBackgroundThemeActivity));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (LinearLayout) findViewById(R.id.settingBackgroundThemeActivity),ActivityNo.SettingBackgroundThemeActivity);
         settingBackgroundThemeOkBtn = (TextView)findViewById(R.id.settingBackgroundThemeOkBtn);
         prevBtn = (ImageView)findViewById(R.id.prevBtn);
 

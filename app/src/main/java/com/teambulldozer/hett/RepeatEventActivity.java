@@ -57,7 +57,7 @@ public class RepeatEventActivity extends AppCompatActivity {
         기호부분.
         배경화면 setting.
          */
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.repeat_layout));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.repeat_layout),ActivityNo.RepeatEventActivity);
 
         /* Call the database constructor */
         this.repeatEventController = RepeatEventController.get(this);

@@ -61,7 +61,7 @@
         android:headerDividersEnabled="false"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="#FFFFFF"
+        android:background="#FFFFFFFF"
         >
     </ListView>
     />

@@ -85,7 +85,7 @@ public class ClosenessActivity extends AppCompatActivity {
 
 
         /*기호부분. 배경화면 setting.*/
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.closenessActivity));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.closenessActivity),ActivityNo.ClosenessActivity);
         /*완료데스네*/
 
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");

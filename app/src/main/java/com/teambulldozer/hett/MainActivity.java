@@ -919,7 +919,7 @@ public class MainActivity extends AppCompatActivity {
         showDate(); // 시간을 동기화하기 위해!
         Log.d(TAG, "onResume(Bundle) called");
         overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout),ActivityNo.MAIN_ACTIVITY);
     }
 
     @Override

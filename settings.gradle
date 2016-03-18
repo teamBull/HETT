@@ -1,3 +1,1 @@
-include ':app', ':libs'
-include ':libs:ListViewAnimations'
-include ':libs:drag-sort-listview'
+include ':libs:ListViewAnimations', ':app', ':libs:drag-sort-listview', ':libs'

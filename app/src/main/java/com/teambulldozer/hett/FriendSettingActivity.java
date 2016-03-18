@@ -131,7 +131,7 @@ public class FriendSettingActivity extends AppCompatActivity {
     @Override
     public void onResume(){ // 화면이 다시 나타날 때.
         super.onResume();
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendSettingActivity));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendSettingActivity),ActivityNo.FriendSettingActivity);
         //if(semaporeByPause) {
         //    overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
         //    semaporeByPause = false;

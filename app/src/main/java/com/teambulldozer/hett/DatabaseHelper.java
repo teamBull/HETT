@@ -174,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         HETTSettingSharedPreference hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         PushAlarmReservation.getInstance().registerAlarm(mContext, 9, 0, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘 하루도 화이팅 하자!!",true);
 
-        //PushAlarmReservation.getInstance().registerAlarm(mContext, 17, 0, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "얼렁 자라 ㅋㅋㅋㅋ");
+        PushAlarmReservation.getInstance().registerAlarm(mContext, 1, 10, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "얼렁 자라 ㅋㅋㅋㅋ");
 
         PushAlarmReservation.getInstance().registerAlarm(mContext, 22, 0, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘도 고생했슈~~",true);
     }
