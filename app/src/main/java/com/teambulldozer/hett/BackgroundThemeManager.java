@@ -33,7 +33,7 @@ public class BackgroundThemeManager {
 
     private View rememverAnimationView;
 
-    public static View backgroundTheme;
+    public static int backgroundTheme;
     public static final int BACKGROUND_WHITE=0;
     public static final int BACKGROUND_TREE=1;
     public static final int BACKGROUND_STRIPE=2;
@@ -90,7 +90,7 @@ public class BackgroundThemeManager {
         view.setBackgroundResource(R.color.hatt_background);
     }
     public void bgPatternTree(View view) {
-        view.setBackground(context.getResources().getDrawable(R.drawable.bg_pattern_tree_01));
+        view.setBackground(context.getResources().getDrawable(R.drawable.bg_pattern_tree_dir_width2));
     }
     public void Stripe(View view) {
         view.setBackground(context.getResources().getDrawable(R.drawable.background_theme_stripe));
