@@ -4,9 +4,15 @@ package com.teambulldozer.hett;
  * Created by flecho on 2016. 2. 7..
  */
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.Calendar;
 
 /**
  * Created by flecho on 2016. 2. 3..
@@ -170,16 +176,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_NAME7 + " VALUES(null, '신하', '옥체강령하시옵니까?', '아뢰옵기 황공하오나, 약조를 잊지 않고 계시온지요?', " +
                 "'전~~하~~~~!!통~촉하여!!주시옵~소서~~!!', '수라는 드셨사옵니까? 수라를 내오라 할까요?', " + "'전~~하! 힘을 내십시오! 백성들이 지켜보고 있사옵니다!',"
                 + " '만세!만세!만만세! 천세!천세!천천세!', '더 이상 일정으로 인해 고통받지 마시옵소서..');");
-
         HETTSettingSharedPreference hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
-        /*PushAlarmReservation.getInstance().registerAlarm(mContext, 4, 8, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘 하루도 화이팅 하자!!",true);
+        hettSettingSharedPreference.updatePushAlarm(mContext, true);
 
-        PushAlarmReservation.getInstance().registerAlarm(mContext, 4, 7, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "얼렁 자라 ㅋㅋㅋㅋ",true);
+        Calendar calendar = Calendar.getInstance();
+        int time = calendar.get(Calendar.MINUTE);
+        Log.d("등록된순서-", (time+2)+"/"+(time+1)+"/"+(time+3));
+        /*registerPushAlarm(90, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE) + 2, 0);
 
-        PushAlarmReservation.getInstance().registerAlarm(mContext, 4, 6, 30, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘도 고생했슈~~",true);*/
-
+        registerPushAlarm(91 , calendar.get(Calendar.HOUR) , calendar.get(Calendar.MINUTE)+1 , 0 );
+        registerPushAlarm(92 , calendar.get(Calendar.HOUR) , calendar.get(Calendar.MINUTE)+3 , 0 );*/
     }
+    public void registerPushAlarm(int alarmNo,int hour,int min,int sec) {
 
+        /*AlarmManager alarmManager =(AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
+        Intent intent = new Intent( , SelfPushReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(mContext,alarmNo,intent, PendingIntent.FLAG_NO_CREATE );
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_WEEK), hour, min, sec);//이 부분만 수정해 주면 됨. 달 설정 할 시에는 3월일경우 -1 해서 2월을 작성할 것.
+        //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);*/
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);

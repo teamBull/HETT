@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 /**
@@ -18,6 +19,7 @@ public class SelfPushReceiver extends BroadcastReceiver {
         HETTSettingSharedPreference hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         Log.d("앗..앗뇽..", "SelfPushReceiver-" + hettSettingSharedPreference.searchPushAlarm(context));
         if(hettSettingSharedPreference.searchPushAlarm(context) ) {
+            PushAlarmSharedPreference.getInstance().usePushAlarm(context,(String)intent.getStringExtra("sequence"));
             NotificationManager notificationmanager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
             Notification.Builder builder = new Notification.Builder(context);

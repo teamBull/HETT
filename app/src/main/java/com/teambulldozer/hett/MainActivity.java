@@ -1,6 +1,8 @@
 package com.teambulldozer.hett;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -172,6 +174,11 @@ public class MainActivity extends AppCompatActivity {
         friend_ask_1 = (TextView)findViewById(R.id.friend_ask_1);
         friend_ask_2 = (TextView)findViewById(R.id.friend_ask_2);
 
+
+
+
+
+
         /* 편집 눌렀을 때 추가 되는 버튼들 */
         finishMenu = (TextView) findViewById(R.id.finishMenu);
         deleteButton = (ImageView) findViewById(R.id.deleteButton);
@@ -234,15 +241,48 @@ public class MainActivity extends AppCompatActivity {
         friend_ask_1.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
         friend_ask_2.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
 
-        friend_ask_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.d("friend_ask","click");
-                //PushAlarmReservation.getInstance().registerAlarm(getApplicationContext(),3,57,30,"푸쉬와라");
-            }
-        });
+
+        //Log.d("등록된순서-",calendar.get(Calendar.MONTH)+"월/"+calendar.get(Calendar.HOUR)+"시/"+(time + 2) + "/" + (time + 1) + "/" + (time + 3));
+
+        Log.d("푸시알람 등록 시작","와라");
+        Calendar calendar = Calendar.getInstance();
+
+        PushAlarmSharedPreference pushAlarmSharedPreference = PushAlarmSharedPreference.getInstance();
+        if(pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
+            registerPushAlarm(99, 9,  0,  0,"first");
+        if(pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
+            registerPushAlarm(98, 2,  0 , 0,"second");
+        if(pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
+            registerPushAlarm(97, 22, 0 , 0,"third");
+
+
     }
 
+    /**
+     http://overcome26.tistory.com/16
+     */
+    public void registerPushAlarm(int alarmNo,int hour,int min,int sec,String sequence) {
+
+
+        AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
+        //Intent intent = new Intent(this,SelfPushReceiver.class);
+        Intent intent = new Intent(MainActivity.this,SelfPushReceiver.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("pushAlarmTitle",hour+"시"+min+"분"+sec+"초/"+alarmNo);
+        intent.putExtra("pushAlarmBody", hour + "시" + min + "분" + sec + "초/" + alarmNo);
+        intent.putExtra(sequence,sequence);
+        PendingIntent sender = PendingIntent.getBroadcast(this,alarmNo,intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        Calendar calendar = Calendar.getInstance();
+
+
+
+        Log.d("가자가자",calendar.get(Calendar.MONTH)+"월/"+calendar.get(Calendar.DATE)+"일/"+calendar.get(Calendar.HOUR)+"시/"+calendar.get(Calendar.MINUTE)+"분/"+calendar.get(Calendar.SECOND)+"초");
+        Log.d("등록된순서","여기야!");
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+    }
+    //calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_WEEK), hour, min, sec);//이 부분만 수정해 주면 됨. 달 설정 할 시에는 3월일경우 -1 해서 2월을 작성할 것.
+    //calendar.set(2016,3,19,19,56,30);
+    //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
     public void rearrangeCompletedEvents(){
         //Wrapper
         myEventController.renewCompletedEvent();
