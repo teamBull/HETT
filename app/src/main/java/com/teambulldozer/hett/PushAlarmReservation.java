@@ -4,8 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ import java.util.Map;
  * Created by GHKwon on 2016-02-21.
  */
 public class PushAlarmReservation {
+
 
     /**
      * default 푸쉬 알람 제목.
@@ -133,8 +136,16 @@ public class PushAlarmReservation {
             Calendar calendar = Calendar.getInstance();
             //알람시간 calendar에 set해주기
 
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DATE), hour, min, second);
+            // Calendar's getInstance method returns a calendar whose locale is based on system settings
+            // and whose time fields have been initialized with the current date and time.
 
+            int monthInfo = calendar.get(Calendar.MONTH) + 1;
+            int dateInfo = calendar.get(Calendar.DATE);
+
+
+
+            calendar.set(calendar.get(Calendar.YEAR), monthInfo, dateInfo, hour, min, second);
+            Log.d("예약 잡는다잉~~", calendar.get(Calendar.YEAR) + "/" + monthInfo + "/" + dateInfo);
             //알람 예약
             if(isRepeat)
                 am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
@@ -142,6 +153,33 @@ public class PushAlarmReservation {
                 am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
         }
 
+
+    }
+    public void passPush(Context context,int year,int month,int day,int hour,int min,int second,String title,String body,boolean isRepeat) {
+        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, SelfPushReceiver.class);
+        intent.putExtra("pushAlarmTitle",title);
+        intent.putExtra("pushAlarmBody",body);
+        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_NO_CREATE);
+
+        Calendar calendar = Calendar.getInstance();
+        //알람시간 calendar에 set해주기
+
+        // Calendar's getInstance method returns a calendar whose locale is based on system settings
+        // and whose time fields have been initialized with the current date and time.
+
+        int monthInfo = calendar.get(Calendar.MONTH) + 1;
+        int dateInfo = calendar.get(Calendar.DATE);
+
+
+
+        calendar.set(year, month, day, hour, min, second);
+        Log.d("예약 잡는다잉~~", year + "/" + month + "/" + day+"/"+hour+"/"+min+"/"+second);
+        //알람 예약
+        if(isRepeat)
+            am.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+        else
+            am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
     }
     /*public void changePushAlarmMode(boolean isBoolean){
         this.isPushAlarm=isBoolean;

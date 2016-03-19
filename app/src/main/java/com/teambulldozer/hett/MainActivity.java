@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
 
+
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -218,7 +219,9 @@ public class MainActivity extends AppCompatActivity {
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
         //new AlarmAMZero(getApplicationContext());
-
+        /*hettSettingSharedPreference.updatePushAlarm(getApplicationContext(),true);
+        PushAlarmReservation pushAlarmReservation = PushAlarmReservation.getInstance();
+        pushAlarmReservation.passPush(getApplicationContext(), 2016, 3, 19, 4, 39, 50, "제발푸쉬야", "날라오련..", true);*/
 
         //Ctrl + F -> 눈 / snow
         Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
@@ -230,6 +233,14 @@ public class MainActivity extends AppCompatActivity {
         //윤선
         friend_ask_1.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
         friend_ask_2.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
+
+        friend_ask_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Log.d("friend_ask","click");
+                //PushAlarmReservation.getInstance().registerAlarm(getApplicationContext(),3,57,30,"푸쉬와라");
+            }
+        });
     }
 
     public void rearrangeCompletedEvents(){

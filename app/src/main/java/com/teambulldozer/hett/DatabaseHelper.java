@@ -172,11 +172,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " '만세!만세!만만세! 천세!천세!천천세!', '더 이상 일정으로 인해 고통받지 마시옵소서..');");
 
         HETTSettingSharedPreference hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
-        PushAlarmReservation.getInstance().registerAlarm(mContext, 9, 0, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘 하루도 화이팅 하자!!",true);
+        /*PushAlarmReservation.getInstance().registerAlarm(mContext, 4, 8, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘 하루도 화이팅 하자!!",true);
 
-        PushAlarmReservation.getInstance().registerAlarm(mContext, 1, 10, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "얼렁 자라 ㅋㅋㅋㅋ");
+        PushAlarmReservation.getInstance().registerAlarm(mContext, 4, 7, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "얼렁 자라 ㅋㅋㅋㅋ",true);
 
-        PushAlarmReservation.getInstance().registerAlarm(mContext, 22, 0, 0, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘도 고생했슈~~",true);
+        PushAlarmReservation.getInstance().registerAlarm(mContext, 4, 6, 30, hettSettingSharedPreference.searchHattFriendName(mContext), "오늘도 고생했슈~~",true);*/
+
     }
 
     @Override

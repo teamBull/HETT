@@ -40,7 +40,7 @@ public class HETTSettingSharedPreference {
     }
     public boolean searchPushAlarm(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("hett",context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("pushAlarm",true);
+        return sharedPreferences.getBoolean("pushAlarm",false);
     }
     public void updateBellMode(Context context,boolean bellMode) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("hett",context.MODE_PRIVATE);
