@@ -248,11 +248,11 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
 
         PushAlarmSharedPreference pushAlarmSharedPreference = PushAlarmSharedPreference.getInstance();
-        if(pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
+        if(!pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
             registerPushAlarm(99, 9,  0,  0,"first");
-        if(pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
+        if(!pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
             registerPushAlarm(98, 2,  0 , 0,"second");
-        if(pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
+        if(!pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
             registerPushAlarm(97, 22, 0 , 0,"third");
 
 
