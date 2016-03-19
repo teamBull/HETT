@@ -248,21 +248,24 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
 
         PushAlarmSharedPreference pushAlarmSharedPreference = PushAlarmSharedPreference.getInstance();
-        if(!pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
-            registerPushAlarm(99, 9,  0,  0,"first");
-        if(!pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
-            registerPushAlarm(98, 2,  0 , 0,"second");
-        if(!pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
-            registerPushAlarm(97, 22, 0 , 0,"third");
-
-
+        int pushCount = pushAlarmSharedPreference.searchPushNo(getApplicationContext());
+        Toast.makeText(getApplicationContext(),"남은 푸쉬 : "+pushCount+"",Toast.LENGTH_SHORT).show();
+        if( pushCount!=0) {
+            if (pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
+                registerPushAlarm(99, 9, 0, 0, "first");
+            if (pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
+                registerPushAlarm(98, 2, 0, 0, "second");
+            if (pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
+                registerPushAlarm(97, 22, 0, 0, "third");
+            Toast.makeText(getApplicationContext(), "남은 푸쉬 : " + pushAlarmSharedPreference.searchPushNo(getApplicationContext()) + "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
      http://overcome26.tistory.com/16
      */
     public void registerPushAlarm(int alarmNo,int hour,int min,int sec,String sequence) {
-        if(hour>Calendar.getInstance().get(Calendar.HOUR))
+        if(hour<Calendar.getInstance().get(Calendar.HOUR))
             return;
         AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
         //Intent intent = new Intent(this,SelfPushReceiver.class);
@@ -278,7 +281,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("가자가자",calendar.get(Calendar.MONTH)+"월/"+calendar.get(Calendar.DATE)+"일/"+calendar.get(Calendar.HOUR)+"시/"+calendar.get(Calendar.MINUTE)+"분/"+calendar.get(Calendar.SECOND)+"초");
         Log.d("등록된순서","여기야!");
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
+        PushAlarmSharedPreference.getInstance().decreasePushNo(getApplicationContext());
+        PushAlarmSharedPreference.getInstance().usePushAlarm(getApplicationContext(), sequence);
     }
     //calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_WEEK), hour, min, sec);//이 부분만 수정해 주면 됨. 달 설정 할 시에는 3월일경우 -1 해서 2월을 작성할 것.
     //calendar.set(2016,3,19,19,56,30);
