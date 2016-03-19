@@ -262,8 +262,8 @@ public class MainActivity extends AppCompatActivity {
      http://overcome26.tistory.com/16
      */
     public void registerPushAlarm(int alarmNo,int hour,int min,int sec,String sequence) {
-
-
+        if(hour>Calendar.getInstance().get(Calendar.HOUR))
+            return;
         AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
         //Intent intent = new Intent(this,SelfPushReceiver.class);
         Intent intent = new Intent(MainActivity.this,SelfPushReceiver.class);
