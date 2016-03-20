@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2" />
 
+<<<<<<< HEAD
     <item
         jar="D:\portfoilo\android\bulldozer\HATT\app\build\intermediates\exploded-aar\HATT.libs\drag-sort-listview\unspecified\jars\classes.jar"
         jumboMode="false"
@@ -10,3 +11,5 @@
     </item>
 
 </items>
+=======
+>>>>>>> 2ddab6c67257310bf53f59aa175dbb2e7f5dec41

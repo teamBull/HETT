@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -712,4 +713,11 @@ public class AlarmMain extends Activity implements OnClickListener {
         return dayStr;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (LinearLayout) findViewById(R.id.main), ActivityNo.AlarmMain);
+        //alarmTopBarLayout
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (LinearLayout) findViewById(R.id.alarmTopBarLayout), ActivityNo.AlarmMain);
+    }
 }

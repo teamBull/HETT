@@ -74,7 +74,7 @@ public class CompleteActivity extends AppCompatActivity{
          * 기호
          * 배경화면 setting부분.
          */
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.complete_layout));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.complete_layout),ActivityNo.CompleteActivity);
         /* Call the database constructor */
         completeEventCtr = CompleteEventTableController.get(this);
 

@@ -44,7 +44,7 @@ public class EditFriendNameActivity extends AppCompatActivity {
         배경화면 setting 부분.
          */
 
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.editFriendNameActivity));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.editFriendNameActivity),ActivityNo.EditFriendNameActivity);
 
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
 

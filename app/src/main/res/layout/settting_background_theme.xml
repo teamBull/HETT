@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp">
         <ImageView
-
             android:layout_centerVertical="true"
             android:id="@+id/prevBtn"
             android:layout_marginTop="12dp"
@@ -55,15 +54,15 @@
     <ListView
         android:id="@+id/settingBackgroundThemeListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="394dp"
         android:dividerHeight="2dp"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="#FFFFFF"
-        >
-    </ListView>
+        android:background="#FFFFFFFF"
+        />
+
     />
 
 

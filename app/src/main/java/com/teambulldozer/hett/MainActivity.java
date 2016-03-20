@@ -1,6 +1,8 @@
 package com.teambulldozer.hett;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -145,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         FriendDataManager manager = FriendDataManager.get(this);
         setContentView(R.layout.activity_main);
 
+
         //
         //java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
@@ -170,6 +173,11 @@ public class MainActivity extends AppCompatActivity {
 
         friend_ask_1 = (TextView)findViewById(R.id.friend_ask_1);
         friend_ask_2 = (TextView)findViewById(R.id.friend_ask_2);
+
+
+
+
+
 
         /* 편집 눌렀을 때 추가 되는 버튼들 */
         finishMenu = (TextView) findViewById(R.id.finishMenu);
@@ -218,7 +226,9 @@ public class MainActivity extends AppCompatActivity {
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
         initNavigationDrawer(); //drawer에 대한 모든것을 초기화 하기 위한 메소드.
         //new AlarmAMZero(getApplicationContext());
-
+        /*hettSettingSharedPreference.updatePushAlarm(getApplicationContext(),true);
+        PushAlarmReservation pushAlarmReservation = PushAlarmReservation.getInstance();
+        pushAlarmReservation.passPush(getApplicationContext(), 2016, 3, 19, 4, 39, 50, "제발푸쉬야", "날라오련..", true);*/
 
         //Ctrl + F -> 눈 / snow
         Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.tranlate);
@@ -230,8 +240,54 @@ public class MainActivity extends AppCompatActivity {
         //윤선
         friend_ask_1.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
         friend_ask_2.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
+
+
+        //Log.d("등록된순서-",calendar.get(Calendar.MONTH)+"월/"+calendar.get(Calendar.HOUR)+"시/"+(time + 2) + "/" + (time + 1) + "/" + (time + 3));
+
+        Log.d("푸시알람 등록 시작","와라");
+        Calendar calendar = Calendar.getInstance();
+
+        PushAlarmSharedPreference pushAlarmSharedPreference = PushAlarmSharedPreference.getInstance();
+        int pushCount = pushAlarmSharedPreference.searchPushNo(getApplicationContext());
+        Toast.makeText(getApplicationContext(),"남은 푸쉬 : "+pushCount+"",Toast.LENGTH_SHORT).show();
+        if( pushCount!=0) {
+            if (pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
+                registerPushAlarm(99, 9, 0, 0, "first");
+            if (pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
+                registerPushAlarm(98, 2, 0, 0, "second");
+            if (pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
+                registerPushAlarm(97, 21, 0, 0, "third");
+            Toast.makeText(getApplicationContext(), "남은 푸쉬 : " + pushAlarmSharedPreference.searchPushNo(getApplicationContext()) + "", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    /**
+     http://overcome26.tistory.com/16
+     */
+    public void registerPushAlarm(int alarmNo,int hour,int min,int sec,String sequence) {
+        if(hour<Calendar.getInstance().get(Calendar.HOUR))
+            return;
+        AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
+        //Intent intent = new Intent(this,SelfPushReceiver.class);
+        Intent intent = new Intent(MainActivity.this,SelfPushReceiver.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("pushAlarmTitle",hour+"시"+min+"분"+sec+"초/"+alarmNo);
+        intent.putExtra("pushAlarmBody", hour + "시" + min + "분" + sec + "초/" + alarmNo);
+        intent.putExtra(sequence,sequence);
+        PendingIntent sender = PendingIntent.getBroadcast(this,alarmNo,intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        Calendar calendar = Calendar.getInstance();
+
+
+
+        Log.d("가자가자",calendar.get(Calendar.MONTH)+"월/"+(calendar.get(Calendar.DATE)-1)+"일/"+calendar.get(Calendar.HOUR)+"시/"+calendar.get(Calendar.MINUTE)+"분/"+calendar.get(Calendar.SECOND)+"초");
+        Log.d("등록된순서","여기야!");
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
+        PushAlarmSharedPreference.getInstance().decreasePushNo(getApplicationContext());
+        PushAlarmSharedPreference.getInstance().usePushAlarm(getApplicationContext(), sequence);
+    }
+    //calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_WEEK), hour, min, sec);//이 부분만 수정해 주면 됨. 달 설정 할 시에는 3월일경우 -1 해서 2월을 작성할 것.
+    //calendar.set(2016,3,19,19,56,30);
+    //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
     public void rearrangeCompletedEvents(){
         //Wrapper
         myEventController.renewCompletedEvent();
@@ -240,6 +296,8 @@ public class MainActivity extends AppCompatActivity {
     public void renewAllEvents(){
 
         if(isDateChanged()) {
+            //친밀도 업뎃
+            updateCloseness();
             // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
             moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
             deleteFinishedEvents(); // 완료된 일정은 메인페이지에서 삭제
@@ -250,6 +308,26 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
         }
         //Toast.makeText(getApplicationContext(), "Date is not changed.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateCloseness(){
+        double todayPoint = 0;
+        double totalPoint = 0;
+
+        EventTableController eventTableControllerr;
+        FriendDataManager friendDataManager;
+
+        eventTableControllerr = EventTableController.get(this);
+        friendDataManager = FriendDataManager.get(this);
+
+        if (eventTableControllerr.numOfEntries() == 0) {
+            todayPoint = 0;
+        } else {
+            todayPoint = (float) eventTableControllerr.getCompletedDataSize() / eventTableControllerr.numOfEntries();
+        }
+        //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
+        totalPoint = friendDataManager.getTotalPoint() + todayPoint;
+        friendDataManager.updateTotalPoint(1, totalPoint);
     }
 
     public void moveFinishedEvents(){
@@ -919,7 +997,7 @@ public class MainActivity extends AppCompatActivity {
         showDate(); // 시간을 동기화하기 위해!
         Log.d(TAG, "onResume(Bundle) called");
         overridePendingTransition(R.anim.activity_end_first, R.anim.activity_end_second);
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (SoftKeyboardLsnedRelativeLayout) findViewById(R.id.myLayout),ActivityNo.MAIN_ACTIVITY);
     }
 
     @Override

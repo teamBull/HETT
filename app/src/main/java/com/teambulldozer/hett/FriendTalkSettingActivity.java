@@ -52,7 +52,7 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         //가장 위의 안드로이드 상태바를 없애주는 코드이다.
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         /*끝.*/
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendTalkStyleActivity));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.friendTalkStyleActivity),ActivityNo.FriendTalkSettingActivity);
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
         NanumBarunGothic_R = Typeface.createFromAsset(getAssets(), "NanumBarunGothic_Regular.ttf");
 
@@ -75,7 +75,7 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         mChildListContent6 = new ArrayList<String>();
 
         //말투 - 기본 테마
-        mGroupList.add("기본 테마");
+        mGroupList.add("기본 말투");
 
         mChildListContent1.add("안녕!");
         mChildListContent1.add("오랜만이네?");
@@ -93,7 +93,7 @@ public class FriendTalkSettingActivity extends AppCompatActivity {
         mChildList.add(mChildListContent2);
 
         //말투 - 외국인
-        mGroupList.add("한쿸어 어려훠효");
+        mGroupList.add("외국인");
 
         mChildListContent3.add("아뇽하세효");
         mChildListContent3.add("이룬 자라고이찌요?");

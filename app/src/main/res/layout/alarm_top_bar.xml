@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:paddingRight="12dp"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:id="@+id/alarmTopBarLayout"
+    >
 
     <Button
         android:id="@+id/btn_alarm_prev"

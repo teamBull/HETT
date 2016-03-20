@@ -31,7 +31,7 @@ public class ClosenessActivity extends AppCompatActivity {
     Button btnPrevCloseness;
 
     TextView tvTotalPoint;
-    TextView tvTodayPoint;
+    TextView tvRemainPoint;
     TextView tvClCloseness;
     TextView tvClDesc;
     TextView tvCl1,tvCl2;
@@ -85,7 +85,7 @@ public class ClosenessActivity extends AppCompatActivity {
 
 
         /*기호부분. 배경화면 setting.*/
-        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.closenessActivity));
+        BackgroundThemeManager.getInstance().setBackground(getApplicationContext(), (RelativeLayout) findViewById(R.id.closenessActivity),ActivityNo.ClosenessActivity);
         /*완료데스네*/
 
         NanumSquare_B = Typeface.createFromAsset(getAssets(), "NanumSquare_Bold.ttf");
@@ -106,7 +106,7 @@ public class ClosenessActivity extends AppCompatActivity {
         totalPoint = dataManager.getTotalPoint();
 
 
-        tvTodayPoint = (TextView)findViewById(R.id.tvTodayPoint);
+        tvRemainPoint = (TextView)findViewById(R.id.tvTodayPoint);
 
         tvTotalPoint = (TextView)findViewById(R.id.tvTotalPoint);
         tvTotalPoint.setText(String.format("%.1f°", totalPoint));
@@ -276,7 +276,7 @@ public class ClosenessActivity extends AppCompatActivity {
             ivGiftBox4.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
             ivGiftBox5.setImageDrawable(getResources().getDrawable(R.drawable.giftbox_now));
         }
-        tvTodayPoint.setText(String.format("%.1f°", temp));
+        tvRemainPoint.setText(String.format("%.1f°", temp));
 
         //다음 보상 보여주는 것 1. 리스트뷰로 말투 보여주기 2. 배경 보여주기
         lvGiftEx = (ListView)findViewById(R.id.lvGiftEx);
@@ -302,7 +302,7 @@ public class ClosenessActivity extends AppCompatActivity {
         tvTotalPoint.setTypeface(NanumSquare_B);
         tvCl1.setTypeface(NanumSquare_B);
         tvCl2.setTypeface(NanumSquare_B);
-        tvTodayPoint.setTypeface(NanumSquare_B);
+        tvRemainPoint.setTypeface(NanumSquare_B);
         tvCl0dg.setTypeface(NanumSquare_B);
         tvCl20dg.setTypeface(NanumSquare_B);
         tvCl40dg.setTypeface(NanumSquare_B);

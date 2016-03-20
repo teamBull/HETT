@@ -17,28 +17,30 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {//GregorianCalendar.getInstance().get(Calendar.DATE)
         //여따가 12시 되면 해야될 것들 작성해라.
-        Cursor cursor;
-        double todayPoint = 0;
-        double totalPoint = 0;
-        EventTableController eventTableControllerr;
-        FriendDataManager friendDataManager;
 
-        eventTableControllerr = EventTableController.get(context);
-        friendDataManager = FriendDataManager.get(context);
+        double totalPoint = 0;
+        FriendDataManager friendDataManager = FriendDataManager.get(context);
+
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
 
-        if (eventTableControllerr.numOfEntries() == 0) {
-            todayPoint = 0;
-        } else {
-            todayPoint = (float) eventTableControllerr.getCompletedDataSize() / eventTableControllerr.numOfEntries();
-        }
-        //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
-        totalPoint = friendDataManager.getTotalPoint() + todayPoint;
-        friendDataManager.updateTotalPoint(1, totalPoint);
         PushAlarm pushAlarm = PushAlarm.getInstance();
         /*int year = Ca
 
         pushAlarm.registerAlarm(context,)*/
+
+        DrawerTableController drawerTableController = DrawerTableController.getInstance();
+
+        totalPoint = friendDataManager.getTotalPoint();
+
+        if ( totalPoint > 180 ) {
+            drawerTableController.updateSelectedBackgroundTheme(4);
+        } else if ( totalPoint > 160 ) {
+            drawerTableController.updateSelectedBackgroundTheme(3);
+        } else if ( totalPoint > 60 ) {
+            drawerTableController.updateSelectedBackgroundTheme(2);
+        } else if(totalPoint>40) {
+            drawerTableController.updateSelectedBackgroundTheme(1);
+         }
 
 
         CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
@@ -46,7 +48,11 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
 
         hettSettingSharedPreference.updateLastUpdateDay(context, GregorianCalendar.getInstance().get(Calendar.DATE));
-        //1. event_table에서 complete 인 것들만 가져온다.
+
+    }
+
+}
+//1. event_table에서 complete 인 것들만 가져온다.
         /*Log.d("AlarmAMZeroReceiver","시작");
         cursor = eventCtr.getCompletenessDataAll();
 
@@ -71,8 +77,3 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
                 cursor.close();
             }
         }*/
-    }
-    /*public boolean isLeapYear(int year,int month,int day) {
-
-    }*/
-}

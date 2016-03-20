@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -25,13 +26,14 @@ public class PushAlarm {
         Intent intent = new Intent(context, SelfPushReceiver.class);
         intent.putExtra("pushAlarmTitle",pushAlarmTitle);
         intent.putExtra("pushAlarmBody",pushAlarmBody);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         //알람시간 calendar에 set해주기
 
         calendar.set(year, month, day, hour, min, second);
-        am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+        Log.d("PushAlarm", "와랏----------------------------------");
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
         return true;
     }
 }
