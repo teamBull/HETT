@@ -296,6 +296,8 @@ public class MainActivity extends AppCompatActivity {
     public void renewAllEvents(){
 
         if(isDateChanged()) {
+            //친밀도 업뎃
+            updateCloseness();
             // 이 앞에 완료된 일정을 db에 업데이트 시켜주는 명령어 필요.
             moveFinishedEvents(); // 데이터를 완료 일정 DB로 이동
             deleteFinishedEvents(); // 완료된 일정은 메인페이지에서 삭제
@@ -306,6 +308,26 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), "Date is changed.", Toast.LENGTH_SHORT).show();
         }
         //Toast.makeText(getApplicationContext(), "Date is not changed.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateCloseness(){
+        double todayPoint = 0;
+        double totalPoint = 0;
+
+        EventTableController eventTableControllerr;
+        FriendDataManager friendDataManager;
+
+        eventTableControllerr = EventTableController.get(this);
+        friendDataManager = FriendDataManager.get(this);
+
+        if (eventTableControllerr.numOfEntries() == 0) {
+            todayPoint = 0;
+        } else {
+            todayPoint = (float) eventTableControllerr.getCompletedDataSize() / eventTableControllerr.numOfEntries();
+        }
+        //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
+        totalPoint = friendDataManager.getTotalPoint() + todayPoint;
+        friendDataManager.updateTotalPoint(1, totalPoint);
     }
 
     public void moveFinishedEvents(){

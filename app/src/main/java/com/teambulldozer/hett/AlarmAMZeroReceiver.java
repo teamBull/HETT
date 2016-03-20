@@ -17,24 +17,11 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {//GregorianCalendar.getInstance().get(Calendar.DATE)
         //여따가 12시 되면 해야될 것들 작성해라.
-        Cursor cursor;
-        double todayPoint = 0;
-        double totalPoint = 0;
-        EventTableController eventTableControllerr;
-        FriendDataManager friendDataManager;
 
-        eventTableControllerr = EventTableController.get(context);
-        friendDataManager = FriendDataManager.get(context);
+
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
 
-        if (eventTableControllerr.numOfEntries() == 0) {
-            todayPoint = 0;
-        } else {
-            todayPoint = (float) eventTableControllerr.getCompletedDataSize() / eventTableControllerr.numOfEntries();
-        }
-        //FriendDatamanager에서 점수 불러옥 오늘 점수를 더해준 후 없뎃
-        totalPoint = friendDataManager.getTotalPoint() + todayPoint;
-        friendDataManager.updateTotalPoint(1, totalPoint);
+
         PushAlarm pushAlarm = PushAlarm.getInstance();
         /*int year = Ca
 
