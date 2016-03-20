@@ -18,9 +18,10 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {//GregorianCalendar.getInstance().get(Calendar.DATE)
         //여따가 12시 되면 해야될 것들 작성해라.
 
+        double totalPoint = 0;
+        FriendDataManager friendDataManager = FriendDataManager.get(context);
 
         hettSettingSharedPreference = HETTSettingSharedPreference.getInstance();
-
 
         PushAlarm pushAlarm = PushAlarm.getInstance();
         /*int year = Ca
@@ -29,7 +30,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
         DrawerTableController drawerTableController = DrawerTableController.getInstance();
 
-
+        totalPoint = friendDataManager.getTotalPoint();
 
         if ( totalPoint > 180 ) {
             drawerTableController.updateSelectedBackgroundTheme(4);
@@ -39,7 +40,7 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
             drawerTableController.updateSelectedBackgroundTheme(2);
         } else if(totalPoint>40) {
             drawerTableController.updateSelectedBackgroundTheme(1);
-        }
+         }
 
 
         CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
