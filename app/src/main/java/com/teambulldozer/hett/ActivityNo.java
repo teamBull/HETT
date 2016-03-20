@@ -12,4 +12,5 @@ public class ActivityNo {
     public static final int FriendTalkSettingActivity=5;
     public static final int CompleteActivity=6;
     public static final int RepeatEventActivity=7;
+    public static final int AlarmMain=8;
 }

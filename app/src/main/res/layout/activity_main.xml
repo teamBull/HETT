@@ -460,7 +460,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/setting"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="2dp"
+
+
             />
         <TextView
             android:id="@+id/pushAlarm"
@@ -488,7 +489,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/bellMode"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="2dp"
+
             />
         <TextView
             android:id="@+id/backgroundTheme"
@@ -517,7 +518,7 @@
             android:paddingTop="8.5dp"
             android:paddingBottom="9dp"
             android:paddingRight="10dp"
-            android:layout_marginTop="2.5dp"
+
             android:layout_alignParentRight="true"
             android:src="@drawable/next"
             />

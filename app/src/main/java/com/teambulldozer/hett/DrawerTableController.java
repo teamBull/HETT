@@ -95,48 +95,7 @@ public class DrawerTableController {
     여기부턴 HattSettingDAO영역.
      */
 
-    /**
-     * 전달인자로 받은 friendName을 이용하여 사용자 친구의 이름을 변경한다.
-     * @param friendName
-     */
-    /*public int updateByFriendName(String friendName) {
-        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
-        ContentValues contentValues  = new ContentValues();
-        contentValues.put("hatt_friend_name", friendName);
-        *//* 3번째 전달인자는 where절의 조건이다 / 4번째 전달인자는 ?로 준 값의 input될 data들.*//*
-        int result = sqLiteDatabase.update("HATT_SETTING_TABLE",contentValues,"hatt_setting_code=?",new String[]{"user1"});
-        return result;
-        *//*SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("hatt_friend_name",friendName);*//*
-    }*/
 
-    /**
-     * 사용자가 지정한 가상친구의 이름을 불러올 떄 호출하는 메소드.
-     * @return 가상친구의 이름.
-     */
-    /*public String searchByFriendName() {
-        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
-        String sql = "select * from hatt_setting_table;";
-        String friendName = "";
-        Cursor cursor = null;
-        try {
-            cursor = sqLiteDatabase.rawQuery(sql,null);
-            if(cursor.moveToNext())
-                friendName=cursor.getString(cursor.getColumnIndex("hatt_friend_name"));//String 재 생성하면 코드 길어지고 퍼포먼스 떨어져서 sql객체 한번 재활용 했습니다.
-            else
-                Log.d("error----","searchByFriendName_error");
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                cursor.close();
-            } catch(Exception exe) {
-                exe.printStackTrace();
-            }
-        }
-        return friendName;
-    }*/
     public int searchByBackgroundThemeCodeNo() {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
         String sql = "select * from hatt_background_theme_table where is_selected=1;";
@@ -149,7 +108,47 @@ public class DrawerTableController {
         return selectedBackgroundCode;
     }
 
-    /*public boolean updatePushMode(boolean isPushMode) {
+
+    public ArrayList<BackgroundThemeDTO> searchBackbroundThemeDTOAllData(){
+        ArrayList<BackgroundThemeDTO> arrayList = new ArrayList<BackgroundThemeDTO>();
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from hatt_background_theme_table;";
+        Cursor cursor = null;
+        cursor = sqLiteDatabase.rawQuery(sql,null);
+        while( cursor . moveToNext() ) {
+            arrayList.add(new BackgroundThemeDTO( cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3) ));
+        }
+        cursor.close();
+        return arrayList;
+    }
+    public boolean updateBackgroundThemePermission(int backgroundThemeCode) {
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+        String sql = "update hatt_background_theme_table set is_background_permission=1 where background_code="+backgroundThemeCode;
+        sqLiteDatabase.execSQL(sql);
+        return true;
+    }
+    public byte updateSelectedBackgroundTheme(int i) {
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+        String sql = "update hatt_background_theme_table set is_selected=0";
+        sqLiteDatabase.execSQL(sql);
+        sql = "update hatt_background_theme_table set is_selected=1 where background_code="+i;
+        sqLiteDatabase.execSQL(sql);
+        return 0;
+    }
+    public String searchSelectedBackgroundTheme() {
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+        String sql = "select * from hatt_background_theme_table where is_selected=1";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql,null);
+        cursor.moveToNext();
+        String theme = cursor.getString(cursor.getColumnIndex("background_theme_name"));
+        cursor.close();
+        return theme;
+    }
+
+
+
+}
+/*public boolean updatePushMode(boolean isPushMode) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         if(isPushMode)
@@ -182,36 +181,44 @@ public class DrawerTableController {
         }
         return false;
     }*/
-    public ArrayList<BackgroundThemeDTO> searchBackbroundThemeDTOAllData(){
-        ArrayList<BackgroundThemeDTO> arrayList = new ArrayList<BackgroundThemeDTO>();
-        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
-        String sql = "select * from hatt_background_theme_table;";
-        Cursor cursor = null;
-        cursor = sqLiteDatabase.rawQuery(sql,null);
-        while( cursor . moveToNext() ) {
-            arrayList.add(new BackgroundThemeDTO( cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getInt(3) ));
-        }
-        cursor.close();
-        return arrayList;
-    }
-    public byte updateSelectedBackgroundTheme(int i) {
+/**
+ * 전달인자로 받은 friendName을 이용하여 사용자 친구의 이름을 변경한다.
+ * @param friendName
+ */
+    /*public int updateByFriendName(String friendName) {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
-        String sql = "update hatt_background_theme_table set is_selected=0";
-        sqLiteDatabase.execSQL(sql);
-        sql = "update hatt_background_theme_table set is_selected=1 where background_code="+i;
-        sqLiteDatabase.execSQL(sql);
-        return 0;
-    }
-    public String searchSelectedBackgroundTheme() {
+        ContentValues contentValues  = new ContentValues();
+        contentValues.put("hatt_friend_name", friendName);
+        *//* 3번째 전달인자는 where절의 조건이다 / 4번째 전달인자는 ?로 준 값의 input될 data들.*//*
+        int result = sqLiteDatabase.update("HATT_SETTING_TABLE",contentValues,"hatt_setting_code=?",new String[]{"user1"});
+        return result;
+        *//*SQLiteDatabase sqLiteDatabase = hattSettingDAO.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("hatt_friend_name",friendName);*//*
+    }*/
+/**
+ * 사용자가 지정한 가상친구의 이름을 불러올 떄 호출하는 메소드.
+ * @return 가상친구의 이름.
+ */
+    /*public String searchByFriendName() {
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
-        String sql = "select * from hatt_background_theme_table where is_selected=1";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql,null);
-        cursor.moveToNext();
-        String theme = cursor.getString(cursor.getColumnIndex("background_theme_name"));
-        cursor.close();
-        return theme;
-    }
-
-
-
-}
+        String sql = "select * from hatt_setting_table;";
+        String friendName = "";
+        Cursor cursor = null;
+        try {
+            cursor = sqLiteDatabase.rawQuery(sql,null);
+            if(cursor.moveToNext())
+                friendName=cursor.getString(cursor.getColumnIndex("hatt_friend_name"));//String 재 생성하면 코드 길어지고 퍼포먼스 떨어져서 sql객체 한번 재활용 했습니다.
+            else
+                Log.d("error----","searchByFriendName_error");
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                cursor.close();
+            } catch(Exception exe) {
+                exe.printStackTrace();
+            }
+        }
+        return friendName;
+    }*/

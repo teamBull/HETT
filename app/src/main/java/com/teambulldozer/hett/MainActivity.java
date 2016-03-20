@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             if (pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
                 registerPushAlarm(98, 2, 0, 0, "second");
             if (pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
-                registerPushAlarm(97, 22, 0, 0, "third");
+                registerPushAlarm(97, 21, 0, 0, "third");
             Toast.makeText(getApplicationContext(), "남은 푸쉬 : " + pushAlarmSharedPreference.searchPushNo(getApplicationContext()) + "", Toast.LENGTH_SHORT).show();
         }
     }
@@ -279,9 +279,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Log.d("가자가자",calendar.get(Calendar.MONTH)+"월/"+calendar.get(Calendar.DATE)+"일/"+calendar.get(Calendar.HOUR)+"시/"+calendar.get(Calendar.MINUTE)+"분/"+calendar.get(Calendar.SECOND)+"초");
+        Log.d("가자가자",calendar.get(Calendar.MONTH)+"월/"+(calendar.get(Calendar.DATE)-1)+"일/"+calendar.get(Calendar.HOUR)+"시/"+calendar.get(Calendar.MINUTE)+"분/"+calendar.get(Calendar.SECOND)+"초");
         Log.d("등록된순서","여기야!");
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, sender);
         PushAlarmSharedPreference.getInstance().decreasePushNo(getApplicationContext());
         PushAlarmSharedPreference.getInstance().usePushAlarm(getApplicationContext(), sequence);
     }

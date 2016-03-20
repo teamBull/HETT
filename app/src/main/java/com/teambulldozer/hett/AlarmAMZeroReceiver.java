@@ -40,13 +40,31 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
 
         pushAlarm.registerAlarm(context,)*/
 
+        DrawerTableController drawerTableController = DrawerTableController.getInstance();
+
+
+
+        if ( totalPoint > 180 ) {
+            drawerTableController.updateSelectedBackgroundTheme(4);
+        } else if ( totalPoint > 160 ) {
+            drawerTableController.updateSelectedBackgroundTheme(3);
+        } else if ( totalPoint > 60 ) {
+            drawerTableController.updateSelectedBackgroundTheme(2);
+        } else if(totalPoint>40) {
+            drawerTableController.updateSelectedBackgroundTheme(1);
+        }
+
 
         CompleteEventTableController completeEventCtr = CompleteEventTableController.get(context);
         EventTableController eventCtr = EventTableController.get(context);
 
 
         hettSettingSharedPreference.updateLastUpdateDay(context, GregorianCalendar.getInstance().get(Calendar.DATE));
-        //1. event_table에서 complete 인 것들만 가져온다.
+
+    }
+
+}
+//1. event_table에서 complete 인 것들만 가져온다.
         /*Log.d("AlarmAMZeroReceiver","시작");
         cursor = eventCtr.getCompletenessDataAll();
 
@@ -71,8 +89,3 @@ public class AlarmAMZeroReceiver extends BroadcastReceiver {
                 cursor.close();
             }
         }*/
-    }
-    /*public boolean isLeapYear(int year,int month,int day) {
-
-    }*/
-}

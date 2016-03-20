@@ -96,6 +96,7 @@ public class BackgroundThemeManager {
                 case ActivityNo.RepeatEventActivity : brightRepeatEventActivity(view); break;
                 case ActivityNo.FriendTalkSettingActivity : brightFriendTalkSettingActivity(view); break;
                 case ActivityNo.SettingBackgroundThemeActivity : brightSettingBackgroundThemeActivity(view); break;
+
             }
         } else if (selectedBackgroundThemeCodeNo==2 ){
             switch(activityNo) {
@@ -111,7 +112,7 @@ public class BackgroundThemeManager {
         }
         else {
             switch(activityNo) {
-                case ActivityNo.MAIN_ACTIVITY : if(selectedBackgroundThemeCodeNo !=1) darkActivity(view); break;
+                case ActivityNo.MAIN_ACTIVITY : /*if(selectedBackgroundThemeCodeNo !=1)*/ darkActivity(view); break;
             }
         }
 
