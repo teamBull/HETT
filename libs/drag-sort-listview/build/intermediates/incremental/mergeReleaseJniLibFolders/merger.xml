@@ -1,10 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="D:\portfoilo\android\bulldozer\HATT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="D:\portfoilo\android\bulldozer\HATT\libs\drag-sort-listview\src\release\jniLibs"/></dataSet></merger>
-=======
-<<<<<<< Updated upstream
-<merger version="3"><dataSet config="main"><source path="C:\Users\adminstrator\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\adminstrator\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\release\jniLibs"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\YUNSEON\AndroidStudioProjects\bulldozer\HETT\libs\drag-sort-listview\src\release\jniLibs"/></dataSet></merger>
->>>>>>> Stashed changes
->>>>>>> 2ddab6c67257310bf53f59aa175dbb2e7f5dec41
+<merger version="3"><dataSet config="main"><source path="C:\Users\kwongyo\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\kwongyo\AndroidStudioProjects\HETT\libs\drag-sort-listview\src\release\jniLibs"/></dataSet></merger>

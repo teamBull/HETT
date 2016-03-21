@@ -379,6 +379,7 @@ public class AlarmMain extends Activity implements OnClickListener {
 
             if (eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARM")) == 1) {
                 alarmHour = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMHOUR"));
+                Toast.makeText(getApplicationContext(),alarmHour+"",Toast.LENGTH_SHORT).show();
                 alarmMinute = eventTableCursor.getInt(eventTableCursor.getColumnIndex("ALARMMINUTE"));
                 triggerTime = setTriggerTime();
                 Log.i("triggerTime vs SysTime", Long.toString(triggerTime) + "vs." + Long.toString(System.currentTimeMillis()) + " -> 알람이 설정되었음 - 일반 일정");
