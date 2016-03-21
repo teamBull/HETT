@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("pushAlarmTitle",hour+"시"+min+"분"+sec+"초/"+alarmNo);
         intent.putExtra("pushAlarmBody", hour + "시" + min + "분" + sec + "초/" + alarmNo);
         intent.putExtra(sequence,sequence);
-        PendingIntent sender = PendingIntent.getBroadcast(this,alarmNo,intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        PendingIntent sender = PendingIntent.getBroadcast(this,alarmNo,intent, Intent.FILL_IN_DATA );
         Calendar calendar = Calendar.getInstance();
 
 
