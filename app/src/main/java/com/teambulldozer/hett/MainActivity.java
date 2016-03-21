@@ -252,9 +252,9 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),"--남은 푸쉬 : "+pushCount+"",Toast.LENGTH_SHORT).show();
         try {
             if( pushCount!=0) {
-                registerPushAlarm(0, 12, 26, 0, "first");
-                registerPushAlarm(1, 12, 25, 30, "second");
-                registerPushAlarm(2, 12, 27, 0, "third");
+                registerPushAlarm(0, 9, 0, 0, "first");
+                registerPushAlarm(1, 18, 0, 0, "second");
+                registerPushAlarm(2, 10, 0, 0, "third");
                 //if (pushAlarmSharedPreference.isFirstPushAlarm(getApplicationContext()))
                 //if (pushAlarmSharedPreference.isSecondPushAlarm(getApplicationContext()))
                 //if (pushAlarmSharedPreference.isThirdPushAlarm(getApplicationContext()))
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,SelfPushReceiver.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("pushAlarmTitle",hour+"시"+min+"분"+sec+"초/"+alarmNo);
-        intent.putExtra("pushAlarmBody", hour + "시" + min + "분" + sec + "초/" + alarmNo);
+        intent.putExtra("pushAlarmBody", hour + "시" + min + "분" + sec + "초/에 알람이 등록되었으며 날라온 시간과 등록된 시간을 확인해 주세용" + alarmNo);
         intent.putExtra(sequence,sequence);
         PendingIntent sender = PendingIntent.getBroadcast(this , alarmNo , intent, Intent.FILL_IN_DATA );
         Calendar calendar = Calendar.getInstance();
