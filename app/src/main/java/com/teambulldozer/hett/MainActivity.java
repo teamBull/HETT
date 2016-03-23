@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "onCreate(Bundle) called");
-        FriendDataManager manager = FriendDataManager.get(this);
+
         setContentView(R.layout.activity_main);
 
 
@@ -237,9 +237,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.raining_star));
         imageView.startAnimation(animation);
 
-        //윤선
-        friend_ask_1.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
-        friend_ask_2.setText(""+manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
+
 
 
         //Log.d("등록된순서-",calendar.get(Calendar.MONTH)+"월/"+calendar.get(Calendar.HOUR)+"시/"+(time + 2) + "/" + (time + 1) + "/" + (time + 3));
@@ -1356,7 +1354,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //윤선
+        FriendDataManager manager = FriendDataManager.get(this);
+        friend_ask_1.setText("" + manager.getTalkStDetail(manager.getTalkSt()).get(2).toString());
+        friend_ask_2.setText("" + manager.getTalkStDetail(manager.getTalkSt()).get(3).toString());
 
     }
     @Override
