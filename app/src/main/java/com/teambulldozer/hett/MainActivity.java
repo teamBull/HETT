@@ -266,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      http://overcome26.tistory.com/16
+
+     http://itmir.tistory.com/457
      */
     public void registerPushAlarm(int alarmNo,int hour,int min,int sec,String sequence) {
 
@@ -273,9 +275,10 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = new Intent(this,SelfPushReceiver.class);
         Intent intent = new Intent(this,SelfPushReceiver.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("pushAlarmTitle",hour+"시"+min+"분"+sec+"초/"+alarmNo);
+        intent.putExtra("pushAlarmTitle", hour + "시" + min + "분" + sec + "초/" + alarmNo);
         intent.putExtra("pushAlarmBody", hour + "시" + min + "분" + sec + "초/에 알람이 등록되었으며 날라온 시간과 등록된 시간을 확인해 주세용" + alarmNo);
         intent.putExtra(sequence,sequence);
+        intent.putExtra("requestCode",alarmNo);
         PendingIntent sender = PendingIntent.getBroadcast(this , alarmNo , intent, Intent.FILL_IN_DATA );
         Calendar calendar = Calendar.getInstance();
         //calendar.set(2016,3,20,20,59,0);
